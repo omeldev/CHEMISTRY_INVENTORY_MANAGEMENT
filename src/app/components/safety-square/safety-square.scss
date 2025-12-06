@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  width: 100%;
+  height: auto; /* Skaliert proportional */
+  max-width: 200px; /* maximale Größe */
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
+
+}
+

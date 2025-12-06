@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
 })
 export class RestService {
 
-  public static readonly REST_URL: string = 'http://localhost:3000/api/v1/';
+  public static readonly REST_URL: string = 'http://localhost:8080';
   constructor(private readonly http: HttpService) { }
 
   public get$<T>(url: string, parameters?: any): Observable<T | null> {

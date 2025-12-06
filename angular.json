@@ -11,12 +11,12 @@
     }
   },
   "projects": {
-    "ANGULAR-TEMPLATE-STANDALONE": {
+    "CHEMISTRY_INVENTORY_MANAGEMENT": {
       "projectType": "application",
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "chem",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ANGULAR-TEMPLATE-STANDALONE:build:production"
+              "buildTarget": "CHEMISTRY_INVENTORY_MANAGEMENT:build:production"
             },
             "development": {
-              "buildTarget": "ANGULAR-TEMPLATE-STANDALONE:build:development"
+              "buildTarget": "CHEMISTRY_INVENTORY_MANAGEMENT:build:development"
             }
           },
           "defaultConfiguration": "development"

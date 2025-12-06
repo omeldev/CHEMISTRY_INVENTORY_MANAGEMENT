@@ -1,0 +1,41 @@
+<svg viewBox="-40 -40 80 80" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Vier Quadranten -->
+  <g stroke="#000" stroke-width="1">
+
+    <!-- Rot (oben) -->
+    <polygon points="0,-40 20,-20 0,0 -20,-20" fill="#f66" />
+
+    <!-- Blau (links) -->
+    <polygon points="-40,0 -20,-20 0,0 -20,20" fill="#69f" />
+
+    <!-- Gelb (rechts) -->
+    <polygon points="40,0 20,-20 0,0 20,20" fill="#ff6" />
+
+    <!-- Weiß (unten) -->
+    <polygon points="0,40 -20,20 0,0 20,20" fill="#fff" />
+  </g>
+
+  <!-- Perfekt zentrierte Texte -->
+
+  <!-- Fire (oben/rot) -->
+  <text x="0" y="-20" font-size="14" text-anchor="middle" dominant-baseline="middle" font-family="Arial">
+
+  </text>
+
+  <!-- Health (links/blau) -->
+  <text x="-20" y="0" font-size="14" text-anchor="middle" dominant-baseline="middle" font-family="Arial">
+
+  </text>
+
+  <!-- Reactivity (rechts/gelb) -->
+  <text x="20" y="0" font-size="14" text-anchor="middle" dominant-baseline="middle" font-family="Arial">
+
+  </text>
+
+  <!-- Special (unten/weiß) -->
+  <text x="0" y="20" font-size="14" text-anchor="middle" dominant-baseline="middle" font-family="Arial">
+
+  </text>
+
+</svg>
