@@ -1,9 +1,11 @@
-import {Component, signal} from '@angular/core';
-import {form, Field} from '@angular/forms/signals';
+import {AfterViewInit, Component, input, signal} from '@angular/core';
+import {Field, form} from '@angular/forms/signals';
 import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
 import {SubstanceService} from '../../service/rest/substance/substance.service';
-import {firstValueFrom, Observable} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {firstValueFrom} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {SpecifiedHazard} from '../../obj/enum/specific-hazard.enum';
+import {Dropdown, DropdownOption} from '../common/dropdown/dropdown';
 
 export interface ChemicalSubstanceFormData {
   name: string;
@@ -13,25 +15,26 @@ export interface ChemicalSubstanceFormData {
   nfpaHealth: number;
   nfpaFlammability: number
   nfpaReactivity: number;
-  nfpaSpecifiedHazard: string;
+  nfpaSpecifiedHazard: keyof typeof SpecifiedHazard;
 }
 
 @Component({
   selector: 'chem-chemical-substance-form',
   imports: [
     Field,
-    AsyncPipe
+    Dropdown
   ],
   templateUrl: './chemical-substance-form.html',
   styleUrl: './chemical-substance-form.scss',
 })
-export class ChemicalSubstanceForm {
 
-  public readonly allSubstances$: Observable<ChemicalSubstanceBean[] | null>;
+export class ChemicalSubstanceForm implements AfterViewInit {
 
-  constructor(private readonly substanceService: SubstanceService) {
-    this.allSubstances$ = this.substanceService.getAllSubstances$();
-  }
+  public specifiedHazardOptions: DropdownOption<keyof SpecifiedHazard>[] = Object.keys(SpecifiedHazard).map(key => ({
+    label: key,
+    value: key as keyof SpecifiedHazard
+  }));
+
 
   public chemicalSubstanceAnswerModel = signal<ChemicalSubstanceFormData>({
     name: '',
@@ -41,8 +44,39 @@ export class ChemicalSubstanceForm {
     nfpaHealth: 0,
     nfpaFlammability: 0,
     nfpaReactivity: 0,
-    nfpaSpecifiedHazard: ''
+    nfpaSpecifiedHazard: 'NONE'
   })
+
+  public onSelectSpecifiedHazard = (value: any) => {
+    console.log("SELECTED:", value)
+    this.chemicalSubstanceAnswerModel.update(current => ({
+      ...current,
+      nfpaSpecifiedHazard: value as keyof typeof SpecifiedHazard
+    }))
+  }
+
+
+  public chemicalSubstance = input<ChemicalSubstanceBean>();
+
+
+  constructor(private readonly substanceService: SubstanceService,
+              private readonly route: ActivatedRoute) {
+  }
+
+  ngAfterViewInit(): void {
+    if (this.chemicalSubstance()) {
+      this.chemicalSubstanceAnswerModel.set({
+        name: this.chemicalSubstance()?.name ?? '',
+        casNumber: this.chemicalSubstance()?.casNumber ?? '',
+        molecularFormula: this.chemicalSubstance()?.molecularFormula ?? '',
+        supplier: this.chemicalSubstance()?.supplier ?? '',
+        nfpaHealth: this.chemicalSubstance()?.nfpaHealth ?? 0,
+        nfpaFlammability: this.chemicalSubstance()?.nfpaFlammability ?? 0,
+        nfpaReactivity: this.chemicalSubstance()?.nfpaReactivity ?? 0,
+        nfpaSpecifiedHazard: this.chemicalSubstance()?.nfpaSpecifiedHazard ?? 'NONE'
+      });
+    }
+  }
 
   public chemicalSubstanceForm = form(this.chemicalSubstanceAnswerModel);
 
@@ -58,11 +92,13 @@ export class ChemicalSubstanceForm {
       nfpaSpecifiedHazard: this.chemicalSubstanceForm().value().nfpaSpecifiedHazard
     }
 
-    console.log('submitting Chemical Substance Form Data:', chemicalSubstanceBean);
+    if (this.chemicalSubstance()) {
+      if (this.route.snapshot.queryParamMap.get('id')) {
+        return await firstValueFrom(this.substanceService.patchSubstance$(Number(this.route.snapshot.queryParamMap.get('id')), chemicalSubstanceBean))
+      }
+      return;
+    }
     return await firstValueFrom(this.substanceService.createSubstance$(chemicalSubstanceBean)).then(() => console.log("SUCCESS"))
   }
-
-
-
 
 }

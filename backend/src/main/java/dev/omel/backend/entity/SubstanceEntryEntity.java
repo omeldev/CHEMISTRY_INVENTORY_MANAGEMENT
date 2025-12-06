@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 @Entity(name = "chemical_substance_entry")
 @Getter
-public class ChemicalSubstanceEntryEntity {
+public class SubstanceEntryEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -17,12 +17,12 @@ public class ChemicalSubstanceEntryEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "substance_id", nullable = false)
   @Setter
-  private ChemicalSubstanceEntity substance;
+  private SubstanceEntity substance;
 
   @Setter
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "location_id", nullable = false)
-  private ChemicalSubstanceLocationEntity location;
+  private SubstanceLocationEntity location;
 
   @Column(name = "note")
   @Setter
@@ -51,7 +51,8 @@ public class ChemicalSubstanceEntryEntity {
   @Nonnull
   private String purity;
 
-  public ChemicalSubstanceEntryEntity() {}
+  public SubstanceEntryEntity() {
+  }
 
 
 }

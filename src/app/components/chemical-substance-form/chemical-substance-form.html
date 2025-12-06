@@ -1,59 +1,43 @@
-@let substances = allSubstances$ | async;
 <div>
 
   <div>
     <label>Name: </label>
-    <input [field]="chemicalSubstanceForm.name" type="text" />
+    <input [field]="chemicalSubstanceForm.name" type="text"/>
   </div>
 
   <div>
     <label>CAS Number: </label>
-    <input [field]="chemicalSubstanceForm.casNumber" type="text" />
+    <input [field]="chemicalSubstanceForm.casNumber" type="text"/>
   </div>
 
   <div>
     <label>Molecular Formula: </label>
-    <input [field]="chemicalSubstanceForm.molecularFormula" type="text" />
+    <input [field]="chemicalSubstanceForm.molecularFormula" type="text"/>
   </div>
 
   <div>
     <label>Supplier: </label>
-    <input [field]="chemicalSubstanceForm.supplier" type="text" />
+    <input [field]="chemicalSubstanceForm.supplier" type="text"/>
   </div>
 
   <div>
     <label>NFPA Health: </label>
-    <input [field]="chemicalSubstanceForm.nfpaHealth" type="number" />
+    <input [field]="chemicalSubstanceForm.nfpaHealth" type="number"/>
   </div>
 
   <div>
     <label>NFPA Flammability: </label>
-    <input [field]="chemicalSubstanceForm.nfpaFlammability" type="number" />
+    <input [field]="chemicalSubstanceForm.nfpaFlammability" type="number"/>
   </div>
 
   <div>
     <label>NFPA Reactivity: </label>
-    <input [field]="chemicalSubstanceForm.nfpaReactivity" type="number" />
+    <input [field]="chemicalSubstanceForm.nfpaReactivity" type="number"/>
   </div>
 
-  <div>
-    <label>NFPA Specified Hazard: </label>
-    <input [field]="chemicalSubstanceForm.nfpaSpecifiedHazard" type="text" />
-  </div>
+  <chem-dropdown [options]="specifiedHazardOptions"
+                 (onSelect)="onSelectSpecifiedHazard($event)"></chem-dropdown>
 
 </div>
 
 <button (click)="submitForm()">Submit</button>
-
-@if (substances) {
-
-  @for (substance of substances; track substance.id) {
-    <div>
-      <h3>{{ substance.name }}</h3>
-    </div>
-  }
-
-} @else {
-  <p>Loading substances...</p>
-}
-

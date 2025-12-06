@@ -1,6 +1,6 @@
 package dev.omel.backend.service.impl;
 
-import dev.omel.backend.bean.ChemicalSubstanceBean;
+import dev.omel.backend.bean.SubstanceBean;
 import dev.omel.backend.service.ChemicalSubstanceService;
 import dev.omel.backend.worker.ChemicalSubstanceWorker;
 import jakarta.transaction.Transactional;
@@ -19,12 +19,23 @@ public class ChemicalSubstanceServiceImpl implements ChemicalSubstanceService {
 
   @Override
   @Transactional
-  public ChemicalSubstanceBean createChemicalSubstance(ChemicalSubstanceBean chemicalSubstanceBean) throws Exception {
-    return chemicalSubstanceWorker.createSubstance(chemicalSubstanceBean);
+  public SubstanceBean createChemicalSubstance(SubstanceBean substanceBean) throws Exception {
+    return chemicalSubstanceWorker.createSubstance(substanceBean);
   }
 
   @Override
-  public List<ChemicalSubstanceBean> getAllChemicalSubstances() {
+  public List<SubstanceBean> getAllChemicalSubstances() {
     return chemicalSubstanceWorker.getAllChemicalSubstances();
+  }
+
+  @Override
+  @Transactional
+  public SubstanceBean patchChemicalSubstance(Long id, SubstanceBean substanceBean) throws Exception {
+    return chemicalSubstanceWorker.patchChemicalSubstance(id, substanceBean);
+  }
+
+  @Override
+  public SubstanceBean getChemicalSubstanceById(Long id) throws Exception {
+    return chemicalSubstanceWorker.getChemicalSubstanceById(id);
   }
 }

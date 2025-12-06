@@ -12,8 +12,9 @@ export class SafetySquare {
 
   public fireHazard = input.required<number>();
   public reactivity = input.required<number>();
-  public specificHazard = input<SpecifiedHazard>(SpecifiedHazard.NONE);
+  public specificHazard = input<keyof typeof SpecifiedHazard>("NONE");
   public healthHazard = input.required<number>();
 
 
+  protected readonly SpecifiedHazard = SpecifiedHazard;
 }

@@ -1,5 +1,6 @@
 package dev.omel.backend.entity;
 
+import dev.omel.backend.type.SpecifiedHazard;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -8,7 +9,7 @@ import lombok.Setter;
 
 @Entity(name = "chemical_substance")
 @Getter
-public class ChemicalSubstanceEntity {
+public class SubstanceEntity {
   @Id
   @Nullable
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,13 +49,14 @@ public class ChemicalSubstanceEntity {
   @Column(name = "nfpa_704_specified_hazard")
   @Setter
   @Nullable
-  private String nfpa704SpecifiedHazard;
+  private SpecifiedHazard nfpa704SpecifiedHazard;
 
   @Setter
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "supplier_id")
-  private ChemicalSubstanceSupplierEntity supplier;
+  private SubstanceSupplierEntity supplier;
 
-  public ChemicalSubstanceEntity() {}
+  public SubstanceEntity() {
+  }
 
 }

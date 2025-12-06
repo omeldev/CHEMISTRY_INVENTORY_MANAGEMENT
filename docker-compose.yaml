@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres
+    restart: always
+    volumes:
+      - /REPLACE-ME/database:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_DB: "chemistry"
+      POSTGRES_USER: "chemistry"
+      POSTGRES_PASSWORD: "chemistry"
+    networks:
+      database:
+
+  webapp_backend:
+    build: .
+    restart: always
+    networks:
+      database:
+      backend:
+
+networks:
+  database:
+  backend:

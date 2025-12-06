@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Entity(name = "chemical_substance_supplier")
 @Getter
-public class ChemicalSubstanceSupplierEntity {
+public class SubstanceSupplierEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -19,6 +19,7 @@ public class ChemicalSubstanceSupplierEntity {
   @Setter
   private String url;
 
-  public ChemicalSubstanceSupplierEntity() {}
+  public SubstanceSupplierEntity() {
+  }
 
 }

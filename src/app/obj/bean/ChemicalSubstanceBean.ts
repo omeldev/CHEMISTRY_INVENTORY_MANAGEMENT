@@ -1,3 +1,5 @@
+import {SpecifiedHazard} from '../enum/specific-hazard.enum';
+
 export interface ChemicalSubstanceBean {
   id?: string;
   name: string;
@@ -8,5 +10,5 @@ export interface ChemicalSubstanceBean {
   nfpaHealth?: number;
   nfpaFlammability?: number
   nfpaReactivity?: number;
-  nfpaSpecifiedHazard?: string;
+  nfpaSpecifiedHazard?: keyof typeof SpecifiedHazard;
 }

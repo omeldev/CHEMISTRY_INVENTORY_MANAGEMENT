@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {RestService} from '../rest.service';
 import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
 import {Observable} from 'rxjs';
@@ -19,6 +19,14 @@ export class SubstanceService {
 
   public getAllSubstances$() {
     return this.restService.get$<ChemicalSubstanceBean[]>(this.REST_PREFIX + "/all");
+  }
+
+  public getSubstance$(id: number) {
+    return this.restService.get$<ChemicalSubstanceBean>(this.REST_PREFIX + `/${id}/`);
+  }
+
+  public patchSubstance$(id: number, patchedSubstance: ChemicalSubstanceBean): Observable<ChemicalSubstanceBean | null> {
+    return this.restService.patch$<ChemicalSubstanceBean>(this.REST_PREFIX + `/${id}/`, patchedSubstance);
   }
 
 }

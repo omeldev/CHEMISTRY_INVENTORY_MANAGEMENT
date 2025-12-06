@@ -1,0 +1,23 @@
+@let substances = substances$ | async;
+
+@if (substances) {
+
+  @for (substance of substances; track substance.id) {
+    <div class="substance-card">
+      <h3>{{ substance.name }}</h3>
+      <p><strong>CAS Number:</strong> {{ substance.casNumber }}</p>
+      <p><strong>Molecular Formula:</strong> {{ substance.molecularFormula }}</p>
+      <p><strong>Supplier:</strong> {{ substance.supplier }}</p>
+      <p><strong>NFPA Ratings:</strong></p>
+      <ul>
+        <chem-safety-square
+          [healthHazard]="substance.nfpaHealth ?? 0"
+          [fireHazard]="substance.nfpaFlammability ?? 0"
+          [reactivity]="substance.nfpaReactivity ?? 0"
+          [specificHazard]="substance.nfpaSpecifiedHazard ?? 'NONE'"
+        />
+      </ul>
+      <button (click)="editSubstance(substance.id ?? '')">Edit</button>
+    </div>
+  }
+}
