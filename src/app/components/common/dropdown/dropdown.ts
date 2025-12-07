@@ -1,4 +1,4 @@
-import {Component, input, output} from '@angular/core';
+import {AfterViewInit, Component, input, output} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 
 export interface DropdownOption<T> {
@@ -14,10 +14,22 @@ export interface DropdownOption<T> {
   templateUrl: './dropdown.html',
   styleUrl: './dropdown.scss',
 })
-export class Dropdown<T> {
+export class Dropdown<T> implements AfterViewInit {
 
   public onSelect = output<T>();
   public options = input.required<DropdownOption<T>[]>();
+
+  public label = input<string>();
+
+  constructor() {
+
+  }
+
+  ngAfterViewInit(): void {
+    if (this.options().length > 0) {
+      this.emitSelect(this.options()[0]);
+    }
+  }
 
 
   public emitSelect(option: DropdownOption<T>) {

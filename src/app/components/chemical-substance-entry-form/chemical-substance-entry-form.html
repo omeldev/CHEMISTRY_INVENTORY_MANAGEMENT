@@ -1,9 +1,32 @@
+@let substanceChoices = substanceChoices$ | async;
 <div>
 
   <div>
-    <label>chemicalSubstanceId</label>
-    <input [field]="chemicalSubstanceEntryForm.chemicalSubstanceId" type="text"/>
+    <label>Location: </label>
+    <input [field]="substanceEntryForm.location" type="text"/>
   </div>
+
+  <div>
+    <label>Quantity: </label>
+    <input [field]="substanceEntryForm.quantity" type="text"/>
+  </div>
+
+  <div>
+    <label>Purity: </label>
+    <input [field]="substanceEntryForm.purity" type="text"/>
+  </div>
+
+  <div>
+    <label>Notes: </label>
+    <textarea [field]="substanceEntryForm.note" type="text"></textarea>
+  </div>
+
+  @if (substanceChoices) {
+    <div>
+      <chem-dropdown [label]="'Substance: '" (onSelect)="onSelectSubstance($event)"
+                     [options]="substanceChoices"></chem-dropdown>
+    </div>
+  }
 
 </div>
 

@@ -49,6 +49,7 @@ public class SubstanceEntity {
   @Column(name = "nfpa_704_specified_hazard")
   @Setter
   @Nullable
+  @Enumerated(EnumType.STRING)
   private SpecifiedHazard nfpa704SpecifiedHazard;
 
   @Setter

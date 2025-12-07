@@ -1,3 +1,7 @@
+@let labelText = label();
+@if (labelText) {
+  <label>{{ labelText }}</label>
+}
 <select (change)="onSelectFunc($event)">
   @for (option of options(); let i = $index; track i) {
     <option [value]="i">{{ option.label }}</option>

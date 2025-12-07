@@ -1,0 +1,17 @@
+@let allSubstanceEntries = allSubstanceEntries$ | async;
+@let substanceMap = substanceMap$ | async;
+@if (allSubstanceEntries && substanceMap) {
+  <div>
+    @for (entry of allSubstanceEntries; track entry.id) {
+      <div class="substance-entry-card">
+        <h3>{{ substanceMap?.get(Number(entry.chemicalSubstanceId))?.name }}</h3>
+        <p><strong>Location:</strong> {{ entry.location }}</p>
+        <p><strong>Quantity:</strong> {{ entry.quantity }}</p>
+        <p><strong>Purity:</strong> {{ entry.purity }}</p>
+        <p><strong>Notes:</strong> {{ entry.note }}</p>
+        <button (click)="editSubstanceEntry(Number(entry.id))">Edit</button>
+        <button (click)="deleteSubstanceEntry(Number(entry.id))">Delete</button>
+      </div>
+    }
+  </div>
+}

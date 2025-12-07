@@ -4,7 +4,7 @@ import dev.omel.backend.bean.SubstanceBean;
 
 import java.util.List;
 
-public interface ChemicalSubstanceService {
+public interface SubstanceService {
 
   SubstanceBean createChemicalSubstance(SubstanceBean substanceBean) throws Exception;
 

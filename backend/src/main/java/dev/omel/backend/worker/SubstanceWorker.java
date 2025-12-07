@@ -3,8 +3,6 @@ package dev.omel.backend.worker;
 import dev.omel.backend.bean.SubstanceBean;
 import dev.omel.backend.entity.SubstanceEntity;
 import dev.omel.backend.entity.SubstanceSupplierEntity;
-import dev.omel.backend.repository.SubstanceEntryRepository;
-import dev.omel.backend.repository.SubstanceLocationRepository;
 import dev.omel.backend.repository.SubstanceRepository;
 import dev.omel.backend.repository.SubstanceSupplierRepository;
 import org.springframework.stereotype.Component;
@@ -12,18 +10,15 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ChemicalSubstanceWorker {
+public class SubstanceWorker {
 
   private final SubstanceRepository substanceRepository;
-  private final SubstanceEntryRepository substanceEntryRepository;
   private final SubstanceSupplierRepository substanceSupplierRepository;
-  private final SubstanceLocationRepository substanceLocationRepository;
 
-  public ChemicalSubstanceWorker(SubstanceRepository substanceRepository, SubstanceEntryRepository substanceEntryRepository, SubstanceSupplierRepository substanceSupplierRepository, SubstanceLocationRepository substanceLocationRepository) {
+
+  public SubstanceWorker(SubstanceRepository substanceRepository, SubstanceSupplierRepository substanceSupplierRepository) {
     this.substanceRepository = substanceRepository;
-    this.substanceEntryRepository = substanceEntryRepository;
     this.substanceSupplierRepository = substanceSupplierRepository;
-    this.substanceLocationRepository = substanceLocationRepository;
   }
 
 

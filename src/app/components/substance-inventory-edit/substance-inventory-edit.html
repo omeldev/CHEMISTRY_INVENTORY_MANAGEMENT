@@ -1,0 +1,6 @@
+@let inventorySubstanceEntry = inventorySubstanceEntry$ | async;
+
+@if (inventorySubstanceEntry) {
+  <chem-chemical-substance-entry-form
+    [substanceEntry]="inventorySubstanceEntry"/>
+}

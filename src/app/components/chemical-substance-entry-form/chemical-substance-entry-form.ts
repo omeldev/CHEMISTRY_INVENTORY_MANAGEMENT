@@ -1,11 +1,15 @@
-import {AfterViewInit, Component, signal} from '@angular/core';
+import {AfterViewInit, Component, input, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
 import {ChemicalSubstanceEntryBean} from '../../obj/bean/ChemicalSubstanceEntryBean';
+import {SubstanceService} from '../../service/rest/substance/substance.service';
+import {firstValueFrom, map, Observable} from 'rxjs';
+import {Dropdown, DropdownOption} from '../common/dropdown/dropdown';
+import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
+import {AsyncPipe} from '@angular/common';
+import {InventoryService} from '../../service/rest/substance/inventory.service';
+import {ActivatedRoute} from '@angular/router';
 
 export interface ChemicalSubstanceEntryFormData {
-  chemicalSubstanceId: string;
-  addedAt: string;
-  updatedAt: string;
   quantity: string;
   purity: string;
   location: string;
@@ -15,7 +19,9 @@ export interface ChemicalSubstanceEntryFormData {
 @Component({
   selector: 'chem-chemical-substance-entry-form',
   imports: [
-    Field
+    Field,
+    Dropdown,
+    AsyncPipe
   ],
   templateUrl: './chemical-substance-entry-form.html',
   styleUrl: './chemical-substance-entry-form.scss',
@@ -24,9 +30,6 @@ export interface ChemicalSubstanceEntryFormData {
 export class ChemicalSubstanceEntryForm implements AfterViewInit {
 
   public chemicalSubstanceEntryAnswerModel = signal<ChemicalSubstanceEntryFormData>({
-    chemicalSubstanceId: '',
-    addedAt: '',
-    updatedAt: '',
     quantity: '',
     purity: '',
     location: '',
@@ -35,20 +38,66 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
 
   public substanceEntryForm = form(this.chemicalSubstanceEntryAnswerModel);
 
+
+  public substanceChoices$: Observable<DropdownOption<ChemicalSubstanceBean>[]>;
+
+  private selectedSubstance = signal<ChemicalSubstanceBean | null>(null);
+
+  public substanceEntry = input<ChemicalSubstanceEntryBean>();
+
+  public onSelectSubstance = (value: any) => {
+    console.log("SELECTED SUBSTANCE:", value)
+    this.selectedSubstance.set(value as ChemicalSubstanceBean);
+  }
+
+  constructor(private readonly substanceService: SubstanceService,
+              private readonly inventoryService: InventoryService,
+              private readonly route: ActivatedRoute) {
+    this.substanceChoices$ = this.substanceService.getAllSubstances$().pipe(
+      map(substances => substances?.map(
+        substance => ({
+            label: substance.name + (substance.molecularFormula ? ` (${substance.molecularFormula})` : ''),
+            value: substance
+          }
+        )) || []
+      ));
+  }
+
   public async submitForm() {
     //TODO: NO CLIENT DATES
+    if (!this.selectedSubstance()) {
+      console.error("No substance selected!");
+      return;
+    }
+
     const substanceEntryBean: ChemicalSubstanceEntryBean = {
-      chemicalSubstanceId: this.substanceEntryForm().value().chemicalSubstanceId,
-      addedAt: new Date(this.substanceEntryForm().value().addedAt).toString(),
-      updatedAt: new Date(this.substanceEntryForm().value().updatedAt).toString(),
+      chemicalSubstanceId: this.selectedSubstance()?.id,
       quantity: this.substanceEntryForm().value().quantity,
       purity: this.substanceEntryForm().value().purity,
       location: this.substanceEntryForm().value().location,
       note: this.substanceEntryForm().value().note
     }
+
+    if (this.substanceEntry()) {
+      if (this.route.snapshot.queryParamMap.get('id')) {
+        return firstValueFrom(this.inventoryService.patchSubstanceInventoryEntry$(Number(this.route.snapshot.queryParamMap.get('id')), substanceEntryBean));
+      }
+      return;
+    }
+
+
+    return firstValueFrom(this.inventoryService.createSubstanceInventoryEntry$(substanceEntryBean));
   }
 
   ngAfterViewInit(): void {
+    if (this.substanceEntry()) {
+      this.chemicalSubstanceEntryAnswerModel.set({
+        quantity: this.substanceEntry()?.quantity ?? '',
+        purity: this.substanceEntry()?.purity ?? '',
+        location: this.substanceEntry()?.location ?? '',
+        note: this.substanceEntry()?.note ?? ''
+      });
+    }
   }
 
 }
