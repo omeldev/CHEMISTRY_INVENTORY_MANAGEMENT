@@ -19,6 +19,8 @@ export class Dropdown<T> implements AfterViewInit {
   public onSelect = output<T>();
   public options = input.required<DropdownOption<T>[]>();
 
+  public selectedIndex = input<number>(0);
+
   public label = input<string>();
 
   constructor() {
@@ -26,6 +28,10 @@ export class Dropdown<T> implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if (this.selectedIndex != null && this.selectedIndex() >= 0 && this.selectedIndex() < this.options().length) {
+      this.emitSelect(this.options()[this.selectedIndex()]);
+      return;
+    }
     if (this.options().length > 0) {
       this.emitSelect(this.options()[0]);
     }

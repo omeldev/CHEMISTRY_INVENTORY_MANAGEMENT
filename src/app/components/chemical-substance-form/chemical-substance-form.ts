@@ -2,10 +2,11 @@ import {AfterViewInit, Component, input, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
 import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
 import {SubstanceService} from '../../service/rest/substance/substance.service';
-import {firstValueFrom} from 'rxjs';
+import {BehaviorSubject, firstValueFrom} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {SpecifiedHazard} from '../../obj/enum/specific-hazard.enum';
 import {Dropdown, DropdownOption} from '../common/dropdown/dropdown';
+import {AsyncPipe} from '@angular/common';
 
 export interface ChemicalSubstanceFormData {
   name: string;
@@ -22,7 +23,8 @@ export interface ChemicalSubstanceFormData {
   selector: 'chem-chemical-substance-form',
   imports: [
     Field,
-    Dropdown
+    Dropdown,
+    AsyncPipe
   ],
   templateUrl: './chemical-substance-form.html',
   styleUrl: './chemical-substance-form.scss',
@@ -75,10 +77,16 @@ export class ChemicalSubstanceForm implements AfterViewInit {
         nfpaReactivity: this.chemicalSubstance()?.nfpaReactivity ?? 0,
         nfpaSpecifiedHazard: this.chemicalSubstance()?.nfpaSpecifiedHazard ?? 'NONE'
       });
+      this.selectedSpecifiedHazardIndexSubject.next(this.specifiedHazardOptions.findIndex(option => option.value === this.chemicalSubstance()?.nfpaSpecifiedHazard as keyof SpecifiedHazard));
     }
   }
 
   public chemicalSubstanceForm = form(this.chemicalSubstanceAnswerModel);
+  // DEFAULT = SpecifiedHazard.NONE
+  defaultSpecifiedHazardOption: number = this.specifiedHazardOptions.findIndex(option => option.value === 'NONE' as keyof SpecifiedHazard);
+
+  private selectedSpecifiedHazardIndexSubject = new BehaviorSubject(0);
+  public selectedSpecifiedHazardIndex$ = this.selectedSpecifiedHazardIndexSubject.asObservable();
 
   public async submitForm() {
     const chemicalSubstanceBean: ChemicalSubstanceBean = {

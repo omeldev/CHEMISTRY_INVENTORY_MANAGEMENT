@@ -49,7 +49,8 @@ public class SubstanceInventoryWorker {
 
     entity.setLocation(location);
 
-    entity.setQuantity(substanceEntryBean.quantity());
+    entity.setQuantityBase(substanceEntryBean.quantityBase());
+    entity.setUnit(substanceEntryBean.unit());
     entity.setPurity(substanceEntryBean.purity());
     entity.setNote(substanceEntryBean.note());
     entity.setAddedAt(new Timestamp(System.currentTimeMillis()));
@@ -67,8 +68,11 @@ public class SubstanceInventoryWorker {
     if (!substanceEntryRepository.findById(id).isPresent()) return null;
     SubstanceEntryEntity entity = substanceEntryRepository.findById(id).get();
 
-    if (substanceEntryBean.quantity() != null) {
-      entity.setQuantity(substanceEntryBean.quantity());
+    if (substanceEntryBean.quantityBase() != 0) {
+      entity.setQuantityBase(substanceEntryBean.quantityBase());
+    }
+    if (substanceEntryBean.unit() != null) {
+      entity.setUnit(substanceEntryBean.unit());
     }
     if (substanceEntryBean.purity() != null) {
       entity.setPurity(substanceEntryBean.purity());

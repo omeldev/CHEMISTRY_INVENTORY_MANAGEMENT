@@ -10,7 +10,12 @@
 
     <div class="form-field">
       <label class="form-field-label">Quantity: </label>
-      <input class="form-field-input" [field]="substanceEntryForm.quantity" type="text"/>
+      <input class="form-field-input" [field]="substanceEntryForm.quantityBase" type="number"/>
+      <chem-dropdown
+        (onSelect)="onSelectQuantityUnit($event)"
+        [options]="quantityUnitOptions"
+        [selectedIndex]="(selectedQuantityUnitIndex$ | async) ?? 0"
+      ></chem-dropdown>
     </div>
 
     <div class="form-field">

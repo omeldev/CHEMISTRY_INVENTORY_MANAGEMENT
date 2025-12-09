@@ -1,5 +1,6 @@
 package dev.omel.backend.entity;
 
+import dev.omel.backend.type.Unit;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -41,10 +42,14 @@ public class SubstanceEntryEntity {
   private boolean deleted;
 
 
-  @Column(name = "quantity")
+  @Column(name = "quantity_base", nullable = false)
   @Setter
-  @Nonnull
-  private String quantity;
+  private double quantityBase;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "unit", nullable = false)
+  @Setter
+  private Unit unit;
 
   @Column(name = "purity")
   @Setter

@@ -18,7 +18,9 @@
         </p>
         <p class="substance-property">
           <span class="substance-property-label">Quantity:</span>
-          <span class="substance-property-value">{{ entry.quantity || "-" }}</span>
+          <span
+            class="substance-property-value"> {{ (entry.quantityBase | formatQuantity:entry.unit) || "-" }}</span>
+
         </p>
         <p class="substance-property">
           <span class="substance-property-label">Purity:</span>

@@ -41,7 +41,8 @@
       <div class="form-field">
         <label class="form-field-label">Specific Hazard: </label>
         <chem-dropdown (onSelect)="onSelectSpecifiedHazard($event)"
-                       [options]="specifiedHazardOptions"></chem-dropdown>
+                       [options]="specifiedHazardOptions"
+                       [selectedIndex]="(selectedSpecifiedHazardIndex$ | async ) ?? defaultSpecifiedHazardOption"></chem-dropdown>
       </div>
     }
 

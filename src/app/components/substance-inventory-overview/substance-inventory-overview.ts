@@ -9,12 +9,15 @@ import {Router, RouterLink} from '@angular/router';
 import {Store} from '@ngxs/store';
 import {SubstanceState} from '../../store/substance/substance.state';
 import {SubstanceAction} from '../../store/substance/substance.actions';
+import {QuantityPipe} from '../../pipe/quantity.pipe';
+import {Unit} from '../../obj/enum/unit.enum';
 
 @Component({
   selector: 'chem-substance-inventory-overview',
   imports: [
     AsyncPipe,
-    RouterLink
+    RouterLink,
+    QuantityPipe
   ],
   templateUrl: './substance-inventory-overview.html',
   styleUrl: './substance-inventory-overview.scss',
@@ -57,4 +60,6 @@ export class SubstanceInventoryOverview {
   navigateToSubstanceCreateEntryPage() {
     return this.router.createUrlTree(['/inventory', 'create']);
   }
+
+  protected readonly Unit = Unit;
 }

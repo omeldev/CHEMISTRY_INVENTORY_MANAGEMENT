@@ -2,15 +2,17 @@ import {AfterViewInit, Component, input, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
 import {ChemicalSubstanceEntryBean} from '../../obj/bean/ChemicalSubstanceEntryBean';
 import {SubstanceService} from '../../service/rest/substance/substance.service';
-import {firstValueFrom, map, Observable} from 'rxjs';
+import {BehaviorSubject, firstValueFrom, map, Observable} from 'rxjs';
 import {Dropdown, DropdownOption} from '../common/dropdown/dropdown';
 import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
 import {AsyncPipe} from '@angular/common';
 import {InventoryService} from '../../service/rest/substance/inventory.service';
 import {ActivatedRoute} from '@angular/router';
+import {Unit, UnitLabel} from '../../obj/enum/unit.enum';
 
 export interface ChemicalSubstanceEntryFormData {
-  quantity: string;
+  quantityBase: number;
+  unit: Unit;
   purity: string;
   location: string;
   note: string;
@@ -30,7 +32,8 @@ export interface ChemicalSubstanceEntryFormData {
 export class ChemicalSubstanceEntryForm implements AfterViewInit {
 
   public chemicalSubstanceEntryAnswerModel = signal<ChemicalSubstanceEntryFormData>({
-    quantity: '',
+    quantityBase: 0,
+    unit: Unit.G,
     purity: '',
     location: '',
     note: ''
@@ -42,13 +45,20 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
   public substanceChoices$: Observable<DropdownOption<ChemicalSubstanceBean>[]>;
 
   private selectedSubstance = signal<ChemicalSubstanceBean | null>(null);
-
+  private selectedUnit = signal<Unit>(Unit.G);
   public substanceEntry = input<ChemicalSubstanceEntryBean>();
 
-  public onSelectSubstance = (value: any) => {
-    console.log("SELECTED SUBSTANCE:", value)
-    this.selectedSubstance.set(value as ChemicalSubstanceBean);
-  }
+
+  quantityUnitOptions: DropdownOption<Unit>[] = Object.keys(Unit).map(
+    key => ({
+      label: UnitLabel[key as keyof typeof Unit],
+      value: Unit[key as keyof typeof Unit]
+    })
+  );
+
+  private selectedQuantityUnitIndexSubject = new BehaviorSubject(0);
+  public selectedQuantityUnitIndex$ = this.selectedQuantityUnitIndexSubject.asObservable();
+
 
   constructor(private readonly substanceService: SubstanceService,
               private readonly inventoryService: InventoryService,
@@ -72,7 +82,8 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
 
     const substanceEntryBean: ChemicalSubstanceEntryBean = {
       chemicalSubstanceId: this.selectedSubstance()?.id,
-      quantity: this.substanceEntryForm().value().quantity,
+      quantityBase: this.substanceEntryForm().value().quantityBase,
+      unit: this.selectedUnit(),
       purity: this.substanceEntryForm().value().purity,
       location: this.substanceEntryForm().value().location,
       note: this.substanceEntryForm().value().note
@@ -92,12 +103,25 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
   ngAfterViewInit(): void {
     if (this.substanceEntry()) {
       this.chemicalSubstanceEntryAnswerModel.set({
-        quantity: this.substanceEntry()?.quantity ?? '',
+        quantityBase: this.substanceEntry()?.quantityBase ?? 0,
+        unit: this.substanceEntry()?.unit ?? Unit.G,
         purity: this.substanceEntry()?.purity ?? '',
         location: this.substanceEntry()?.location ?? '',
         note: this.substanceEntry()?.note ?? ''
       });
+
+      this.selectedUnit.set(this.substanceEntry()?.unit ?? Unit.G);
+      this.selectedQuantityUnitIndexSubject.next(this.quantityUnitOptions.findIndex(option => option.value === this.substanceEntry()?.unit));
     }
+
   }
 
+  public onSelectSubstance = (value: any) => {
+    console.log("SELECTED SUBSTANCE:", value)
+    this.selectedSubstance.set(value as ChemicalSubstanceBean);
+  }
+
+  onSelectQuantityUnit(value: any) {
+    this.selectedUnit.set(value as Unit);
+  }
 }
