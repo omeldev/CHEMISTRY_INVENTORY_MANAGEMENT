@@ -7,7 +7,7 @@ import {Dropdown, DropdownOption} from '../common/dropdown/dropdown';
 import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
 import {AsyncPipe} from '@angular/common';
 import {InventoryService} from '../../service/rest/substance/inventory.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Unit, UnitLabel} from '../../obj/enum/unit.enum';
 
 export interface ChemicalSubstanceEntryFormData {
@@ -62,7 +62,8 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
 
   constructor(private readonly substanceService: SubstanceService,
               private readonly inventoryService: InventoryService,
-              private readonly route: ActivatedRoute) {
+              private readonly route: ActivatedRoute,
+              private readonly router: Router) {
     this.substanceChoices$ = this.substanceService.getAllSubstances$().pipe(
       map(substances => substances?.map(
         substance => ({
@@ -91,13 +92,13 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
 
     if (this.substanceEntry()) {
       if (this.route.snapshot.queryParamMap.get('id')) {
-        return firstValueFrom(this.inventoryService.patchSubstanceInventoryEntry$(Number(this.route.snapshot.queryParamMap.get('id')), substanceEntryBean));
+        return firstValueFrom(this.inventoryService.patchSubstanceInventoryEntry$(Number(this.route.snapshot.queryParamMap.get('id')), substanceEntryBean)).then(() => this.navigateToInventoryOverview());
       }
       return;
     }
 
 
-    return firstValueFrom(this.inventoryService.createSubstanceInventoryEntry$(substanceEntryBean));
+    return firstValueFrom(this.inventoryService.createSubstanceInventoryEntry$(substanceEntryBean)).then(() => this.navigateToInventoryOverview());
   }
 
   ngAfterViewInit(): void {
@@ -123,5 +124,9 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
 
   onSelectQuantityUnit(value: any) {
     this.selectedUnit.set(value as Unit);
+  }
+
+  public navigateToInventoryOverview() {
+    return this.router.navigateByUrl(this.router.createUrlTree(['inventory', 'overview']))
   }
 }

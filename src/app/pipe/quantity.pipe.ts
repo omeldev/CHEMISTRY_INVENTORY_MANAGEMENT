@@ -8,7 +8,6 @@ export class QuantityPipe implements PipeTransform {
 
   transform(valueBase: number, unit: Unit): string {
     if (valueBase == null || unit == null) return '';
-
     return `${this.formatValue(valueBase)} ${this.getUnitLabel(unit)}`;
   }
 

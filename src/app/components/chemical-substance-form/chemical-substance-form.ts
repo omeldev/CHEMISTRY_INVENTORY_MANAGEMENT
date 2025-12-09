@@ -3,7 +3,7 @@ import {Field, form} from '@angular/forms/signals';
 import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
 import {SubstanceService} from '../../service/rest/substance/substance.service';
 import {BehaviorSubject, firstValueFrom} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SpecifiedHazard} from '../../obj/enum/specific-hazard.enum';
 import {Dropdown, DropdownOption} from '../common/dropdown/dropdown';
 import {AsyncPipe} from '@angular/common';
@@ -62,7 +62,8 @@ export class ChemicalSubstanceForm implements AfterViewInit {
 
 
   constructor(private readonly substanceService: SubstanceService,
-              private readonly route: ActivatedRoute) {
+              private readonly route: ActivatedRoute,
+              private readonly router: Router) {
   }
 
   ngAfterViewInit(): void {
@@ -85,7 +86,7 @@ export class ChemicalSubstanceForm implements AfterViewInit {
   // DEFAULT = SpecifiedHazard.NONE
   defaultSpecifiedHazardOption: number = this.specifiedHazardOptions.findIndex(option => option.value === 'NONE' as keyof SpecifiedHazard);
 
-  private selectedSpecifiedHazardIndexSubject = new BehaviorSubject(0);
+  private selectedSpecifiedHazardIndexSubject = new BehaviorSubject(this.defaultSpecifiedHazardOption);
   public selectedSpecifiedHazardIndex$ = this.selectedSpecifiedHazardIndexSubject.asObservable();
 
   public async submitForm() {
@@ -102,11 +103,15 @@ export class ChemicalSubstanceForm implements AfterViewInit {
 
     if (this.chemicalSubstance()) {
       if (this.route.snapshot.queryParamMap.get('id')) {
-        return await firstValueFrom(this.substanceService.patchSubstance$(Number(this.route.snapshot.queryParamMap.get('id')), chemicalSubstanceBean))
+        return await firstValueFrom(this.substanceService.patchSubstance$(Number(this.route.snapshot.queryParamMap.get('id')), chemicalSubstanceBean)).then(() => this.navigateToSubstanceOverview());
       }
       return;
     }
-    return await firstValueFrom(this.substanceService.createSubstance$(chemicalSubstanceBean)).then(() => console.log("SUCCESS"))
+    return await firstValueFrom(this.substanceService.createSubstance$(chemicalSubstanceBean)).then(() => this.navigateToSubstanceOverview());
+  }
+
+  public navigateToSubstanceOverview() {
+    return this.router.navigateByUrl(this.router.createUrlTree(['substance', 'overview']))
   }
 
 }
