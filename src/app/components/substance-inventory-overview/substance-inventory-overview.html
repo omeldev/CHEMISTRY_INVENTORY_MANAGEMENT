@@ -1,16 +1,39 @@
 @let allSubstanceEntries = allSubstanceEntries$ | async;
 @let substanceMap = substanceMap$ | async;
 @if (allSubstanceEntries && substanceMap) {
-  <div>
+  <div class="substance-overview-header">
+    <a class="substance-overview-create" [routerLink]="navigateToSubstanceCreateEntryPage()">
+      + Create New Substance Entry
+    </a>
+  </div>
+  <div class="substance-container">
     @for (entry of allSubstanceEntries; track entry.id) {
-      <div class="substance-entry-card">
-        <h3>{{ substanceMap?.get(Number(entry.chemicalSubstanceId))?.name }}</h3>
-        <p><strong>Location:</strong> {{ entry.location }}</p>
-        <p><strong>Quantity:</strong> {{ entry.quantity }}</p>
-        <p><strong>Purity:</strong> {{ entry.purity }}</p>
-        <p><strong>Notes:</strong> {{ entry.note }}</p>
-        <button (click)="editSubstanceEntry(Number(entry.id))">Edit</button>
-        <button (click)="deleteSubstanceEntry(Number(entry.id))">Delete</button>
+      <div class="substance-card">
+        <div class="substance-header">
+          <h3>{{ substanceMap?.get(Number(entry.chemicalSubstanceId))?.name }}</h3>
+        </div>
+        <p class="substance-property">
+          <span class="substance-property-label">Location:</span>
+          <span class="substance-property-value">{{ entry.location || "-" }}</span>
+        </p>
+        <p class="substance-property">
+          <span class="substance-property-label">Quantity:</span>
+          <span class="substance-property-value">{{ entry.quantity || "-" }}</span>
+        </p>
+        <p class="substance-property">
+          <span class="substance-property-label">Purity:</span>
+          <span class="substance-property-value">{{ entry.purity || "-" }}</span>
+        </p>
+        <p class="substance-property">
+          <span class="substance-property-label">Notes:</span>
+          <span class="substance-property-value">{{ entry.note || "-" }}</span>
+        </p>
+        <div class="substance-button-container">
+          <button class="substance-button" (click)="editSubstanceEntry(Number(entry.id))">Edit</button>
+          <button class="substance-button substance-button-delete" (click)="deleteSubstanceEntry(Number(entry.id))">
+            Delete
+          </button>
+        </div>
       </div>
     }
   </div>

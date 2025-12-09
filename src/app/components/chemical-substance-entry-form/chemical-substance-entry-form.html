@@ -1,33 +1,39 @@
 @let substanceChoices = substanceChoices$ | async;
-<div>
+<div class="substance-entry-form-container">
+  <h1 class="substance-entry-form-title">Create a substance entry</h1>
+  <div class="substance-entry-form">
 
-  <div>
-    <label>Location: </label>
-    <input [field]="substanceEntryForm.location" type="text"/>
-  </div>
-
-  <div>
-    <label>Quantity: </label>
-    <input [field]="substanceEntryForm.quantity" type="text"/>
-  </div>
-
-  <div>
-    <label>Purity: </label>
-    <input [field]="substanceEntryForm.purity" type="text"/>
-  </div>
-
-  <div>
-    <label>Notes: </label>
-    <textarea [field]="substanceEntryForm.note" type="text"></textarea>
-  </div>
-
-  @if (substanceChoices) {
-    <div>
-      <chem-dropdown [label]="'Substance: '" (onSelect)="onSelectSubstance($event)"
-                     [options]="substanceChoices"></chem-dropdown>
+    <div class="form-field">
+      <label class="form-field-label">Location: </label>
+      <input class="form-field-input" [field]="substanceEntryForm.location" type="text"/>
     </div>
-  }
 
+    <div class="form-field">
+      <label class="form-field-label">Quantity: </label>
+      <input class="form-field-input" [field]="substanceEntryForm.quantity" type="text"/>
+    </div>
+
+    <div class="form-field">
+      <label class="form-field-label">Purity: </label>
+      <input class="form-field-input" [field]="substanceEntryForm.purity" type="text"/>
+    </div>
+
+    <div class="form-field">
+      <label class="form-field-label">Notes: </label>
+      <textarea class="form-field-textarea" [field]="substanceEntryForm.note" type="text"></textarea>
+    </div>
+
+    @if (substanceChoices) {
+      <div class="form-field">
+        <label class="form-field-label">Select Substance: </label>
+        <chem-dropdown (onSelect)="onSelectSubstance($event)"
+                       [options]="substanceChoices"></chem-dropdown>
+      </div>
+    }
+
+  </div>
+
+  <div class="button-container">
+    <button (click)="submitForm()">Submit</button>
+  </div>
 </div>
-
-<button (click)="submitForm()">Submit</button>

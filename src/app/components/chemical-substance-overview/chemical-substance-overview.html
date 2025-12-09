@@ -1,23 +1,41 @@
 @let substances = substances$ | async;
 
 @if (substances) {
-
-  @for (substance of substances; track substance.id) {
-    <div class="substance-card">
-      <h3>{{ substance.name }}</h3>
-      <p><strong>CAS Number:</strong> {{ substance.casNumber }}</p>
-      <p><strong>Molecular Formula:</strong> {{ substance.molecularFormula }}</p>
-      <p><strong>Supplier:</strong> {{ substance.supplier }}</p>
-      <p><strong>NFPA Ratings:</strong></p>
-      <ul>
-        <chem-safety-square
-          [healthHazard]="substance.nfpaHealth ?? 0"
-          [fireHazard]="substance.nfpaFlammability ?? 0"
-          [reactivity]="substance.nfpaReactivity ?? 0"
-          [specificHazard]="substance.nfpaSpecifiedHazard ?? 'NONE'"
-        />
-      </ul>
-      <button (click)="editSubstance(substance.id ?? '')">Edit</button>
-    </div>
-  }
+  <div class="substance-overview-header">
+    <a class="substance-overview-create" [routerLink]="navigateToSubstanceCreatePage()">
+      + Create New Substance
+    </a>
+  </div>
+  <div class="substance-container">
+    @for (substance of substances; track substance.id) {
+      <div class="substance-card">
+        <h3>{{ substance.name }}</h3>
+        <p class="substance-property">
+          <span class="substance-property-label">CAS:</span>
+          <span class="substance-property-value">{{ substance.casNumber || "-" }}</span>
+        </p>
+        <p class="substance-property">
+          <span class="substance-property-label">Formula:</span>
+          <span class="substance-property-value">{{ substance.molecularFormula || "-" }}</span>
+        </p>
+        <p class="substance-property">
+          <span class="substance-property-label">Supplier:</span>
+          <span class="substance-property-value">{{ substance.supplier || "-" }}</span>
+        </p>
+        <div class="nfpa-container">
+          <ul>
+            <chem-safety-square
+              [healthHazard]="substance.nfpaHealth ?? 0"
+              [fireHazard]="substance.nfpaFlammability ?? 0"
+              [reactivity]="substance.nfpaReactivity ?? 0"
+              [specificHazard]="substance.nfpaSpecifiedHazard ?? 'NONE'"
+            />
+          </ul>
+        </div>
+        <div class="substance-button-container">
+          <button class="substance-button" (click)="editSubstance(substance.id ?? '')">Edit</button>
+        </div>
+      </div>
+    }
+  </div>
 }

@@ -3,7 +3,7 @@ import {SubstanceService} from '../../service/rest/substance/substance.service';
 import {AsyncPipe} from '@angular/common';
 import {Observable} from 'rxjs';
 import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {SafetySquare} from '../safety-square/safety-square';
 import {SpecifiedHazard} from '../../obj/enum/specific-hazard.enum';
 
@@ -11,7 +11,8 @@ import {SpecifiedHazard} from '../../obj/enum/specific-hazard.enum';
   selector: 'chem-chemical-substance-overview',
   imports: [
     AsyncPipe,
-    SafetySquare
+    SafetySquare,
+    RouterLink
   ],
   templateUrl: './chemical-substance-overview.html',
   styleUrl: './chemical-substance-overview.scss',
@@ -34,4 +35,8 @@ export class ChemicalSubstanceOverview {
   protected readonly SpecifiedHazard = SpecifiedHazard;
   protected readonly Object = Object;
   protected readonly console = console;
+
+  navigateToSubstanceCreatePage() {
+    return this.router.createUrlTree(['/substance', 'create']);
+  }
 }

@@ -1,9 +1,9 @@
 @let labelText = label();
 @if (labelText) {
-  <label>{{ labelText }}</label>
+  <label class="dropdown-label">{{ labelText }}</label>
 }
-<select (change)="onSelectFunc($event)">
+<select class="dropdown-select" (change)="onSelectFunc($event)">
   @for (option of options(); let i = $index; track i) {
-    <option [value]="i">{{ option.label }}</option>
+    <option class="dropdown-option" [value]="i">{{ option.label }}</option>
   }
 </select>
