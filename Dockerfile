@@ -1,15 +1,22 @@
-FROM maven:3-eclipse-temurin-23-alpine AS build
+FROM node:22 AS build
 
-COPY . /app/
+COPY package.json /frontend/
+COPY package-lock.json /frontend/
+COPY tsconfig.json /frontend/
+COPY tsconfig.app.json /frontend/
+COPY webpack.config.ts /frontend/
+COPY angular.json /frontend/
+COPY ./public/ /frontend/src/
+COPY ./src/ /frontend/src/
 
-WORKDIR /app
-ENV SPRING_PROFILES_ACTIVE=prod
-RUN mvn package
+WORKDIR /webapp
 
-FROM eclipse-temurin:23 AS prod
-ENV SPRING_PROFILES_ACTIVE=prod
-COPY --from=build /app/WebApp/target/WebApp-1.0-SNAPSHOT.jar /app/WebApp-1.0-SNAPSHOT.jar
+RUN npm ci
 
-WORKDIR /app
+RUN npm run build
 
-CMD ["java", "-jar", "./WebApp-1.0-SNAPSHOT.jar"]
+FROM nginx:alpine AS prod
+
+COPY --from=build /webapp/dist/frontend /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+CMD ["nginx", "-g", "daemon off;"]
