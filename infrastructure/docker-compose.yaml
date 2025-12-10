@@ -1,0 +1,16 @@
+services:
+  github_runner:
+    build: .
+    restart: always
+    environment:
+      TZ: Europe/Berlin
+      REPO_URL: "https://github.com/omeldev/CHEMISTRY_INVENTORY_MANAGEMENT"
+      DISABLE_AUTOMATIC_DEREGISTRATION: true
+      RUNNER_NAME: chim-runner
+      LABELS: chim-runner
+      CONFIGURED_ACTIONS_RUNNER_FILES_DIR: "/runner-config"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./runner-config:/runner-config
+      - ./out:/out

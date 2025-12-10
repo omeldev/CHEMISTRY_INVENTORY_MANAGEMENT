@@ -1,14 +1,17 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpService} from "../http/http.service";
 import {Observable} from "rxjs";
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestService {
 
-  public static readonly REST_URL: string = 'http://localhost:8080';
-  constructor(private readonly http: HttpService) { }
+  public static readonly REST_URL: string = environment.apiUrl;
+
+  constructor(private readonly http: HttpService) {
+  }
 
   public get$<T>(url: string, parameters?: any): Observable<T | null> {
     return this.http.get$<T>(RestService.REST_URL + url, parameters);

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: ChemicalInventoryManagementSystem
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/chemistry
+    username: chemistry
+    password: chemistry
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 8080
+  address: 0.0.0.0

@@ -3,7 +3,7 @@ services:
     image: postgres
     restart: always
     volumes:
-      - /REPLACE-ME/database:/var/lib/postgresql/data
+      - /home/chemistry/database:/var/lib/postgresql/data
     ports:
       - "127.0.0.1:5432:5432"
     environment:
@@ -13,13 +13,30 @@ services:
     networks:
       database:
 
-  webapp_backend:
+  ingress:
+    build: ./nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    networks:
+      ingress:
+
+  frontend:
     build: .
     restart: always
     networks:
+      ingress:
+
+  backend:
+    build: ./backend
+    restart: always
+    networks:
       database:
-      backend:
+      ingress:
 
 networks:
   database:
-  backend:
+  ingress:

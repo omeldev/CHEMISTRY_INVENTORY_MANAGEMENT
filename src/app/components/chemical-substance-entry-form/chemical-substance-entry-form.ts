@@ -75,7 +75,6 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
   }
 
   public async submitForm() {
-    //TODO: NO CLIENT DATES
     if (!this.selectedSubstance()) {
       console.error("No substance selected!");
       return;
@@ -96,7 +95,6 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
       }
       return;
     }
-
 
     return firstValueFrom(this.inventoryService.createSubstanceInventoryEntry$(substanceEntryBean)).then(() => this.navigateToInventoryOverview());
   }

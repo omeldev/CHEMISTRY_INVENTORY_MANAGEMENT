@@ -1,0 +1,12 @@
+name: deploy
+
+on:
+  release:
+    types: [ created ]
+
+jobs:
+  deploy:
+    runs-on: chim-runner
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose up --build --force-recreate --always-recreate-deps -d
