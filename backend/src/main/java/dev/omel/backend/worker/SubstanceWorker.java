@@ -29,6 +29,24 @@ public class SubstanceWorker {
     if (substanceBean.name().trim().isEmpty())
       throw new Exception("Substance name cannot be empty");
 
+    if (substanceBean.nfpaFlammability() != null) {
+      if (substanceBean.nfpaFlammability() < 0 || substanceBean.nfpaFlammability() > 4) {
+        throw new IllegalArgumentException("NFPA Flammability rating must be between 0 and 4");
+      }
+    }
+
+    if (substanceBean.nfpaHealth() != null) {
+      if (substanceBean.nfpaHealth() < 0 || substanceBean.nfpaHealth() > 4) {
+        throw new IllegalArgumentException("NFPA Health rating must be between 0 and 4");
+      }
+    }
+
+    if (substanceBean.nfpaReactivity() != null) {
+      if (substanceBean.nfpaReactivity() < 0 || substanceBean.nfpaReactivity() > 4) {
+        throw new IllegalArgumentException("NFPA Reactivity rating must be between 0 and 4");
+      }
+    }
+
     SubstanceSupplierEntity supplier = substanceSupplierRepository.findByName(substanceBean.supplier())
       .orElse(new SubstanceSupplierEntity());
 
@@ -43,6 +61,14 @@ public class SubstanceWorker {
     entity.setSupplier(supplier);
     entity.setMolecularFormula(substanceBean.molecularFormula());
     entity.setCasNumber(substanceBean.casNumber());
+    entity.setNfpa704Health(substanceBean.nfpaHealth());
+    entity.setNfpa704Flammability(substanceBean.nfpaFlammability());
+    entity.setNfpa704Reactivity(substanceBean.nfpaReactivity());
+
+    if (substanceBean.nfpaSpecifiedHazard() != null) {
+      entity.setNfpa704SpecifiedHazard(substanceBean.nfpaSpecifiedHazard());
+    }
+
 
     substanceRepository.save(entity);
 
@@ -80,12 +106,21 @@ public class SubstanceWorker {
       entity.setSupplier(supplier);
     }
     if (substanceBean.nfpaHealth() != null) {
+      if (substanceBean.nfpaHealth() < 0 || substanceBean.nfpaHealth() > 4) {
+        throw new IllegalArgumentException("NFPA Health rating must be between 0 and 4");
+      }
       entity.setNfpa704Health(substanceBean.nfpaHealth());
     }
     if (substanceBean.nfpaFlammability() != null) {
+      if (substanceBean.nfpaFlammability() < 0 || substanceBean.nfpaFlammability() > 4) {
+        throw new IllegalArgumentException("NFPA Flammability rating must be between 0 and 4");
+      }
       entity.setNfpa704Flammability(substanceBean.nfpaFlammability());
     }
     if (substanceBean.nfpaReactivity() != null) {
+      if (substanceBean.nfpaReactivity() < 0 || substanceBean.nfpaReactivity() > 4) {
+        throw new IllegalArgumentException("NFPA Reactivity rating must be between 0 and 4");
+      }
       entity.setNfpa704Reactivity(substanceBean.nfpaReactivity());
     }
     if (substanceBean.nfpaSpecifiedHazard() != null) {
