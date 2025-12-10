@@ -26,6 +26,9 @@ public class SubstanceWorker {
     if (substanceRepository.findByName(substanceBean.name()).isPresent())
       throw new Exception("Substance with this name already exists");
 
+    if (substanceBean.name().trim().isEmpty())
+      throw new Exception("Substance name cannot be empty");
+
     SubstanceSupplierEntity supplier = substanceSupplierRepository.findByName(substanceBean.supplier())
       .orElse(new SubstanceSupplierEntity());
 
@@ -53,6 +56,8 @@ public class SubstanceWorker {
   public SubstanceBean patchChemicalSubstance(Long id, SubstanceBean substanceBean) {
     if (!substanceRepository.findById(id).isPresent()) return null;
     SubstanceEntity entity = substanceRepository.findById(id).get();
+
+    if (substanceBean.name().trim().isEmpty()) throw new IllegalArgumentException("Substance name cannot be empty");
 
     if (substanceBean.name() != null) {
       entity.setName(substanceBean.name());
