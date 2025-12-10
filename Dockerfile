@@ -8,7 +8,7 @@ COPY angular.json /frontend/
 COPY ./public/ /frontend/src/
 COPY ./src/ /frontend/src/
 
-WORKDIR /webapp
+WORKDIR /frontend
 
 RUN npm ci
 
