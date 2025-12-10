@@ -5,7 +5,7 @@ COPY package-lock.json /frontend/
 COPY tsconfig.json /frontend/
 COPY tsconfig.app.json /frontend/
 COPY angular.json /frontend/
-COPY ./public/ /frontend/src/
+COPY ./public/ /frontend/public/
 COPY ./src/ /frontend/src/
 
 WORKDIR /frontend
