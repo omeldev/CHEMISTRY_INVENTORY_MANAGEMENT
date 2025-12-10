@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {InventoryService} from '../../service/rest/substance/inventory.service';
 import {firstValueFrom, map, Observable} from 'rxjs';
 import {ChemicalSubstanceEntryBean} from '../../obj/bean/ChemicalSubstanceEntryBean';
@@ -6,9 +6,7 @@ import {AsyncPipe} from '@angular/common';
 import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
 import {SubstanceService} from '../../service/rest/substance/substance.service';
 import {Router, RouterLink} from '@angular/router';
-import {Store} from '@ngxs/store';
-import {SubstanceState} from '../../store/substance/substance.state';
-import {SubstanceAction} from '../../store/substance/substance.actions';
+
 import {QuantityPipe} from '../../pipe/quantity.pipe';
 import {Unit} from '../../obj/enum/unit.enum';
 
@@ -28,12 +26,13 @@ export class SubstanceInventoryOverview {
 
   public substanceMap$: Observable<Map<number, ChemicalSubstanceBean>>;
 
-  public substanceEntries$ = inject(Store).select(SubstanceState.getSubstances)
+  //public substanceEntries$ = inject(Store).select(SubstanceState.getSubstances)
 
   constructor(private readonly inventoryService: InventoryService,
               private readonly substanceService: SubstanceService,
               private readonly router: Router,
-              private readonly store: Store) {
+              //            private readonly store: Store
+  ) {
     this.allSubstanceEntries$ = this.inventoryService.getAllSubstanceInventoryEntries$();
     this.substanceMap$ = this.substanceService.getAllSubstances$().pipe(
       map(substances => {
@@ -54,7 +53,7 @@ export class SubstanceInventoryOverview {
 
   async deleteSubstanceEntry(number: number) {
     await firstValueFrom(this.inventoryService.deleteSubstanceInventoryEntry$(number));
-    return firstValueFrom(this.store.dispatch(new SubstanceAction.Remove(number)));
+    //return firstValueFrom(this.store.dispatch(new SubstanceAction.Remove(number)));
   }
 
   navigateToSubstanceCreateEntryPage() {
