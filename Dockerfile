@@ -16,6 +16,6 @@ RUN npm run build
 
 FROM nginx:alpine AS prod
 
-COPY --from=build /webapp/dist/frontend /usr/share/nginx/html
+COPY --from=build /frontend/dist/CHEMISTRY_INVENTORY_MANAGEMENT/browser /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 CMD ["nginx", "-g", "daemon off;"]
