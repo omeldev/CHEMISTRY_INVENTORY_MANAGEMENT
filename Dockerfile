@@ -4,7 +4,6 @@ COPY package.json /frontend/
 COPY package-lock.json /frontend/
 COPY tsconfig.json /frontend/
 COPY tsconfig.app.json /frontend/
-COPY webpack.config.ts /frontend/
 COPY angular.json /frontend/
 COPY ./public/ /frontend/src/
 COPY ./src/ /frontend/src/
