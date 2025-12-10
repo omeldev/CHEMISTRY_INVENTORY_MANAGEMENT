@@ -68,6 +68,12 @@ public class SubstanceInventoryWorker {
     if (!substanceEntryRepository.findById(id).isPresent()) return null;
     SubstanceEntryEntity entity = substanceEntryRepository.findById(id).get();
 
+    if (substanceEntryBean.chemicalSubstanceId() != null) {
+      if (!substanceRepository.findById(substanceEntryBean.chemicalSubstanceId()).isPresent()) return null;
+      SubstanceEntity substance = substanceRepository.findById(substanceEntryBean.chemicalSubstanceId()).get();
+      entity.setSubstance(substance);
+    }
+
     if (substanceEntryBean.quantityBase() != 0) {
       entity.setQuantityBase(substanceEntryBean.quantityBase());
     }
