@@ -1,3 +1,5 @@
+import {DropdownOption} from '../../components/common/dropdown/dropdown';
+
 export enum UnitType {
   MASS = 'MASS',
   VOLUME = 'VOLUME',
@@ -68,4 +70,14 @@ export function convertToBaseUnit(value: number, unit: Unit): number {
 /** Converts a base unit value (mg, mL, piece) back to the desired unit. */
 export function convertFromBaseUnit(baseValue: number, unit: Unit): number {
   return baseValue / UnitFactor[unit];
+}
+
+export class UnitUtil {
+
+  static quantityUnitOptions: DropdownOption<Unit>[] = Object.keys(Unit).map(
+    key => ({
+      label: UnitLabel[key as keyof typeof Unit],
+      value: Unit[key as keyof typeof Unit]
+    })
+  );
 }

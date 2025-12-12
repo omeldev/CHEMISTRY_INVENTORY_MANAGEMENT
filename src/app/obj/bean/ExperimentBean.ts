@@ -1,7 +1,7 @@
 import {ExperimentReactantBean} from './ExperimentReactantBean';
 
 export interface ExperimentBean {
-  id?: string;
+  id?: number;
   title: string;
   finalized?: boolean;
   note: string;

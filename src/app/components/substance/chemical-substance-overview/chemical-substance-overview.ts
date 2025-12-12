@@ -5,7 +5,6 @@ import {Observable} from 'rxjs';
 import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
 import {Router, RouterLink} from '@angular/router';
 import {SafetySquare} from '../../common/safety-square/safety-square';
-import {SpecifiedHazard} from '../../../obj/enum/specific-hazard.enum';
 
 @Component({
   selector: 'chem-chemical-substance-overview',
@@ -19,7 +18,6 @@ import {SpecifiedHazard} from '../../../obj/enum/specific-hazard.enum';
 })
 export class ChemicalSubstanceOverview {
 
-
   public substances$: Observable<ChemicalSubstanceBean[] | null>;
 
   constructor(private readonly substanceService: SubstanceService,
@@ -31,10 +29,6 @@ export class ChemicalSubstanceOverview {
     //Create url tree with query parameters
     return this.router.navigateByUrl(this.router.createUrlTree(['/substance/edit'], {queryParams: {id}}));
   }
-
-  protected readonly SpecifiedHazard = SpecifiedHazard;
-  protected readonly Object = Object;
-  protected readonly console = console;
 
   navigateToSubstanceCreatePage() {
     return this.router.createUrlTree(['/substance', 'create']);

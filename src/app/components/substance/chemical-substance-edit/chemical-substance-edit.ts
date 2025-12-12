@@ -16,7 +16,7 @@ import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
   styleUrl: './chemical-substance-edit.scss',
 })
 export class ChemicalSubstanceEdit {
-
+  //TODO maybe delete this component and use ChemicalSubstanceForm directly with resolver
 
   public substance$: Observable<ChemicalSubstanceBean | null>;
 

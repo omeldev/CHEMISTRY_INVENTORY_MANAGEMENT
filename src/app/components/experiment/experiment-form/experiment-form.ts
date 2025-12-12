@@ -30,6 +30,8 @@ interface ExperimentFormData {
 })
 export class ExperimentForm implements AfterViewInit {
 
+  //TODO REWORK THIS. THIS IS CRAP!
+
   public experimentFormModel = signal<ExperimentFormData>({
     title: '',
     note: '',
@@ -79,7 +81,7 @@ export class ExperimentForm implements AfterViewInit {
         }
 
         substances.forEach(substance => {
-          substanceMap.set(Number(substance.id), substance);
+          substanceMap.set(substance.id!, substance);
         });
 
         return substanceEntries.map(entry => ({
@@ -94,7 +96,7 @@ export class ExperimentForm implements AfterViewInit {
       map(substances => {
         const map = new Map<number, ChemicalSubstanceBean>();
         substances?.forEach(substance => {
-          map.set(Number(substance.id!), substance);
+          map.set(substance.id!, substance);
         });
         return map;
       })

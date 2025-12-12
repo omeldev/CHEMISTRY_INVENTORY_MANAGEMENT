@@ -1,7 +1,7 @@
 import {SpecifiedHazard} from '../enum/specific-hazard.enum';
 
 export interface ChemicalSubstanceBean {
-  id?: string;
+  id?: number;
   name: string;
   formula?: string;
   casNumber?: string;
