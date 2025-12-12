@@ -4,7 +4,7 @@ import {AsyncPipe} from '@angular/common';
 import {Observable} from 'rxjs';
 import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
 import {Router, RouterLink} from '@angular/router';
-import {SafetySquare} from '../../safety-square/safety-square';
+import {SafetySquare} from '../../common/safety-square/safety-square';
 import {SpecifiedHazard} from '../../../obj/enum/specific-hazard.enum';
 
 @Component({

@@ -1,14 +1,14 @@
 import {AfterViewInit, Component, input, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
-import {ChemicalSubstanceEntryBean} from '../../obj/bean/ChemicalSubstanceEntryBean';
-import {SubstanceService} from '../../service/rest/substance/substance.service';
+import {ChemicalSubstanceEntryBean} from '../../../obj/bean/ChemicalSubstanceEntryBean';
+import {SubstanceService} from '../../../service/rest/substance/substance.service';
 import {BehaviorSubject, firstValueFrom, map, Observable} from 'rxjs';
-import {Dropdown, DropdownOption} from '../common/dropdown/dropdown';
-import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
+import {Dropdown, DropdownOption} from '../../common/dropdown/dropdown';
+import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
 import {AsyncPipe} from '@angular/common';
-import {InventoryService} from '../../service/rest/substance/inventory.service';
+import {InventoryService} from '../../../service/rest/substance/inventory.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Unit, UnitLabel} from '../../obj/enum/unit.enum';
+import {Unit, UnitLabel} from '../../../obj/enum/unit.enum';
 
 export interface ChemicalSubstanceEntryFormData {
   quantityBase: number;

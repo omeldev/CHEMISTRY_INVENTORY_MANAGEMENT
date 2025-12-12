@@ -1,5 +1,5 @@
 import {Component, input} from '@angular/core';
-import {SpecifiedHazard} from '../../obj/enum/specific-hazard.enum';
+import {SpecifiedHazard} from '../../../obj/enum/specific-hazard.enum';
 
 @Component({
   selector: 'chem-safety-square',

@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {InventoryService} from '../../service/rest/substance/inventory.service';
+import {InventoryService} from '../../../service/rest/substance/inventory.service';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPipe} from '@angular/common';
 import {ChemicalSubstanceEntryForm} from '../chemical-substance-entry-form/chemical-substance-entry-form';
 import {Observable} from 'rxjs';
-import {ChemicalSubstanceEntryBean} from '../../obj/bean/ChemicalSubstanceEntryBean';
+import {ChemicalSubstanceEntryBean} from '../../../obj/bean/ChemicalSubstanceEntryBean';
 
 @Component({
   selector: 'chem-substance-inventory-edit',

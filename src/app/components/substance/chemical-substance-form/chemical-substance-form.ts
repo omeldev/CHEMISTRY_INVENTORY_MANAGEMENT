@@ -1,11 +1,11 @@
 import {AfterViewInit, Component, input, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
-import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
-import {SubstanceService} from '../../service/rest/substance/substance.service';
+import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
+import {SubstanceService} from '../../../service/rest/substance/substance.service';
 import {BehaviorSubject, firstValueFrom} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {SpecifiedHazard} from '../../obj/enum/specific-hazard.enum';
-import {Dropdown, DropdownOption} from '../common/dropdown/dropdown';
+import {SpecifiedHazard} from '../../../obj/enum/specific-hazard.enum';
+import {Dropdown, DropdownOption} from '../../common/dropdown/dropdown';
 import {AsyncPipe} from '@angular/common';
 
 export interface ChemicalSubstanceFormData {

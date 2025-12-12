@@ -1,15 +1,19 @@
 import {Routes} from '@angular/router';
-import {ErrorComponent} from './components/error/error.component';
-import {ChemicalSubstanceForm} from './components/chemical-substance-form/chemical-substance-form';
-import {ChemicalSubstanceEdit} from './components/chemical-substance-edit/chemical-substance-edit';
-import {ChemicalSubstanceEntryForm} from './components/chemical-substance-entry-form/chemical-substance-entry-form';
-import {SubstanceInventoryEdit} from './components/substance-inventory-edit/substance-inventory-edit';
-import {ExperimentOverview} from './components/overview/experiment-overview/experiment-overview';
-import {ChemicalSubstanceOverview} from './components/overview/chemical-substance-overview/chemical-substance-overview';
+import {ErrorComponent} from './components/common/error/error.component';
+import {ChemicalSubstanceForm} from './components/substance/chemical-substance-form/chemical-substance-form';
+import {ChemicalSubstanceEdit} from './components/substance/chemical-substance-edit/chemical-substance-edit';
+import {
+  ChemicalSubstanceEntryForm
+} from './components/substance/chemical-substance-entry-form/chemical-substance-entry-form';
+import {SubstanceInventoryEdit} from './components/substance/substance-inventory-edit/substance-inventory-edit';
+import {ExperimentOverview} from './components/experiment/experiment-overview/experiment-overview';
+import {
+  ChemicalSubstanceOverview
+} from './components/substance/chemical-substance-overview/chemical-substance-overview';
 import {
   SubstanceInventoryOverview
-} from './components/overview/substance-inventory-overview/substance-inventory-overview';
-import {ExperimentForm} from './components/form/experiment-form/experiment-form';
+} from './components/substance/substance-inventory-overview/substance-inventory-overview';
+import {ExperimentForm} from './components/experiment/experiment-form/experiment-form';
 
 export const routes: Routes = [
 

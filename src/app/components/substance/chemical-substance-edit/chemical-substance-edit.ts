@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {ChemicalSubstanceForm} from '../chemical-substance-form/chemical-substance-form';
-import {SubstanceService} from '../../service/rest/substance/substance.service';
+import {SubstanceService} from '../../../service/rest/substance/substance.service';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPipe} from '@angular/common';
 import {Observable} from 'rxjs';
-import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
+import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
 
 @Component({
   selector: 'chem-chemical-substance-edit',
