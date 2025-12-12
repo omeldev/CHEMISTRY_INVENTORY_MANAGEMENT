@@ -1,0 +1,33 @@
+@let reactants = experimentReactants$ | async;
+@let substanceMap = substanceMap$ | async;
+@let substanceEntryMap = substanceEntryMap$ | async;
+
+<div class="form-field">
+  <label class="form-field-label">Substance: </label>
+  <div class="form-field-container">
+    <chem-dropdown
+      (onSelect)="onSelectSubstanceEntry($event)"
+      [options]="(substanceOptions$ | async) ?? []"
+    />
+    <input class="form-field-input" [field]="experimentForm.quantity" type="number"/>
+    <chem-dropdown
+      (onSelect)="onSelectUnit($event)"
+      [options]="unitOptions"
+    />
+  </div>
+</div>
+<button class="addBtn" (click)="addSubstanceToExperiment()">+</button>
+
+@if (reactants && reactants.length > 0 && substanceMap && substanceEntryMap) {
+  <div class="reactant-list">
+    <h3>Reactants:</h3>
+    @for (reactant of reactants; track $index) {
+      <div class="reactant-item">
+        <span>{{ substanceMap?.get(Number(substanceEntryMap?.get(Number(reactant?.substanceEntryId))?.chemicalSubstanceId))?.name }}
+          - {{ reactant.quantity }} {{ reactant.unit }}</span>
+        <button class="removeBtn">x</button>
+      </div>
+    }
+  </div>
+}
+<button (click)="submitExperiment()">submit</button>

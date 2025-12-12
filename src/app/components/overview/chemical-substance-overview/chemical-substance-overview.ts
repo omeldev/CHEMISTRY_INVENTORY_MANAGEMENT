@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {SubstanceService} from '../../service/rest/substance/substance.service';
+import {SubstanceService} from '../../../service/rest/substance/substance.service';
 import {AsyncPipe} from '@angular/common';
 import {Observable} from 'rxjs';
-import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
+import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
 import {Router, RouterLink} from '@angular/router';
-import {SafetySquare} from '../safety-square/safety-square';
-import {SpecifiedHazard} from '../../obj/enum/specific-hazard.enum';
+import {SafetySquare} from '../../safety-square/safety-square';
+import {SpecifiedHazard} from '../../../obj/enum/specific-hazard.enum';
 
 @Component({
   selector: 'chem-chemical-substance-overview',

@@ -41,7 +41,6 @@ public class SubstanceEntryEntity {
   @Setter
   private boolean deleted;
 
-
   @Column(name = "quantity_base", nullable = false)
   @Setter
   private double quantityBase;

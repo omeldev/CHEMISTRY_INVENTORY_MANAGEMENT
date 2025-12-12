@@ -1,14 +1,13 @@
 import {Component} from '@angular/core';
-import {InventoryService} from '../../service/rest/substance/inventory.service';
 import {firstValueFrom, map, Observable} from 'rxjs';
-import {ChemicalSubstanceEntryBean} from '../../obj/bean/ChemicalSubstanceEntryBean';
 import {AsyncPipe} from '@angular/common';
-import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
-import {SubstanceService} from '../../service/rest/substance/substance.service';
 import {Router, RouterLink} from '@angular/router';
+import {ChemicalSubstanceEntryBean} from '../../../obj/bean/ChemicalSubstanceEntryBean';
+import {QuantityPipe} from '../../../pipe/quantity.pipe';
+import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
+import {InventoryService} from '../../../service/rest/substance/inventory.service';
+import {SubstanceService} from '../../../service/rest/substance/substance.service';
 
-import {QuantityPipe} from '../../pipe/quantity.pipe';
-import {Unit} from '../../obj/enum/unit.enum';
 
 @Component({
   selector: 'chem-substance-inventory-overview',
@@ -60,5 +59,4 @@ export class SubstanceInventoryOverview {
     return this.router.createUrlTree(['/inventory', 'create']);
   }
 
-  protected readonly Unit = Unit;
 }

@@ -16,12 +16,15 @@ export class Header {
   }
 
   public navigateToSubstanceOverview() {
-    return this.router.createUrlTree(['/substance', 'overview']);
+    return this.router.createUrlTree(['substance', 'overview']);
   }
 
   public navigateToInventory() {
     return this.router.createUrlTree(['inventory', 'overview']);
+  }
 
+  public navigateToExperiments() {
+    return this.router.createUrlTree(['experiment', 'overview']);
   }
 
 }
