@@ -1,10 +1,10 @@
 import {ExperimentReactantBean} from './ExperimentReactantBean';
 
 export interface ExperimentBean {
-  id?: number;
+  id: number;
   title: string;
-  finalized?: boolean;
+  finalized: boolean;
   note: string;
-  created?: string;
+  created: string;
   reactants: ExperimentReactantBean[];
 }

@@ -7,29 +7,29 @@ import {ChemicalSubstanceEntryBean} from '../../../obj/bean/ChemicalSubstanceEnt
 })
 export class InventoryService {
 
-  public REST_PREFIX: string = "/inventory";
-  public SUBSTANCE_PREFIX: string = "/substance";
+  private REST_PREFIX: string = "/inventory";
+  private SUBSTANCE_PREFIX: string = "/substance";
 
   constructor(private readonly restService: RestService) {
   }
 
-  public createSubstanceInventoryEntry$(chemicalSubstanceEntryBean: ChemicalSubstanceEntryBean) {
+  public createSubstanceEntry$(chemicalSubstanceEntryBean: Partial<ChemicalSubstanceEntryBean>) {
     return this.restService.post$<ChemicalSubstanceEntryBean>(this.REST_PREFIX + this.SUBSTANCE_PREFIX + "/create", chemicalSubstanceEntryBean);
   }
 
-  public getAllSubstanceInventoryEntries$() {
+  public getAllSubstanceEntries$() {
     return this.restService.get$<ChemicalSubstanceEntryBean[]>(this.REST_PREFIX + this.SUBSTANCE_PREFIX + "/all");
   }
 
-  public patchSubstanceInventoryEntry$(id: number, patchedEntry: ChemicalSubstanceEntryBean) {
+  public patchSubstanceEntry$(id: number, patchedEntry: Partial<ChemicalSubstanceEntryBean>) {
     return this.restService.patch$<ChemicalSubstanceEntryBean>(this.REST_PREFIX + this.SUBSTANCE_PREFIX + `/${id}/`, patchedEntry);
   }
 
-  public getSubstanceInventoryEntry$(id: number) {
+  public getSubstanceEntry$(id: number) {
     return this.restService.get$<ChemicalSubstanceEntryBean>(this.REST_PREFIX + this.SUBSTANCE_PREFIX + `/${id}/`);
   }
 
-  public deleteSubstanceInventoryEntry$(id: number) {
+  public deleteSubstanceEntry$(id: number) {
     return this.restService.delete$<boolean>(this.REST_PREFIX + this.SUBSTANCE_PREFIX + `/${id}/`);
   }
 

@@ -25,15 +25,15 @@
         <div class="nfpa-container">
           <ul>
             <chem-safety-square
-              [healthHazard]="substance.nfpaHealth ?? 0"
-              [fireHazard]="substance.nfpaFlammability ?? 0"
-              [reactivity]="substance.nfpaReactivity ?? 0"
-              [specificHazard]="substance.nfpaSpecifiedHazard ?? 'NONE'"
+              [healthHazard]="substance.nfpaHealth"
+              [fireHazard]="substance.nfpaFlammability"
+              [reactivity]="substance.nfpaReactivity"
+              [specificHazard]="substance.nfpaSpecifiedHazard"
             />
           </ul>
         </div>
         <div class="substance-button-container">
-          <button class="substance-button" (click)="editSubstance(substance.id ?? '')">Edit</button>
+          <button class="substance-button" (click)="editSubstance(substance.id)">Edit</button>
         </div>
       </div>
     }

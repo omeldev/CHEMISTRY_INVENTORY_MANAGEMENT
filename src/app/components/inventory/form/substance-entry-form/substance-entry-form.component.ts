@@ -1,14 +1,17 @@
-import {AfterViewInit, Component, input, signal} from '@angular/core';
+import {AfterViewInit, Component, inject, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
-import {ChemicalSubstanceEntryBean} from '../../../obj/bean/ChemicalSubstanceEntryBean';
-import {SubstanceService} from '../../../service/rest/substance/substance.service';
-import {BehaviorSubject, firstValueFrom, map, Observable} from 'rxjs';
-import {Dropdown, DropdownOption} from '../../common/dropdown/dropdown';
-import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
+import {ChemicalSubstanceEntryBean} from '../../../../obj/bean/ChemicalSubstanceEntryBean';
+import {BehaviorSubject, firstValueFrom, map} from 'rxjs';
+import {Dropdown} from '../../../common/dropdown/dropdown';
+import {ChemicalSubstanceBean} from '../../../../obj/bean/ChemicalSubstanceBean';
 import {AsyncPipe} from '@angular/common';
-import {InventoryService} from '../../../service/rest/substance/inventory.service';
+import {InventoryService} from '../../../../service/rest/inventory/inventory.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Unit, UnitUtil} from '../../../obj/enum/unit.enum';
+import {Unit, UnitUtil} from '../../../../obj/enum/unit.enum';
+import {Store} from '@ngxs/store';
+import {SubstanceState} from '../../../../store/substance/substance.state';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {InventoryAction} from '../../../../store/inventory/inventory.actions';
 
 interface ChemicalSubstanceEntryFormData {
   quantityBase: number;
@@ -33,38 +36,38 @@ const DEFAULT_CHEMICAL_SUBSTANCE_ENTRY_FORM_DATA = {
     Dropdown,
     AsyncPipe
   ],
-  templateUrl: './chemical-substance-entry-form.html',
-  styleUrl: './chemical-substance-entry-form.scss',
+  templateUrl: './substance-entry-form.component.html',
+  styleUrl: './substance-entry-form.component.scss',
 })
 
-export class ChemicalSubstanceEntryForm implements AfterViewInit {
+export class SubstanceEntryForm implements AfterViewInit {
 
   public chemicalSubstanceEntryAnswerModel = signal<ChemicalSubstanceEntryFormData>(DEFAULT_CHEMICAL_SUBSTANCE_ENTRY_FORM_DATA)
   public substanceEntryForm = form(this.chemicalSubstanceEntryAnswerModel);
 
   private selectedSubstance = signal<ChemicalSubstanceBean | null>(null);
   private selectedUnit = signal<Unit>(Unit.G);
-  public substanceEntry = input<ChemicalSubstanceEntryBean>();
+
+
+  private route = inject(ActivatedRoute);
+
+  // Reactive approach: resolved data as observable converted to signal
+  public substanceEntry = toSignal(
+    this.route.data.pipe(map(data => data['substanceEntry'] as ChemicalSubstanceEntryBean | null)),
+    {initialValue: null}
+  );
 
   public quantityUnitOptions = UnitUtil.quantityUnitOptions;
 
   private selectedQuantityUnitIndexSubject = new BehaviorSubject(0);
   public selectedQuantityUnitIndex$ = this.selectedQuantityUnitIndexSubject.asObservable();
 
-  public substanceChoices$: Observable<DropdownOption<ChemicalSubstanceBean>[]>;
+  public substanceChoices$ = inject(Store).select(SubstanceState.getSubstancesAsDropdownOptions);
+  public store = inject(Store);
 
-  constructor(private readonly substanceService: SubstanceService,
-              private readonly inventoryService: InventoryService,
-              private readonly route: ActivatedRoute,
+  constructor(private readonly inventoryService: InventoryService,
               private readonly router: Router) {
-    this.substanceChoices$ = this.substanceService.getAllSubstances$().pipe(
-      map(substances => substances?.map(
-        substance => ({
-            label: substance.name + (substance.molecularFormula ? ` (${substance.molecularFormula})` : ''),
-            value: substance
-          }
-        )) || []
-      ));
+
   }
 
   public onSelectSubstance = (value: ChemicalSubstanceBean) => {
@@ -81,7 +84,7 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
       return;
     }
 
-    const substanceEntryBean: ChemicalSubstanceEntryBean = {
+    const substanceEntryBean: Partial<ChemicalSubstanceEntryBean> = {
       chemicalSubstanceId: this.selectedSubstance()?.id,
       quantityBase: this.substanceEntryForm().value().quantityBase,
       unit: this.selectedUnit(),
@@ -92,12 +95,22 @@ export class ChemicalSubstanceEntryForm implements AfterViewInit {
 
     if (this.substanceEntry()) {
       if (this.route.snapshot.queryParamMap.get('id')) {
-        return firstValueFrom(this.inventoryService.patchSubstanceInventoryEntry$(Number(this.route.snapshot.queryParamMap.get('id')), substanceEntryBean)).then(() => this.navigateToInventoryOverview());
+        return firstValueFrom(this.inventoryService.patchSubstanceEntry$(Number(this.route.snapshot.queryParamMap.get('id')), substanceEntryBean)).then((substance) => {
+          if (substance) {
+            this.store.dispatch(new InventoryAction.AddSubstance(substance))
+            this.navigateToInventoryOverview()
+          }
+        });
       }
       return;
     }
 
-    return firstValueFrom(this.inventoryService.createSubstanceInventoryEntry$(substanceEntryBean)).then(() => this.navigateToInventoryOverview());
+    return firstValueFrom(this.inventoryService.createSubstanceEntry$(substanceEntryBean)).then((substance) => {
+      if (substance) {
+        this.store.dispatch(new InventoryAction.AddSubstance(substance))
+        this.navigateToInventoryOverview()
+      }
+    });
   }
 
   ngAfterViewInit(): void {

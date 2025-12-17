@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, input, output} from '@angular/core';
+import {Component, effect, input, output} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 
 export interface DropdownOption<T> {
@@ -14,7 +14,7 @@ export interface DropdownOption<T> {
   templateUrl: './dropdown.html',
   styleUrl: './dropdown.scss',
 })
-export class Dropdown<T> implements AfterViewInit {
+export class Dropdown<T> {
 
   public onSelect = output<T>();
   public options = input.required<DropdownOption<T>[]>();
@@ -24,25 +24,22 @@ export class Dropdown<T> implements AfterViewInit {
   public label = input<string>();
 
   constructor() {
+    // effect will trigger whenever options or selectedIndex changes
+    effect(() => {
+      const opts = this.options();
+      const index = this.selectedIndex() ?? 0;
 
+      if (opts.length === 0) return;
+
+      const validIndex = index >= 0 && index < opts.length ? index : 0;
+      this.emitSelect(opts[validIndex]);
+    });
   }
-
-  ngAfterViewInit(): void {
-    if (this.selectedIndex != null && this.selectedIndex() >= 0 && this.selectedIndex() < this.options().length) {
-      this.emitSelect(this.options()[this.selectedIndex()]);
-      return;
-    }
-    if (this.options().length > 0) {
-      this.emitSelect(this.options()[0]);
-    }
-  }
-
 
   public emitSelect(option: DropdownOption<T>) {
     console.log(option);
     this.onSelect.emit(option.value);
   }
-
 
   public onSelectFunc(event: Event) {
     const index = Number((event.target as HTMLSelectElement).value);

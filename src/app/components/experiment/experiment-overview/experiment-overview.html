@@ -1,1 +1,24 @@
-<p>experiment-overview works!</p>
+@let experiments = experiments$ | async;
+
+@if (experiments) {
+  <div class="create-experiment-header">
+    <a [routerLink]="navigateToCreateExperiment()" class="create-experiment">+ Create Experiment</a>
+  </div>
+
+
+  <div class="experiment-card-container">
+
+    @for (experiment of experiments; track experiment.id) {
+      <!-- Experiment Card -->
+
+      <div class="experiment-card">
+        <h2 class="experiment-title">{{ experiment.title || 'No Title provided.' }}</h2>
+        <p class="experiment-property"><strong>Notes:</strong> {{ experiment.note || "No description provided." }}</p>
+        <p class="experiment-property"><strong>Date Conducted:</strong> {{ experiment.created | date:'longDate' }}</p>
+        <p class="experiment-property"><strong>Status:</strong> {{ experiment.finalized ? 'Finalized' : 'Ongoing' }}</p>
+        <!-- Add more experiment details as needed -->
+      </div>
+
+    }
+  </div>
+}

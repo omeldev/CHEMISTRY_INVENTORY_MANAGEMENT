@@ -8,24 +8,24 @@ import {Observable} from 'rxjs';
 })
 export class SubstanceService {
 
-  public REST_PREFIX: string = "/substance";
+  private REST_PREFIX: string = "/substance";
 
   constructor(private readonly restService: RestService) {
   }
 
-  public createSubstance$(substance: ChemicalSubstanceBean): Observable<ChemicalSubstanceBean | null> {
-    return this.restService.post$<ChemicalSubstanceBean>(this.REST_PREFIX + "/create", substance);
+  public create$(substance: Partial<ChemicalSubstanceBean>): Observable<ChemicalSubstanceBean | null> {
+    return this.restService.post$<ChemicalSubstanceBean>(this.REST_PREFIX, substance);
   }
 
-  public getAllSubstances$() {
-    return this.restService.get$<ChemicalSubstanceBean[]>(this.REST_PREFIX + "/all");
+  public getAll$() {
+    return this.restService.get$<ChemicalSubstanceBean[]>(this.REST_PREFIX);
   }
 
-  public getSubstance$(id: number) {
+  public getById$(id: number) {
     return this.restService.get$<ChemicalSubstanceBean>(this.REST_PREFIX + `/${id}/`);
   }
 
-  public patchSubstance$(id: number, patchedSubstance: ChemicalSubstanceBean): Observable<ChemicalSubstanceBean | null> {
+  public patch$(id: number, patchedSubstance: Partial<ChemicalSubstanceBean>): Observable<ChemicalSubstanceBean | null> {
     return this.restService.patch$<ChemicalSubstanceBean>(this.REST_PREFIX + `/${id}/`, patchedSubstance);
   }
 

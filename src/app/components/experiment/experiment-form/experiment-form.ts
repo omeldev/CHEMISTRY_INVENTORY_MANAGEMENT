@@ -1,16 +1,17 @@
-import {AfterViewInit, Component, signal} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {ExperimentService} from '../../../service/rest/experiment/experiment.service';
-import {InventoryService} from '../../../service/rest/substance/inventory.service';
-import {BehaviorSubject, combineLatest, firstValueFrom, map, Observable} from 'rxjs';
+import {BehaviorSubject, firstValueFrom, map} from 'rxjs';
 import {ChemicalSubstanceEntryBean} from '../../../obj/bean/ChemicalSubstanceEntryBean';
 import {Dropdown, DropdownOption} from '../../common/dropdown/dropdown';
-import {SubstanceService} from '../../../service/rest/substance/substance.service';
-import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
 import {Unit, UnitLabel} from '../../../obj/enum/unit.enum';
 import {Field, form} from '@angular/forms/signals';
 import {AsyncPipe} from '@angular/common';
 import {ExperimentReactantBean} from '../../../obj/bean/ExperimentReactantBean';
 import {ExperimentBean} from '../../../obj/bean/ExperimentBean';
+import {Store} from '@ngxs/store';
+import {InventoryState} from '../../../store/inventory/inventory.state';
+import {ExperimentAction} from '../../../store/experiment/experiment.actions';
+import {Router} from '@angular/router';
 
 interface ExperimentFormData {
   title: string;
@@ -28,7 +29,9 @@ interface ExperimentFormData {
   templateUrl: './experiment-form.html',
   styleUrl: './experiment-form.scss',
 })
-export class ExperimentForm implements AfterViewInit {
+export class ExperimentForm {
+  protected readonly Number = Number;
+  protected readonly UnitLabel = UnitLabel;
 
   //TODO REWORK THIS. THIS IS CRAP!
 
@@ -40,7 +43,7 @@ export class ExperimentForm implements AfterViewInit {
 
   public experimentForm = form(this.experimentFormModel);
 
-  public substanceOptions$: Observable<DropdownOption<ChemicalSubstanceEntryBean>[]>;
+  public substanceOptions$ = inject(Store).select(InventoryState.getSubstanceEntrysDropdownOptions);
 
   public selectedUnit = signal<Unit>(Unit.G);
 
@@ -48,7 +51,7 @@ export class ExperimentForm implements AfterViewInit {
     this.selectedUnit.set(value);
   }
 
-  private experimentReactantsSubject = new BehaviorSubject<ExperimentReactantBean[]>([]);
+  private experimentReactantsSubject = new BehaviorSubject<Partial<ExperimentReactantBean>[]>([]);
   public experimentReactants$ = this.experimentReactantsSubject.asObservable();
 
   public selectedSubstanceEntry = signal<ChemicalSubstanceEntryBean | null>(null);
@@ -64,56 +67,10 @@ export class ExperimentForm implements AfterViewInit {
     })
   );
 
-  public substanceMap$: Observable<Map<number, ChemicalSubstanceBean>>;
-  public substanceEntryMap$: Observable<Map<number, ChemicalSubstanceEntryBean>>;
+  private readonly store = inject(Store);
+  private readonly router = inject(Router);
 
-  constructor(private readonly experimentService: ExperimentService,
-              private readonly inventoryService: InventoryService,
-              private readonly substanceService: SubstanceService) {
-
-    this.substanceOptions$ = combineLatest([
-      this.inventoryService.getAllSubstanceInventoryEntries$(),
-      this.substanceService.getAllSubstances$()]).pipe(
-      map(([substanceEntries, substances]) => {
-        const substanceMap = new Map<number, ChemicalSubstanceBean>();
-        if (!substances || substances.length === 0 || !substanceEntries || substanceEntries.length === 0) {
-          return [];
-        }
-
-        substances.forEach(substance => {
-          substanceMap.set(substance.id!, substance);
-        });
-
-        return substanceEntries.map(entry => ({
-            label: substanceMap.get(Number(entry.chemicalSubstanceId))?.name + ` (Qty: ${entry.quantityBase} ${UnitLabel[entry.unit as keyof typeof Unit]})`,
-            value: entry
-          }
-        ))
-      }) || []);
-
-
-    this.substanceMap$ = this.substanceService.getAllSubstances$().pipe(
-      map(substances => {
-        const map = new Map<number, ChemicalSubstanceBean>();
-        substances?.forEach(substance => {
-          map.set(substance.id!, substance);
-        });
-        return map;
-      })
-    )
-
-    this.substanceEntryMap$ = this.inventoryService.getAllSubstanceInventoryEntries$().pipe(
-      map(entries => {
-        const map = new Map<number, ChemicalSubstanceEntryBean>();
-        entries?.forEach(entry => {
-          map.set(Number(entry.chemicalSubstanceId), entry);
-        });
-        return map;
-      })
-    )
-  }
-
-  ngAfterViewInit(): void {
+  constructor(private readonly experimentService: ExperimentService) {
 
   }
 
@@ -123,8 +80,8 @@ export class ExperimentForm implements AfterViewInit {
       return;
     }
     const currentReactants = await firstValueFrom(this.experimentReactants$);
-    const newReactant: ExperimentReactantBean = {
-      substanceEntryId: Number(this.selectedSubstanceEntry()?.chemicalSubstanceId),
+    const newReactant: Partial<ExperimentReactantBean> = {
+      substanceEntryId: Number(this.selectedSubstanceEntry()?.id),
       quantity: this.experimentForm().value().quantity,
       unit: this.selectedUnit()
     };
@@ -134,25 +91,37 @@ export class ExperimentForm implements AfterViewInit {
   }
 
   public async submitExperiment() {
-    const experimentData: ExperimentBean = {
+    const currentReactants = await firstValueFrom(this.experimentReactants$);
+
+    const experimentData: Partial<ExperimentBean> = {
       title: this.experimentForm().value().title,
       note: this.experimentForm().value().note,
-      reactants: await firstValueFrom(this.experimentReactants$)
+      reactants: currentReactants as ExperimentReactantBean[]
     };
 
-    return await firstValueFrom(this.experimentService.createExperiment$(experimentData)).then(() => {
+    return await firstValueFrom(this.experimentService.createExperiment$(experimentData)).then((experiment) => {
       // Reset form after submission
-      this.experimentFormModel.set({
-        title: '',
-        note: '',
-        quantity: 0
-      });
-      this.experimentReactantsSubject.next([]);
-      this.selectedSubstanceEntry.set(null);
-      this.selectedUnit.set(Unit.G);
+      if (experiment) {
+        this.store.dispatch(new ExperimentAction.Add(experiment));
+
+      }
+      this.navigateToExperimentOverview();
     });
   }
 
+  public getSubstanceFromEntryById$(entryId: number) {
+    return this.store.select(InventoryState.getSubstanceFromEntryById).pipe(
+      map(fn => fn(entryId))
+    )
+  }
 
-  protected readonly Number = Number;
+  public navigateToExperimentOverview() {
+    return this.router.navigateByUrl(this.router.createUrlTree(['experiment', 'overview']));
+  }
+
+  public async removeReactant(reactant: Partial<ExperimentReactantBean>) {
+    const currentReactants = await firstValueFrom(this.experimentReactants$);
+    const updatedReactants = currentReactants.filter(r => r !== reactant);
+    this.experimentReactantsSubject.next(updatedReactants);
+  }
 }

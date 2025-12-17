@@ -1,33 +1,53 @@
 @let reactants = experimentReactants$ | async;
-@let substanceMap = substanceMap$ | async;
-@let substanceEntryMap = substanceEntryMap$ | async;
+@let substanceOptions = substanceOptions$ | async;
 
-<div class="form-field">
+
+<div class="form-container" xmlns="http://www.w3.org/1999/html">
+  <label class="form-field-label">Title: </label>
+  <div class="form-field-container">
+    <input class="form-field-input" [field]="experimentForm.title" type="text"/>
+  </div>
+</div>
+
+<div class="form-container">
+  <label class="form-field-label">Notes: </label>
+  <div class="form-field-container">
+    <textarea class="form-field-input" [field]="experimentForm.note" type="text"></textarea>
+  </div>
+</div>
+
+<div class="form-container">
   <label class="form-field-label">Substance: </label>
   <div class="form-field-container">
-    <chem-dropdown
-      (onSelect)="onSelectSubstanceEntry($event)"
-      [options]="(substanceOptions$ | async) ?? []"
-    />
+    @if (substanceOptions) {
+      <chem-dropdown
+        (onSelect)="onSelectSubstanceEntry($event)"
+        [options]="substanceOptions"
+      />
+    }
     <input class="form-field-input" [field]="experimentForm.quantity" type="number"/>
     <chem-dropdown
       (onSelect)="onSelectUnit($event)"
       [options]="unitOptions"
     />
-  </div>
-</div>
-<button class="addBtn" (click)="addSubstanceToExperiment()">+</button>
+    <button class="add-button" (click)="addSubstanceToExperiment()">+</button>
 
-@if (reactants && reactants.length > 0 && substanceMap && substanceEntryMap) {
+  </div>
+
+</div>
+
+@if (reactants && reactants.length > 0) {
   <div class="reactant-list">
     <h3>Reactants:</h3>
     @for (reactant of reactants; track $index) {
-      <div class="reactant-item">
-        <span>{{ substanceMap?.get(Number(substanceEntryMap?.get(Number(reactant?.substanceEntryId))?.chemicalSubstanceId))?.name }}
-          - {{ reactant.quantity }} {{ reactant.unit }}</span>
-        <button class="removeBtn">x</button>
-      </div>
+      @if (reactant) {
+        <div class="reactant-item">
+          @let substance = getSubstanceFromEntryById$(reactant.substanceEntryId!) | async;
+          <span>{{ substance?.name }} {{ reactant.quantity + ' ' + UnitLabel[reactant.unit!] }}</span>
+          <button (click)="removeReactant(reactant)" class="remove-button">x</button>
+        </div>
+      }
     }
   </div>
 }
-<button (click)="submitExperiment()">submit</button>
+<button class="submit-button" (click)="submitExperiment()">submit</button>

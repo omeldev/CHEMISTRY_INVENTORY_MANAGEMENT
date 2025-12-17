@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
-import {SubstanceService} from '../../../service/rest/substance/substance.service';
+import {Component, inject} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 import {Observable} from 'rxjs';
 import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
 import {Router, RouterLink} from '@angular/router';
 import {SafetySquare} from '../../common/safety-square/safety-square';
+import {Store} from '@ngxs/store';
+import {SubstanceState} from '../../../store/substance/substance.state';
 
 @Component({
   selector: 'chem-chemical-substance-overview',
@@ -13,20 +14,15 @@ import {SafetySquare} from '../../common/safety-square/safety-square';
     SafetySquare,
     RouterLink
   ],
-  templateUrl: './chemical-substance-overview.html',
-  styleUrl: './chemical-substance-overview.scss',
+  templateUrl: './substance-overview.component.html',
+  styleUrl: './substance-overview.component.scss',
 })
-export class ChemicalSubstanceOverview {
+export class SubstanceOverview {
 
-  public substances$: Observable<ChemicalSubstanceBean[] | null>;
+  public substances$: Observable<ChemicalSubstanceBean[]> = inject(Store).select(SubstanceState.getSubstances);
+  private readonly router = inject(Router);
 
-  constructor(private readonly substanceService: SubstanceService,
-              private readonly router: Router) {
-    this.substances$ = this.substanceService.getAllSubstances$();
-  }
-
-  editSubstance(id: string) {
-    //Create url tree with query parameters
+  editSubstance(id: number) {
     return this.router.navigateByUrl(this.router.createUrlTree(['/substance/edit'], {queryParams: {id}}));
   }
 

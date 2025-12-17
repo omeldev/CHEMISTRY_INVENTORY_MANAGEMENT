@@ -11,7 +11,7 @@ import dev.omel.backend.repository.SubstanceEntryRepository;
 import dev.omel.backend.type.Unit;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Component
@@ -32,7 +32,7 @@ public class ExperimentWorker {
     ExperimentEntity entity = new ExperimentEntity();
     entity.setTitle(name);
     entity.setNote(note);
-    entity.setCreated(new Date(System.currentTimeMillis()));
+    entity.setCreated(new Timestamp(System.currentTimeMillis()));
     entity.setFinalized(false);
 
     List<ExperimentReactantEntity> reactantEntities = reactants.stream().map(reactantBean -> {

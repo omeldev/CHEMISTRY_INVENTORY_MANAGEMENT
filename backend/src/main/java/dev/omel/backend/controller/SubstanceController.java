@@ -18,13 +18,12 @@ public class SubstanceController {
     this.substanceService = substanceService;
   }
 
-  @PostMapping("/create")
+  @PostMapping()
   public ResponseEntity<SubstanceBean> createChemicalSubstance(@RequestBody SubstanceBean substanceBean) throws Exception {
-
     return ResponseEntity.ok(substanceService.createChemicalSubstance(substanceBean));
   }
 
-  @GetMapping("/all")
+  @GetMapping()
   public ResponseEntity<List<SubstanceBean>> getAllChemicalSubstances() {
     return ResponseEntity.ok(substanceService.getAllChemicalSubstances());
   }

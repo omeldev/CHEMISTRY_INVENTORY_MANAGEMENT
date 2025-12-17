@@ -16,12 +16,12 @@ public class ExperimentController {
     this.experimentService = experimentService;
   }
 
-  @PostMapping("/create")
+  @PostMapping()
   public ResponseEntity<ExperimentBean> createExperiment(@RequestBody ExperimentBean experimentBean) {
     return ResponseEntity.ok(experimentService.createExperiment(experimentBean.title(), experimentBean.note(), experimentBean.reactants()));
   }
 
-  @GetMapping("/all")
+  @GetMapping()
   public ResponseEntity<Iterable<ExperimentBean>> getAllExperiments() {
     return ResponseEntity.ok(experimentService.getAllExperiments());
   }

@@ -13,8 +13,8 @@ export class ExperimentService {
   constructor(private readonly restService: RestService) {
   }
 
-  public createExperiment$(experiment: ExperimentBean): Observable<ExperimentBean | null> {
-    return this.restService.post$<ExperimentBean>(this.REST_PREFIX + "/create", experiment);
+  public createExperiment$(experiment: Partial<ExperimentBean>): Observable<ExperimentBean | null> {
+    return this.restService.post$<ExperimentBean>(this.REST_PREFIX, experiment);
   }
 
   public getExperiment$(id: number): Observable<ExperimentBean | null> {
@@ -22,7 +22,7 @@ export class ExperimentService {
   }
 
   public getAllExperiments$(): Observable<ExperimentBean[] | null> {
-    return this.restService.get$<ExperimentBean[]>(this.REST_PREFIX + "/all");
+    return this.restService.get$<ExperimentBean[]>(this.REST_PREFIX);
   }
 
   public finalizeExperiment$(id: number): Observable<boolean | null> {

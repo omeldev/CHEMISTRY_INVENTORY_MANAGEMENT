@@ -1,0 +1,45 @@
+@let substanceEntries = substanceEntries$ | async;
+@if (substanceEntries) {
+  <div class="substance-overview-header">
+    <a class="substance-overview-create" [routerLink]="navigateToSubstanceCreateEntryPage()">
+      + Create New Substance Entry
+    </a>
+  </div>
+  <div class="substance-container">
+    @for (entry of substanceEntries; track entry.id) {
+      @if (entry) {
+        <div class="substance-card">
+          <div class="substance-header">
+            @let substance = getSubstanceById(entry.chemicalSubstanceId) | async;
+            @if (substance) {
+              <h3>{{ substance.name }}</h3>
+            }
+          </div>
+          <p class="substance-property">
+            <span class="substance-property-label">Location:</span>
+            <span class="substance-property-value">{{ entry.location || "-" }}</span>
+          </p>
+          <p class="substance-property">
+            <span class="substance-property-label">Quantity:</span>
+            <span
+              class="substance-property-value"> {{ (entry.quantityBase | formatQuantity:entry.unit) || "-" }}</span>
+          </p>
+          <p class="substance-property">
+            <span class="substance-property-label">Purity:</span>
+            <span class="substance-property-value">{{ entry.purity || "-" }}</span>
+          </p>
+          <p class="substance-property">
+            <span class="substance-property-label">Notes:</span>
+            <span class="substance-property-value substance-note">{{ entry.note || "-" }}</span>
+          </p>
+          <div class="substance-button-container">
+            <button class="substance-button" (click)="editSubstanceEntry(entry.id)">Edit</button>
+            <button class="substance-button substance-button-delete" (click)="deleteSubstanceEntry(entry.id)">
+              Delete
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+}
