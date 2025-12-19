@@ -11,6 +11,7 @@ import {UserAction} from '../../../store/user/user.actions';
 import {DataService} from '../../../service/data/data.service';
 import {ToastAction} from '../../../store/toast/toast.action';
 import {ToastType} from '../../../obj/bean/ToastBean';
+import {environment} from '../../../../environments/environment';
 
 interface AuthModelData {
   username: string;
@@ -32,6 +33,7 @@ export class AuthComponent {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
+  protected readonly isProd = environment.production;
   protected readonly isRegistering$ = this.route.url.pipe(
     map(segments => segments.some(segment => segment.path === 'register'))
   )

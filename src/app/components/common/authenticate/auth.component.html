@@ -1,5 +1,8 @@
 @let isRegistering = isRegistering$ | async;
 
+@if (isProd) {
+  <div>Use "omel" as username and "test" as password to access the application</div>
+}
 <div class="wrapper">
   @if (isRegistering) {
     <div class="register-header">
