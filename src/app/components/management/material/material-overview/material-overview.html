@@ -1,0 +1,17 @@
+@let materials = materials$ | async;
+<div class="material-overview-header">
+  <a class="material-overview-create" [routerLink]="navigateToSubstanceCreatePage()">
+    + Add new Material
+  </a>
+</div>
+<div class="material-overview-container">
+  @for (material of materials; track material.id) {
+    <div class="material-card">
+      <h3>{{ material.name }}</h3>
+      <div class="button-container">
+        <chem-button (click)="editMaterial(material.id)" [type]=ButtonType.PRIMARY>Edit</chem-button>
+        <chem-button (click)="deleteMaterial(material)" [type]=ButtonType.DANGER>Delete</chem-button>
+      </div>
+    </div>
+  }
+</div>

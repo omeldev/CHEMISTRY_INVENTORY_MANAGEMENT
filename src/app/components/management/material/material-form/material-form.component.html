@@ -1,0 +1,8 @@
+<div class="form-container">
+  <h1>Material Management</h1>
+  <div class="form-field">
+    <label>Name:</label>
+    <input [field]="materialForm.name" type="text"/>
+    <chem-button (click)="saveMaterial()" [type]=ButtonType.SUCCESS>Save</chem-button>
+  </div>
+</div>
