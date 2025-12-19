@@ -19,6 +19,13 @@ export namespace InventoryAction {
     }
   }
 
+  export class PatchSubstance {
+    static readonly type = `${PREFIX} Patch substance item`;
+
+    constructor(readonly substance: Partial<SubstanceEntryBean>) {
+    }
+  }
+
   export class InitSubstances {
     static readonly type = `${PREFIX} Init substance items`;
 

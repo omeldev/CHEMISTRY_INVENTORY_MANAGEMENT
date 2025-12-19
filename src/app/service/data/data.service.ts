@@ -9,6 +9,8 @@ import {InventoryAction} from '../../store/inventory/inventory.actions';
 import {ExperimentAction} from '../../store/experiment/experiment.actions';
 import {MaterialService} from '../rest/material/material.service';
 import {MaterialAction} from '../../store/material/material.actions';
+import {LocationService} from '../rest/location/location.service';
+import {LocationAction} from '../../store/location/location.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +23,8 @@ export class DataService {
     private readonly substanceService: SubstanceService,
     private readonly inventoryService: InventoryService,
     private readonly experimentService: ExperimentService,
-    private readonly materialService: MaterialService) {
+    private readonly materialService: MaterialService,
+    private readonly locationService: LocationService) {
 
 
   }
@@ -66,6 +69,16 @@ export class DataService {
     ).then(() => {
       console.log('Materials loaded into store');
     });
+
+    await firstValueFrom(this.locationService.getLocations$()).then(
+      locations => {
+        if (locations && locations.length > 0) {
+          this.store.dispatch(new LocationAction.Initialize(locations));
+        }
+      }
+    ).then(() => {
+      console.log('Locations loaded into store');
+    })
 
   }
 

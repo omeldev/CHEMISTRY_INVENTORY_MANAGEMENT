@@ -11,7 +11,7 @@ public record SubstanceEntryBean(
   double quantityBase,  // Menge in Basis-Einheit (mg, mL, Stück)
   Unit unit,            // z.B. MG, G, ML, L, PIECE
   String purity,
-  String location,
+  Long locationId,
   String note
 ) {
   public static SubstanceEntryBean from(SubstanceEntryEntity entity) {
@@ -23,7 +23,7 @@ public record SubstanceEntryBean(
       entity.getQuantityBase(),           // Basiswert direkt übernehmen
       entity.getUnit(),                   // Enum direkt übernehmen
       entity.getPurity(),
-      entity.getLocation() != null ? entity.getLocation().getName() : null,
+      entity.getLocation() != null ? entity.getLocation().getId() : null,
       entity.getNote()
     );
   }

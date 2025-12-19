@@ -1,11 +1,16 @@
 @let substanceChoices = substanceChoices$ | async;
+@let locationOptions = locationOptions$ | async;
 <div class="substance-entry-form-container">
   <h1 class="substance-entry-form-title">Create a substance entry</h1>
   <div class="substance-entry-form">
 
     <div class="form-field">
       <label class="form-field-label">Location: </label>
-      <input class="form-field-input" [field]="substanceEntryForm.location" type="text"/>
+      <chem-dropdown
+        (onSelect)="onSelectLocation($event)"
+        [options]="locationOptions || []"
+        [selectedIndex]="(selectedLocationIndex$ | async) ?? 0"
+      ></chem-dropdown>
     </div>
 
     <div class="form-field">

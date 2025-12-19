@@ -1,0 +1,8 @@
+<div class="form-container">
+  <h1>Location Management</h1>
+  <div class="form-field">
+    <label>Name:</label>
+    <input [field]="locationForm.name" type="text"/>
+    <chem-button (click)="saveLocation()" [type]=ButtonType.SUCCESS>Save</chem-button>
+  </div>
+</div>

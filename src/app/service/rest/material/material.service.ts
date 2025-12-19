@@ -24,8 +24,8 @@ export class MaterialService {
     return this.restService.post$<MaterialBean>(this.REST_PATH, material);
   }
 
-  public updateMaterial$(material: Partial<MaterialBean>) {
-    return this.restService.patch$<MaterialBean>(`${this.REST_PATH}/${material.id}`, material);
+  public updateMaterial$(id: number, material: Partial<MaterialBean>) {
+    return this.restService.patch$<MaterialBean>(`${this.REST_PATH}/${id}`, material);
   }
 
   public deleteMaterial$(id: number) {

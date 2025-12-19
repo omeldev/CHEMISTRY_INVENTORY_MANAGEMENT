@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Action, Selector, State, StateContext, StateToken} from '@ngxs/store';
 import {LocationAction} from './location.actions';
 import {LocationBean} from '../../obj/bean/location.bean';
+import {DropdownOption} from '../../components/common/dropdown/dropdown';
 
 export interface LocationModel {
   locations: LocationBean[];
@@ -26,6 +27,19 @@ export class LocationState {
   @Selector()
   static getLocations(state: LocationModel) {
     return state.locations;
+  }
+
+  @Selector()
+  static getLocationDropdownOptions(state: LocationModel): DropdownOption<LocationBean>[] {
+    return state.locations.map(location => ({
+      label: location.name,
+      value: location
+    })) || [];
+  }
+
+  @Selector()
+  static getLocationById(state: LocationModel) {
+    return (id: number) => state.locations.find(location => location.id === id);
   }
 
   @Action(LocationAction.Add)

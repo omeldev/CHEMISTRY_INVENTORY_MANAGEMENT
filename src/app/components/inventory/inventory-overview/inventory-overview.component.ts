@@ -10,6 +10,7 @@ import {InventoryState} from '../../../store/inventory/inventory.state';
 import {Button} from '../../common/button/button';
 import {ButtonType} from '../../../obj/enum/button.enum';
 import {InventoryAction} from '../../../store/inventory/inventory.actions';
+import {LocationState} from '../../../store/location/location.state';
 
 
 @Component({
@@ -50,8 +51,14 @@ export class InventoryOverview {
     return this.router.createUrlTree(['/inventory', 'create']);
   }
 
-  public getSubstanceById(id: number) {
+  public getSubstanceById$(id: number) {
     return this.store.select(SubstanceState.getSubstanceById).pipe(
+      map(fn => fn(id))
+    )
+  }
+
+  public getLocationById$(id: number) {
+    return this.store.select(LocationState.getLocationById).pipe(
       map(fn => fn(id))
     )
   }

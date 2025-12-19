@@ -83,6 +83,14 @@ export class InventoryState {
     });
   }
 
+  @Action(InventoryAction.PatchSubstance)
+  patchSubstance(ctx: StateContext<SubstanceModel>, action: InventoryAction.PatchSubstance) {
+    const state = ctx.getState();
+    ctx.setState({
+      substances: state.substances.map(substance => Number(substance.id) === Number(action.substance.id) ? {...substance, ...action.substance} : substance),
+    });
+  }
+
   @Action(InventoryAction.InitSubstances)
   initSubstances(ctx: StateContext<SubstanceModel>, action: InventoryAction.InitSubstances) {
     ctx.setState({

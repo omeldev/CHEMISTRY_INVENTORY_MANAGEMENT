@@ -8,6 +8,6 @@ export interface SubstanceEntryBean {
   quantityBase: number;
   unit: Unit;
   purity: string;
-  location: string;
+  locationId: number;
   note: string;
 }

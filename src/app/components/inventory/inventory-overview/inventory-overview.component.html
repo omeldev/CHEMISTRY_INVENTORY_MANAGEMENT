@@ -10,14 +10,17 @@
       @if (entry) {
         <div class="substance-card">
           <div class="substance-header">
-            @let substance = getSubstanceById(entry.chemicalSubstanceId) | async;
+            @let substance = getSubstanceById$(entry.chemicalSubstanceId) | async;
             @if (substance) {
               <h3>{{ substance.name }}</h3>
             }
           </div>
           <p class="substance-property">
             <span class="substance-property-label">Location:</span>
-            <span class="substance-property-value">{{ entry.location || "-" }}</span>
+            @let location = getLocationById$(entry.locationId) | async;
+            @if (location) {
+              <span class="substance-property-value">{{ location.name }}</span>
+            }
           </p>
           <p class="substance-property">
             <span class="substance-property-label">Quantity:</span>

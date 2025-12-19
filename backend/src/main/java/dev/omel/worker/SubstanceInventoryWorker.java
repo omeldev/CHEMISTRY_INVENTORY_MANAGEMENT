@@ -41,11 +41,7 @@ public class SubstanceInventoryWorker {
 
     entity.setSubstance(substance);
 
-    LocationEntity location = locationRepository.findByName(substanceEntryBean.location()).orElse(new LocationEntity());
-    if (location.getName() == null) {
-      location.setName(substanceEntryBean.location());
-      locationRepository.save(location);
-    }
+    LocationEntity location = locationRepository.findById(substanceEntryBean.locationId()).orElseThrow(() -> new IllegalArgumentException("Location with ID " + substanceEntryBean.locationId() + " not found."));
 
     entity.setLocation(location);
 
@@ -87,13 +83,8 @@ public class SubstanceInventoryWorker {
       entity.setNote(substanceEntryBean.note());
     }
 
-    if (substanceEntryBean.location() != null) {
-      LocationEntity location = locationRepository.findByName(substanceEntryBean.location())
-        .orElse(new LocationEntity());
-      if (location.getName() == null) {
-        location.setName(substanceEntryBean.location());
-        locationRepository.save(location);
-      }
+    if (substanceEntryBean.locationId() != null) {
+      LocationEntity location = locationRepository.findById(substanceEntryBean.locationId()).orElseThrow(() -> new IllegalArgumentException("Location with ID " + substanceEntryBean.locationId() + " not found."));
       entity.setLocation(location);
     }
     entity.setUpdatedAt(new Timestamp(System.currentTimeMillis()));

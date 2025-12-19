@@ -16,6 +16,9 @@ import {MaterialForm} from './components/management/material/material-form/mater
 import {ManagementComponent} from './components/management/management-component/management.component';
 import {materialFormResolver} from './resolver/management/material/material-form.resolver';
 import {MaterialOverview} from './components/management/material/material-overview/material-overview';
+import {LocationOverview} from './components/management/location/location-overview/location-overview';
+import {LocationForm} from './components/management/location/location-form/location-form';
+import {locationFormResolver} from './resolver/management/location/location-form.resolver';
 
 export const routes: Routes = [
 
@@ -42,7 +45,26 @@ export const routes: Routes = [
           }
         ]
       },
-
+      {
+        path: 'location',
+        children: [
+          {
+            path: 'overview',
+            component: LocationOverview
+          },
+          {
+            path: 'create',
+            component: LocationForm
+          },
+          {
+            path: 'edit',
+            component: LocationForm,
+            resolve: {
+              location: locationFormResolver
+            }
+          }
+        ]
+      },
       {
         path: 'material',
         children: [

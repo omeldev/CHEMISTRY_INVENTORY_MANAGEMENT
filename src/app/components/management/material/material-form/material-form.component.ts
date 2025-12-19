@@ -59,8 +59,7 @@ export class MaterialForm {
   public async saveMaterial() {
     if (this.route.snapshot.queryParamMap.get('id')) {
       const id = Number(this.route.snapshot.queryParamMap.get('id'));
-      return firstValueFrom(this.materialService.updateMaterial$({
-        id,
+      return firstValueFrom(this.materialService.updateMaterial$(id, {
         name: this.materialFormModel().name
       })).then((material) => {
         if (material)

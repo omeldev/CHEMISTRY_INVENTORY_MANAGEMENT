@@ -47,7 +47,7 @@ export class MaterialOverview {
     })
   }
 
-  navigateToSubstanceCreatePage() {
+  navigateToMaterialCreatePage() {
     return this.router.createUrlTree(['material', 'create']);
   }
 }

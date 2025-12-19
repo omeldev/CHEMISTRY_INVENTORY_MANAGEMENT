@@ -16,4 +16,8 @@ export class ManagementComponent {
   public navigateToMaterialOverview() {
     return this.router.createUrlTree(['material', 'overview']);
   }
+
+  public navigateToLocationOverview() {
+    return this.router.createUrlTree(['location', 'overview']);
+  }
 }

@@ -18,6 +18,13 @@ export namespace LocationAction {
     }
   }
 
+  export class Remove {
+    static readonly type = `${PREFIX} Remove`;
+
+    constructor(readonly id: number) {
+    }
+  }
+
   export class Initialize {
     static readonly type = `${PREFIX} Initialize`;
 

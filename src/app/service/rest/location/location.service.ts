@@ -25,7 +25,11 @@ export class LocationService {
   }
 
   public updateLocation$(id: number, location: Partial<LocationBean>) {
-    return this.restService.put$<LocationBean>(`${this.REST_PATH}/${id}`, location);
+    return this.restService.patch$<LocationBean>(`${this.REST_PATH}/${id}`, location);
+  }
+
+  public deleteLocation$(id: number) {
+    return this.restService.delete$<boolean>(`${this.REST_PATH}/${id}`);
   }
 
 }
