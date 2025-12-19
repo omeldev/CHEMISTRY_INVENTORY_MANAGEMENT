@@ -6,10 +6,10 @@ import {Router, RouterLink} from '@angular/router';
   imports: [
     RouterLink
   ],
-  templateUrl: './header.html',
-  styleUrl: './header.scss',
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.scss',
 })
-export class Header {
+export class Navbar {
 
 
   constructor(private readonly router: Router) {
@@ -31,4 +31,7 @@ export class Header {
     return this.router.createUrlTree(['experiment', 'overview']);
   }
 
+  public navigateToManagement() {
+    return this.router.createUrlTree(['management', 'overview']);
+  }
 }
