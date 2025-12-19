@@ -9,6 +9,8 @@ import {MaterialBean} from '../../../../obj/bean/material.bean';
 import {LocationService} from '../../../../service/rest/location/location.service';
 import {Field, form} from '@angular/forms/signals';
 import {LocationAction} from '../../../../store/location/location.actions';
+import {ToastAction} from '../../../../store/toast/toast.action';
+import {ToastType} from '../../../../obj/bean/toast.bean';
 
 interface LocationFormData {
   name: string
@@ -64,8 +66,14 @@ export class LocationForm {
         {
           name: this.locationFormModel().name
         })).then((location) => {
-        if (location)
+        if (location) {
           this.store.dispatch(new LocationAction.Patch(location));
+          this.store.dispatch(new ToastAction.ShowToast({
+            message: `Location "${location.name}" updated successfully.`,
+            type: ToastType.SUCCESS,
+            duration: 3000
+          }))
+        }
       }).then(() => {
         this.router.navigateByUrl(this.router.createUrlTree(['location', 'overview']));
       })
@@ -73,8 +81,15 @@ export class LocationForm {
     return firstValueFrom(this.locationService.createLocation$({
       name: this.locationFormModel().name
     })).then((location) => {
-      if (location)
+      if (location) {
         this.store.dispatch(new LocationAction.Add(location));
+        this.store.dispatch(new ToastAction.ShowToast({
+          message: `Location "${location.name}" created successfully.`,
+          type: ToastType.SUCCESS,
+          duration: 3000
+        }))
+      }
+
     }).then(() => {
       this.router.navigateByUrl(this.router.createUrlTree(['location', 'overview']));
     })

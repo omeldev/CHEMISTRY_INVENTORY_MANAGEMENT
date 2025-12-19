@@ -39,7 +39,7 @@ export class LocationOverview {
     return await firstValueFrom(this.locationService.deleteLocation$(location.id)).then(() => {
       this.store.dispatch(new LocationAction.Remove(location.id));
       this.store.dispatch(new ToastAction.ShowToast({
-        message: `Material "${location.name}" deleted successfully.`,
+        message: `Location "${location.name}" deleted successfully.`,
         type: ToastType.SUCCESS,
         duration: 3000
       }))

@@ -14,6 +14,8 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {InventoryAction} from '../../../../store/inventory/inventory.actions';
 import {LocationBean} from '../../../../obj/bean/location.bean';
 import {LocationState} from '../../../../store/location/location.state';
+import {ToastAction} from '../../../../store/toast/toast.action';
+import {ToastType} from '../../../../obj/bean/toast.bean';
 
 interface ChemicalSubstanceEntryFormData {
   quantityBase: number;
@@ -107,7 +109,12 @@ export class SubstanceEntryForm implements AfterViewInit {
       if (this.route.snapshot.queryParamMap.get('id')) {
         return firstValueFrom(this.inventoryService.patchSubstanceEntry$(Number(this.route.snapshot.queryParamMap.get('id')), substanceEntryBean)).then((substance) => {
           if (substance) {
-            this.store.dispatch(new InventoryAction.PatchSubstance(substance))
+            this.store.dispatch(new InventoryAction.PatchSubstance(substance));
+            this.store.dispatch(new ToastAction.ShowToast({
+              message: `Substance entry for ${this.selectedSubstance()?.name} updated successfully.`,
+              type: ToastType.SUCCESS,
+              duration: 3000
+            }))
             this.navigateToInventoryOverview()
           }
         });
@@ -118,6 +125,11 @@ export class SubstanceEntryForm implements AfterViewInit {
     return firstValueFrom(this.inventoryService.createSubstanceEntry$(substanceEntryBean)).then((substance) => {
       if (substance) {
         this.store.dispatch(new InventoryAction.AddSubstance(substance))
+        this.store.dispatch(new ToastAction.ShowToast({
+          message: `Substance entry for ${this.selectedSubstance()?.name} created successfully.`,
+          type: ToastType.SUCCESS,
+          duration: 3000
+        }));
         this.navigateToInventoryOverview()
       }
     });

@@ -9,6 +9,8 @@ import {MaterialAction} from '../../../../store/material/material.actions';
 import {ActivatedRoute, Router} from '@angular/router';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {MaterialBean} from '../../../../obj/bean/material.bean';
+import {ToastAction} from '../../../../store/toast/toast.action';
+import {ToastType} from '../../../../obj/bean/toast.bean';
 
 interface MaterialFormData {
   name: string
@@ -62,8 +64,14 @@ export class MaterialForm {
       return firstValueFrom(this.materialService.updateMaterial$(id, {
         name: this.materialFormModel().name
       })).then((material) => {
-        if (material)
+        if (material) {
           this.store.dispatch(new MaterialAction.Patch(material));
+          this.store.dispatch(new ToastAction.ShowToast({
+            message: `Material "${material.name}" updated successfully.`,
+            type: ToastType.SUCCESS,
+            duration: 3000
+          }));
+        }
       }).then(() => {
         this.router.navigateByUrl(this.router.createUrlTree(['material', 'overview']));
       })
@@ -71,8 +79,14 @@ export class MaterialForm {
     return firstValueFrom(this.materialService.createMaterial$({
       name: this.materialFormModel().name
     })).then((material) => {
-      if (material)
+      if (material) {
         this.store.dispatch(new MaterialAction.Add(material));
+        this.store.dispatch(new ToastAction.ShowToast({
+          message: `Material "${material.name}" created successfully.`,
+          type: ToastType.SUCCESS,
+          duration: 3000
+        }));
+      }
     }).then(() => {
       this.router.navigateByUrl(this.router.createUrlTree(['material', 'overview']));
     })

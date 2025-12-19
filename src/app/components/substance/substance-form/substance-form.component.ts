@@ -14,6 +14,8 @@ import {AsyncPipe} from '@angular/common';
 import {Store} from '@ngxs/store';
 import {SubstanceAction} from '../../../store/substance/substance.actions';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {ToastAction} from '../../../store/toast/toast.action';
+import {ToastType} from '../../../obj/bean/toast.bean';
 
 interface ChemicalSubstanceFormData {
   name: string;
@@ -113,6 +115,11 @@ export class SubstanceForm {
         return await firstValueFrom(this.substanceService.patch$(Number(this.route.snapshot.queryParamMap.get('id')), chemicalSubstanceBean)).then((substance) => {
           if (substance) {
             this.store.dispatch(new SubstanceAction.Patch(Number(this.route.snapshot.queryParamMap.get('id')), substance));
+            this.store.dispatch(new ToastAction.ShowToast({
+              message: `Substance "${substance.name}" updated successfully.`,
+              type: ToastType.SUCCESS,
+              duration: 3000
+            }))
           }
           this.navigateToSubstanceOverview()
         });
@@ -122,6 +129,11 @@ export class SubstanceForm {
     return await firstValueFrom(this.substanceService.create$(chemicalSubstanceBean)).then((substance) => {
       if (substance) {
         this.store.dispatch(new SubstanceAction.Add(substance));
+        this.store.dispatch(new ToastAction.ShowToast({
+          message: `Substance "${substance.name}" created successfully.`,
+          type: ToastType.SUCCESS,
+          duration: 3000
+        }));
       }
       this.navigateToSubstanceOverview()
     });

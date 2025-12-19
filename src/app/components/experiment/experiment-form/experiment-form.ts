@@ -12,6 +12,8 @@ import {Store} from '@ngxs/store';
 import {InventoryState} from '../../../store/inventory/inventory.state';
 import {ExperimentAction} from '../../../store/experiment/experiment.actions';
 import {Router} from '@angular/router';
+import {ToastAction} from '../../../store/toast/toast.action';
+import {ToastType} from '../../../obj/bean/toast.bean';
 
 interface ExperimentFormData {
   title: string;
@@ -103,7 +105,11 @@ export class ExperimentForm {
       // Reset form after submission
       if (experiment) {
         this.store.dispatch(new ExperimentAction.Add(experiment));
-
+        this.store.dispatch(new ToastAction.ShowToast({
+          message: `Experiment "${experiment.title}" created successfully.`,
+          type: ToastType.SUCCESS,
+          duration: 3000
+        }))
       }
       this.navigateToExperimentOverview();
     });
