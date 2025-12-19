@@ -99,7 +99,7 @@ export class SubstanceEntryForm implements AfterViewInit {
       quantityBase: this.substanceEntryForm().value().quantityBase,
       unit: this.selectedUnit(),
       purity: this.substanceEntryForm().value().purity,
-      locationId: this.selectedSubstance()?.id,
+      locationId: this.selectedLocation()?.id,
       note: this.substanceEntryForm().value().note
     }
 
