@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Action, Selector, State, StateContext, StateToken} from '@ngxs/store';
 import {UserAction} from './user.actions';
-import {UserBean} from '../../obj/bean/UserBean';
+import {UserBean} from '../../obj/bean/user.bean';
 
 export interface UserModel {
   user: UserBean | null;

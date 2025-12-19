@@ -1,4 +1,4 @@
-import {ExperimentBean} from '../../obj/bean/ExperimentBean';
+import {ExperimentBean} from '../../obj/bean/experiment.bean';
 
 export namespace ExperimentAction {
 

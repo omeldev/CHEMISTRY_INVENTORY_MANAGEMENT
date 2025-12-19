@@ -23,7 +23,7 @@ public record SubstanceEntryBean(
       entity.getQuantityBase(),           // Basiswert direkt übernehmen
       entity.getUnit(),                   // Enum direkt übernehmen
       entity.getPurity(),
-      entity.getLocation() != null ? entity.getLocation().getLocation() : null,
+      entity.getLocation() != null ? entity.getLocation().getName() : null,
       entity.getNote()
     );
   }

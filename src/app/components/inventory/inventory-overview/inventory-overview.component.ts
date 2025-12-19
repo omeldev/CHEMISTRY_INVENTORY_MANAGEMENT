@@ -8,7 +8,7 @@ import {Store} from '@ngxs/store';
 import {SubstanceState} from '../../../store/substance/substance.state';
 import {InventoryState} from '../../../store/inventory/inventory.state';
 import {Button} from '../../common/button/button';
-import {ButtonType} from '../../../obj/enum/button-type';
+import {ButtonType} from '../../../obj/enum/button.enum';
 import {InventoryAction} from '../../../store/inventory/inventory.actions';
 
 

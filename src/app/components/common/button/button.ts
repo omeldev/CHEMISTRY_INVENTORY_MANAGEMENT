@@ -1,5 +1,5 @@
 import {Component, input} from '@angular/core';
-import {ButtonType} from '../../../obj/enum/button-type';
+import {ButtonType} from '../../../obj/enum/button.enum';
 import {NgClass} from '@angular/common';
 
 @Component({

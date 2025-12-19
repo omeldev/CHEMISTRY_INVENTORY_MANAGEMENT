@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "chemical_substance")
+@Entity(name = "substances")
 @Getter
 public class SubstanceEntity {
   @Id
@@ -55,7 +55,7 @@ public class SubstanceEntity {
   @Setter
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "supplier_id")
-  private SubstanceSupplierEntity supplier;
+  private SupplierEntity supplier;
 
   public SubstanceEntity() {
   }

@@ -1,6 +1,6 @@
 import {Component, effect, inject, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
-import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
+import {SubstanceBean} from '../../../obj/bean/substance.bean';
 import {SubstanceService} from '../../../service/rest/substance/substance.service';
 import {BehaviorSubject, firstValueFrom, map} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -65,7 +65,7 @@ export class SubstanceForm {
 
   // Reactive approach: resolved data as observable converted to signal
   public chemicalSubstance = toSignal(
-    this.route.data.pipe(map(data => data['substance'] as ChemicalSubstanceBean | null)),
+    this.route.data.pipe(map(data => data['substance'] as SubstanceBean | null)),
     {initialValue: null}
   );
 
@@ -97,7 +97,7 @@ export class SubstanceForm {
   }
 
   public async submitForm() {
-    const chemicalSubstanceBean: Partial<ChemicalSubstanceBean> = {
+    const chemicalSubstanceBean: Partial<SubstanceBean> = {
       name: this.chemicalSubstanceForm().value().name,
       casNumber: this.chemicalSubstanceForm().value().casNumber,
       molecularFormula: this.chemicalSubstanceForm().value().molecularFormula,

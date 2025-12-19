@@ -1,4 +1,4 @@
-import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
+import {SubstanceBean} from '../../obj/bean/substance.bean';
 
 export namespace SubstanceAction {
 
@@ -7,7 +7,7 @@ export namespace SubstanceAction {
   export class Add {
     static readonly type = `${PREFIX} Add item`;
 
-    constructor(readonly substance: ChemicalSubstanceBean) {
+    constructor(readonly substance: SubstanceBean) {
     }
   }
 
@@ -21,14 +21,14 @@ export namespace SubstanceAction {
   export class Patch {
     static readonly type = `${PREFIX} Patch item`;
 
-    constructor(readonly substanceId: number, readonly patchedSubstance: ChemicalSubstanceBean) {
+    constructor(readonly substanceId: number, readonly patchedSubstance: SubstanceBean) {
     }
   }
 
   export class Init {
     static readonly type = `${PREFIX} Init items`;
 
-    constructor(readonly substances: ChemicalSubstanceBean[]) {
+    constructor(readonly substances: SubstanceBean[]) {
     }
   }
 }

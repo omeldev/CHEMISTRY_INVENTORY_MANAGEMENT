@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, inject, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
-import {ChemicalSubstanceEntryBean} from '../../../../obj/bean/ChemicalSubstanceEntryBean';
+import {SubstanceEntryBean} from '../../../../obj/bean/substance-entry.bean';
 import {BehaviorSubject, firstValueFrom, map} from 'rxjs';
 import {Dropdown} from '../../../common/dropdown/dropdown';
-import {ChemicalSubstanceBean} from '../../../../obj/bean/ChemicalSubstanceBean';
+import {SubstanceBean} from '../../../../obj/bean/substance.bean';
 import {AsyncPipe} from '@angular/common';
 import {InventoryService} from '../../../../service/rest/inventory/inventory.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -45,7 +45,7 @@ export class SubstanceEntryForm implements AfterViewInit {
   public chemicalSubstanceEntryAnswerModel = signal<ChemicalSubstanceEntryFormData>(DEFAULT_CHEMICAL_SUBSTANCE_ENTRY_FORM_DATA)
   public substanceEntryForm = form(this.chemicalSubstanceEntryAnswerModel);
 
-  private selectedSubstance = signal<ChemicalSubstanceBean | null>(null);
+  private selectedSubstance = signal<SubstanceBean | null>(null);
   private selectedUnit = signal<Unit>(Unit.G);
 
 
@@ -53,7 +53,7 @@ export class SubstanceEntryForm implements AfterViewInit {
 
   // Reactive approach: resolved data as observable converted to signal
   public substanceEntry = toSignal(
-    this.route.data.pipe(map(data => data['substanceEntry'] as ChemicalSubstanceEntryBean | null)),
+    this.route.data.pipe(map(data => data['substanceEntry'] as SubstanceEntryBean | null)),
     {initialValue: null}
   );
 
@@ -70,7 +70,7 @@ export class SubstanceEntryForm implements AfterViewInit {
 
   }
 
-  public onSelectSubstance = (value: ChemicalSubstanceBean) => {
+  public onSelectSubstance = (value: SubstanceBean) => {
     this.selectedSubstance.set(value);
   }
 
@@ -84,7 +84,7 @@ export class SubstanceEntryForm implements AfterViewInit {
       return;
     }
 
-    const substanceEntryBean: Partial<ChemicalSubstanceEntryBean> = {
+    const substanceEntryBean: Partial<SubstanceEntryBean> = {
       chemicalSubstanceId: this.selectedSubstance()?.id,
       quantityBase: this.substanceEntryForm().value().quantityBase,
       unit: this.selectedUnit(),

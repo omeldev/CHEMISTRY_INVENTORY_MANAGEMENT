@@ -1,4 +1,4 @@
-import {ChemicalSubstanceEntryBean} from '../../obj/bean/ChemicalSubstanceEntryBean';
+import {SubstanceEntryBean} from '../../obj/bean/substance-entry.bean';
 
 export namespace InventoryAction {
 
@@ -7,7 +7,7 @@ export namespace InventoryAction {
   export class AddSubstance {
     static readonly type = `${PREFIX} Add substance item`;
 
-    constructor(readonly substance: ChemicalSubstanceEntryBean) {
+    constructor(readonly substance: SubstanceEntryBean) {
     }
   }
 
@@ -22,7 +22,7 @@ export namespace InventoryAction {
   export class InitSubstances {
     static readonly type = `${PREFIX} Init substance items`;
 
-    constructor(readonly substances: ChemicalSubstanceEntryBean[]) {
+    constructor(readonly substances: SubstanceEntryBean[]) {
     }
   }
 }

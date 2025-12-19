@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 
-@Entity(name = "chemical_substance_entry")
+@Entity(name = "substance_entrys")
 @Getter
 public class SubstanceEntryEntity {
   @Id
@@ -23,7 +23,7 @@ public class SubstanceEntryEntity {
   @Setter
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "location_id", nullable = false)
-  private SubstanceLocationEntity location;
+  private LocationEntity location;
 
   @Column(name = "note")
   @Setter

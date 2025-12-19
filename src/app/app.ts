@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
-import {Header} from './components/common/header/header';
+import {Navbar} from './components/common/navbar/navbar.component';
 import {ToastOverlayComponent} from './components/common/toast-overlay/toast-overlay.component';
 import {UserService} from './service/rest/user/user.service';
 import {firstValueFrom} from 'rxjs';
@@ -10,7 +10,7 @@ import {DataService} from './service/data/data.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, ToastOverlayComponent],
+  imports: [RouterOutlet, Navbar, ToastOverlayComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -25,7 +25,7 @@ export class App {
       if (user) {
         this.store.dispatch(new UserAction.SetUser(user));
         this.dataService.populateApplication().then(() => this.router.navigateByUrl(this.router.createUrlTree([''])));
-        
+
       }
     })
   }

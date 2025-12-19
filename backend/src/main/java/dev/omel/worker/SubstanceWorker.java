@@ -2,9 +2,9 @@ package dev.omel.worker;
 
 import dev.omel.bean.SubstanceBean;
 import dev.omel.entity.SubstanceEntity;
-import dev.omel.entity.SubstanceSupplierEntity;
+import dev.omel.entity.SupplierEntity;
 import dev.omel.repository.SubstanceRepository;
-import dev.omel.repository.SubstanceSupplierRepository;
+import dev.omel.repository.SupplierRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,12 +13,12 @@ import java.util.List;
 public class SubstanceWorker {
 
   private final SubstanceRepository substanceRepository;
-  private final SubstanceSupplierRepository substanceSupplierRepository;
+  private final SupplierRepository supplierRepository;
 
 
-  public SubstanceWorker(SubstanceRepository substanceRepository, SubstanceSupplierRepository substanceSupplierRepository) {
+  public SubstanceWorker(SubstanceRepository substanceRepository, SupplierRepository supplierRepository) {
     this.substanceRepository = substanceRepository;
-    this.substanceSupplierRepository = substanceSupplierRepository;
+    this.supplierRepository = supplierRepository;
   }
 
 
@@ -47,12 +47,12 @@ public class SubstanceWorker {
       }
     }
 
-    SubstanceSupplierEntity supplier = substanceSupplierRepository.findByName(substanceBean.supplier())
-      .orElse(new SubstanceSupplierEntity());
+    SupplierEntity supplier = supplierRepository.findByName(substanceBean.supplier())
+      .orElse(new SupplierEntity());
 
     if (supplier.getName() == null) {
       supplier.setName(substanceBean.supplier());
-      substanceSupplierRepository.save(supplier);
+      supplierRepository.save(supplier);
     }
 
     SubstanceEntity entity = new SubstanceEntity();
@@ -96,12 +96,12 @@ public class SubstanceWorker {
       entity.setCasNumber(substanceBean.casNumber());
     }
     if (substanceBean.supplier() != null) {
-      SubstanceSupplierEntity supplier = substanceSupplierRepository.findByName(substanceBean.supplier())
-        .orElse(new SubstanceSupplierEntity());
+      SupplierEntity supplier = supplierRepository.findByName(substanceBean.supplier())
+        .orElse(new SupplierEntity());
 
       if (supplier.getName() == null) {
         supplier.setName(substanceBean.supplier());
-        substanceSupplierRepository.save(supplier);
+        supplierRepository.save(supplier);
       }
       entity.setSupplier(supplier);
     }

@@ -8,6 +8,8 @@ import {InventoryState} from './store/inventory/inventory.state';
 import {ExperimentState} from './store/experiment/experiment.state';
 import {ToastState} from './store/toast/toast.state';
 import {UserState} from './store/user/user.state';
+import {MaterialState} from './store/material/material.state';
+import {LocationState} from './store/location/location.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +23,8 @@ export const appConfig: ApplicationConfig = {
         ExperimentState,
         ToastState,
         UserState,
+        MaterialState,
+        LocationState,
       ])
   ]
 };

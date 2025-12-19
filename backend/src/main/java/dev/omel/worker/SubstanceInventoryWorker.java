@@ -1,13 +1,13 @@
 package dev.omel.worker;
 
 import dev.omel.bean.SubstanceEntryBean;
+import dev.omel.entity.LocationEntity;
 import dev.omel.entity.SubstanceEntity;
 import dev.omel.entity.SubstanceEntryEntity;
-import dev.omel.entity.SubstanceLocationEntity;
+import dev.omel.repository.LocationRepository;
 import dev.omel.repository.SubstanceEntryRepository;
-import dev.omel.repository.SubstanceLocationRepository;
 import dev.omel.repository.SubstanceRepository;
-import dev.omel.repository.SubstanceSupplierRepository;
+import dev.omel.repository.SupplierRepository;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -18,14 +18,14 @@ public class SubstanceInventoryWorker {
 
   private final SubstanceRepository substanceRepository;
   private final SubstanceEntryRepository substanceEntryRepository;
-  private final SubstanceSupplierRepository substanceSupplierRepository;
-  private final SubstanceLocationRepository substanceLocationRepository;
+  private final SupplierRepository supplierRepository;
+  private final LocationRepository locationRepository;
 
-  public SubstanceInventoryWorker(SubstanceRepository substanceRepository, SubstanceEntryRepository substanceEntryRepository, SubstanceSupplierRepository substanceSupplierRepository, SubstanceLocationRepository substanceLocationRepository) {
+  public SubstanceInventoryWorker(SubstanceRepository substanceRepository, SubstanceEntryRepository substanceEntryRepository, SupplierRepository supplierRepository, LocationRepository locationRepository) {
     this.substanceRepository = substanceRepository;
     this.substanceEntryRepository = substanceEntryRepository;
-    this.substanceSupplierRepository = substanceSupplierRepository;
-    this.substanceLocationRepository = substanceLocationRepository;
+    this.supplierRepository = supplierRepository;
+    this.locationRepository = locationRepository;
   }
 
   public SubstanceEntryBean createInventoryEntry(SubstanceEntryBean substanceEntryBean) {
@@ -41,10 +41,10 @@ public class SubstanceInventoryWorker {
 
     entity.setSubstance(substance);
 
-    SubstanceLocationEntity location = substanceLocationRepository.findByLocation(substanceEntryBean.location()).orElse(new SubstanceLocationEntity());
-    if (location.getLocation() == null) {
-      location.setLocation(substanceEntryBean.location());
-      substanceLocationRepository.save(location);
+    LocationEntity location = locationRepository.findByName(substanceEntryBean.location()).orElse(new LocationEntity());
+    if (location.getName() == null) {
+      location.setName(substanceEntryBean.location());
+      locationRepository.save(location);
     }
 
     entity.setLocation(location);
@@ -88,11 +88,11 @@ public class SubstanceInventoryWorker {
     }
 
     if (substanceEntryBean.location() != null) {
-      SubstanceLocationEntity location = substanceLocationRepository.findByLocation(substanceEntryBean.location())
-        .orElse(new SubstanceLocationEntity());
-      if (location.getLocation() == null) {
-        location.setLocation(substanceEntryBean.location());
-        substanceLocationRepository.save(location);
+      LocationEntity location = locationRepository.findByName(substanceEntryBean.location())
+        .orElse(new LocationEntity());
+      if (location.getName() == null) {
+        location.setName(substanceEntryBean.location());
+        locationRepository.save(location);
       }
       entity.setLocation(location);
     }

@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Action, Selector, State, StateContext, StateToken} from '@ngxs/store';
 import {InventoryAction} from './inventory.actions';
-import {ChemicalSubstanceEntryBean} from '../../obj/bean/ChemicalSubstanceEntryBean';
+import {SubstanceEntryBean} from '../../obj/bean/substance-entry.bean';
 import {DropdownOption} from '../../components/common/dropdown/dropdown';
 import {SubstanceState} from '../substance/substance.state';
-import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
+import {SubstanceBean} from '../../obj/bean/substance.bean';
 import {UnitLabel} from '../../obj/enum/unit.enum';
 
 export interface SubstanceModel {
-  substances: ChemicalSubstanceEntryBean[];
+  substances: SubstanceEntryBean[];
 }
 
 const DEFAULTS: SubstanceModel = {
@@ -39,8 +39,8 @@ export class InventoryState {
     SubstanceState.entitiesMap
   ])
   static getSubstanceFromEntryById(
-    entries: ChemicalSubstanceEntryBean[],
-    substanceMap: Record<number, ChemicalSubstanceBean>
+    entries: SubstanceEntryBean[],
+    substanceMap: Record<number, SubstanceBean>
   ) {
     return (id: number) => {
       const entry = entries.find(e => Number(e.id) === id);
@@ -56,9 +56,9 @@ export class InventoryState {
     SubstanceState.entitiesMap
   ])
   static getSubstanceEntrysDropdownOptions(
-    entries: ChemicalSubstanceEntryBean[],
-    substanceMap: Record<number, ChemicalSubstanceBean>
-  ): DropdownOption<ChemicalSubstanceEntryBean>[] {
+    entries: SubstanceEntryBean[],
+    substanceMap: Record<number, SubstanceBean>
+  ): DropdownOption<SubstanceEntryBean>[] {
     return entries.map(entry => ({
       label: substanceMap[entry.chemicalSubstanceId]
         ? `${substanceMap[entry.chemicalSubstanceId].name} ${entry.quantityBase} ${UnitLabel[entry.unit]}`

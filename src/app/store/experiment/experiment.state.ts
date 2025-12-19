@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Action, Selector, State, StateContext, StateToken} from '@ngxs/store';
 import {ExperimentAction} from './experiment.actions';
-import {ExperimentBean} from '../../obj/bean/ExperimentBean';
+import {ExperimentBean} from '../../obj/bean/experiment.bean';
 
 export interface ExperimentModel {
   experiments: ExperimentBean[];

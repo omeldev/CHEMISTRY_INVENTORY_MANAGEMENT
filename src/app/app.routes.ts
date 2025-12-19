@@ -12,6 +12,10 @@ import {AuthComponent} from './components/common/authenticate/auth.component';
 import {checkUserExistingGuard} from './guard/check-user-existing-guard';
 import {DashboardComponent} from './components/common/dashboard/dashboard.component';
 import {dashboardGuard} from './guard/dashboard-guard';
+import {MaterialForm} from './components/management/material/material-form/material-form.component';
+import {ManagementComponent} from './components/management/management-component/management.component';
+import {materialFormResolver} from './resolver/management/material/material-form.resolver';
+import {MaterialOverview} from './components/management/material/material-overview/material-overview';
 
 export const routes: Routes = [
 
@@ -27,6 +31,37 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent
+      },
+
+      {
+        path: 'management',
+        children: [
+          {
+            path: 'overview',
+            component: ManagementComponent
+          }
+        ]
+      },
+
+      {
+        path: 'material',
+        children: [
+          {
+            path: 'overview',
+            component: MaterialOverview
+          },
+          {
+            path: 'create',
+            component: MaterialForm
+          },
+          {
+            path: 'edit',
+            component: MaterialForm,
+            resolve: {
+              material: materialFormResolver
+            }
+          }
+        ]
       },
 
       {

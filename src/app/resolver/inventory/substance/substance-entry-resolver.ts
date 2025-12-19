@@ -2,13 +2,13 @@ import {ResolveFn, Router} from '@angular/router';
 import {inject} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {firstValueFrom, map} from 'rxjs';
-import {ChemicalSubstanceEntryBean} from '../../../obj/bean/ChemicalSubstanceEntryBean';
+import {SubstanceEntryBean} from '../../../obj/bean/substance-entry.bean';
 import {InventoryState} from '../../../store/inventory/inventory.state';
 import {ToastAction} from '../../../store/toast/toast.action';
-import {ToastType} from '../../../obj/bean/ToastBean';
+import {ToastType} from '../../../obj/bean/toast.bean';
 
 
-export const substanceEntryResolver: ResolveFn<ChemicalSubstanceEntryBean | null> = async (route, _) => {
+export const substanceEntryResolver: ResolveFn<SubstanceEntryBean | null> = async (route, _) => {
   const id = Number(route.queryParamMap.get('id'));
   const store = inject(Store);
   const router = inject(Router);

@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Action, Selector, State, StateContext, StateToken} from '@ngxs/store';
-import {ChemicalSubstanceBean} from '../../obj/bean/ChemicalSubstanceBean';
+import {SubstanceBean} from '../../obj/bean/substance.bean';
 import {SubstanceAction} from './substance.actions';
 import {DropdownOption} from '../../components/common/dropdown/dropdown';
 
 export interface SubstanceModel {
-  substances: ChemicalSubstanceBean[];
+  substances: SubstanceBean[];
 }
 
 const DEFAULTS: SubstanceModel = {
@@ -32,14 +32,14 @@ export class SubstanceState {
   }
 
   @Selector()
-  static entitiesMap(state: SubstanceModel): Record<number, ChemicalSubstanceBean> {
+  static entitiesMap(state: SubstanceModel): Record<number, SubstanceBean> {
     return Object.fromEntries(
       state.substances.map(s => [s.id, s])
     );
   }
 
   @Selector()
-  static getSubstancesAsDropdownOptions(state: SubstanceModel): DropdownOption<ChemicalSubstanceBean>[] {
+  static getSubstancesAsDropdownOptions(state: SubstanceModel): DropdownOption<SubstanceBean>[] {
     return state.substances.map(substance => ({
       label: substance.name,
       value: substance,

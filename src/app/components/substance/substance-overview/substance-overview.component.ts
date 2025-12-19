@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 import {Observable} from 'rxjs';
-import {ChemicalSubstanceBean} from '../../../obj/bean/ChemicalSubstanceBean';
+import {SubstanceBean} from '../../../obj/bean/substance.bean';
 import {Router, RouterLink} from '@angular/router';
 import {SafetySquare} from '../../common/safety-square/safety-square';
 import {Store} from '@ngxs/store';
@@ -19,7 +19,7 @@ import {SubstanceState} from '../../../store/substance/substance.state';
 })
 export class SubstanceOverview {
 
-  public substances$: Observable<ChemicalSubstanceBean[]> = inject(Store).select(SubstanceState.getSubstances);
+  public substances$: Observable<SubstanceBean[]> = inject(Store).select(SubstanceState.getSubstances);
   private readonly router = inject(Router);
 
   editSubstance(id: number) {

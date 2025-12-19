@@ -1,7 +1,7 @@
 import {Action, Selector, State, StateContext, StateToken} from '@ngxs/store';
 import {Injectable} from '@angular/core';
 import {ToastAction} from './toast.action';
-import {ToastBean} from '../../obj/bean/ToastBean';
+import {ToastBean} from '../../obj/bean/toast.bean';
 import RemoveToast = ToastAction.RemoveToast;
 
 export interface ToastModel {

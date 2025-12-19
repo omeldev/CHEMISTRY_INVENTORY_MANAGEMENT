@@ -3,14 +3,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {firstValueFrom, map} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 import {Button} from '../button/button';
-import {ButtonType} from '../../../obj/enum/button-type';
+import {ButtonType} from '../../../obj/enum/button.enum';
 import {UserService} from '../../../service/rest/user/user.service';
 import {Field, form} from '@angular/forms/signals';
 import {Store} from '@ngxs/store';
 import {UserAction} from '../../../store/user/user.actions';
 import {DataService} from '../../../service/data/data.service';
 import {ToastAction} from '../../../store/toast/toast.action';
-import {ToastType} from '../../../obj/bean/ToastBean';
+import {ToastType} from '../../../obj/bean/toast.bean';
 import {environment} from '../../../../environments/environment';
 
 interface AuthModelData {

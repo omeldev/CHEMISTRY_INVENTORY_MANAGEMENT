@@ -1,4 +1,4 @@
-import {ToastBean} from '../../obj/bean/ToastBean';
+import {ToastBean} from '../../obj/bean/toast.bean';
 
 export namespace ToastAction {
   const PREFIX = '[Toast]';

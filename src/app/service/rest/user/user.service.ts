@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RestService} from '../rest.service';
-import {UserBean} from '../../../obj/bean/UserBean';
+import {UserBean} from '../../../obj/bean/user.bean';
 
 @Injectable({
   providedIn: 'root',

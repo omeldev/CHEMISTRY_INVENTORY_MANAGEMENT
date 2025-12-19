@@ -1,4 +1,4 @@
-import {UserBean} from '../../obj/bean/UserBean';
+import {UserBean} from '../../obj/bean/user.bean';
 
 export namespace UserAction {
 

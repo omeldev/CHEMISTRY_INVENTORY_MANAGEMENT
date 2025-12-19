@@ -5,6 +5,8 @@ import dev.omel.entity.UserEntity;
 import dev.omel.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 /**
  * Worker class for user-related operations.
  * It will only be one User in the system.
@@ -58,10 +60,10 @@ public class UserWorker {
   }
 
   public UserBean getUserById(Long id) {
-    UserEntity entity = userRepository.findById(id)
-      .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    Optional<UserEntity> entity = userRepository.findById(id);
 
-    return UserBean.from(entity);
+    return entity.map(UserBean::from).orElse(null);
+
   }
 
   public UserBean authenticate(String username, String password) {

@@ -7,6 +7,8 @@ import {firstValueFrom} from 'rxjs';
 import {SubstanceAction} from '../../store/substance/substance.actions';
 import {InventoryAction} from '../../store/inventory/inventory.actions';
 import {ExperimentAction} from '../../store/experiment/experiment.actions';
+import {MaterialService} from '../rest/material/material.service';
+import {MaterialAction} from '../../store/material/material.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +20,8 @@ export class DataService {
   constructor(
     private readonly substanceService: SubstanceService,
     private readonly inventoryService: InventoryService,
-    private readonly experimentService: ExperimentService) {
+    private readonly experimentService: ExperimentService,
+    private readonly materialService: MaterialService) {
 
 
   }
@@ -32,7 +35,7 @@ export class DataService {
       }
     ).then(() => {
       console.log('Substances loaded into store');
-    })
+    });
 
     await firstValueFrom(this.inventoryService.getAllSubstanceEntries$()).then(
       substances => {
@@ -42,7 +45,7 @@ export class DataService {
       }
     ).then(() => {
       console.log('Inventory substances loaded into store');
-    })
+    });
 
     await firstValueFrom(this.experimentService.getAllExperiments$()).then(
       experiments => {
@@ -52,7 +55,17 @@ export class DataService {
       }
     ).then(() => {
       console.log('Experiments loaded into store');
-    })
+    });
+
+    await firstValueFrom(this.materialService.getMaterials$()).then(
+      materials => {
+        if (materials && materials.length > 0) {
+          this.store.dispatch(new MaterialAction.Initialize(materials));
+        }
+      }
+    ).then(() => {
+      console.log('Materials loaded into store');
+    });
 
   }
 

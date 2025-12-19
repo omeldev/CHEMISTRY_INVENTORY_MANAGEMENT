@@ -1,13 +1,13 @@
 import {Component, inject, signal} from '@angular/core';
 import {ExperimentService} from '../../../service/rest/experiment/experiment.service';
 import {BehaviorSubject, firstValueFrom, map} from 'rxjs';
-import {ChemicalSubstanceEntryBean} from '../../../obj/bean/ChemicalSubstanceEntryBean';
+import {SubstanceEntryBean} from '../../../obj/bean/substance-entry.bean';
 import {Dropdown, DropdownOption} from '../../common/dropdown/dropdown';
 import {Unit, UnitLabel} from '../../../obj/enum/unit.enum';
 import {Field, form} from '@angular/forms/signals';
 import {AsyncPipe} from '@angular/common';
-import {ExperimentReactantBean} from '../../../obj/bean/ExperimentReactantBean';
-import {ExperimentBean} from '../../../obj/bean/ExperimentBean';
+import {ExperimentReactantBean} from '../../../obj/bean/experiment-reactant.bean';
+import {ExperimentBean} from '../../../obj/bean/experiment.bean';
 import {Store} from '@ngxs/store';
 import {InventoryState} from '../../../store/inventory/inventory.state';
 import {ExperimentAction} from '../../../store/experiment/experiment.actions';
@@ -54,9 +54,9 @@ export class ExperimentForm {
   private experimentReactantsSubject = new BehaviorSubject<Partial<ExperimentReactantBean>[]>([]);
   public experimentReactants$ = this.experimentReactantsSubject.asObservable();
 
-  public selectedSubstanceEntry = signal<ChemicalSubstanceEntryBean | null>(null);
+  public selectedSubstanceEntry = signal<SubstanceEntryBean | null>(null);
 
-  public onSelectSubstanceEntry = (value: ChemicalSubstanceEntryBean) => {
+  public onSelectSubstanceEntry = (value: SubstanceEntryBean) => {
     this.selectedSubstanceEntry.set(value);
   }
 
