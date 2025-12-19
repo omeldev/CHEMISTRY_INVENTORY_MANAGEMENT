@@ -1,6 +1,6 @@
 import {SpecifiedHazard} from '../enum/specific-hazard.enum';
 
-export interface ChemicalSubstanceBean {
+export interface SubstanceBean {
   id: number;
   name: string;
   formula: string;

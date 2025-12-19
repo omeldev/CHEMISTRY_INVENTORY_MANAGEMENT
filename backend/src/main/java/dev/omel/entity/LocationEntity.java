@@ -4,22 +4,19 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "chemical_substance_supplier")
+@Entity(name = "locations")
 @Getter
-public class SubstanceSupplierEntity {
+public class LocationEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(name = "name", unique = true)
   @Setter
-  @Column(name = "name")
   private String name;
 
-  @Column(name = "url")
-  @Setter
-  private String url;
-
-  public SubstanceSupplierEntity() {
+  public LocationEntity() {
   }
 
 }

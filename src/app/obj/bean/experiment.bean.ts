@@ -1,4 +1,4 @@
-import {ExperimentReactantBean} from './ExperimentReactantBean';
+import {ExperimentReactantBean} from './experiment-reactant.bean';
 
 export interface ExperimentBean {
   id: number;

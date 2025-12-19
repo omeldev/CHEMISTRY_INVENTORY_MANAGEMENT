@@ -1,6 +1,6 @@
 import {Unit} from '../enum/unit.enum';
 
-export interface ChemicalSubstanceEntryBean {
+export interface SubstanceEntryBean {
   id: number;
   chemicalSubstanceId: number;
   addedAt: string;
