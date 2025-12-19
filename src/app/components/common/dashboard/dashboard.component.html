@@ -1,0 +1,39 @@
+@let totalSubstances = totalSubstances$ | async;
+@let totalExperiments = totalExperiments$ | async;
+@let totalOngoingExperiments = totalOngoingExperiments$ | async;
+@let totalInventoryItems = totalInventoryItems$ | async;
+
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+  </div>
+  <div class="dashboard-content">
+    <div class="stats-card">
+      <h2 class="card-title">Total Substances</h2>
+
+      <p class="card-value">{{ totalSubstances }}</p>
+    </div>
+
+    <div class="stats-card">
+      <h2 class="card-title">Total Experiments</h2>
+
+      <p class="card-value">{{ totalExperiments }}</p>
+
+    </div>
+
+    <div class="stats-card">
+      <h2 class="card-title">Ongoing Experiments</h2>
+
+      <p class="card-value">{{ totalOngoingExperiments }}</p>
+
+    </div>
+
+    <div class="stats-card">
+      <h2 class="card-title">Total Inventory Items</h2>
+
+      <p class="card-value">{{ totalInventoryItems }}</p>
+
+    </div>
+
+  </div>
+</div>
