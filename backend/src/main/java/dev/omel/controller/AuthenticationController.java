@@ -46,8 +46,8 @@ public class AuthenticationController {
   public ResponseEntity<UserBean> authenticateUser(@RequestBody UserBean userBean, @Nonnull HttpServletRequest request) {
 
     String preJwt = jwtService.extractJwtFromCookies(request);
-    
-    if (preJwt != null && jwtService.validateToken(preJwt)) {
+
+    if (preJwt != null && jwtService.validateToken(preJwt) && userService.getUserById(jwtService.extractId(preJwt)) != null) {
       return ResponseEntity.ok(userService.getUserById(jwtService.extractId(preJwt)));
     }
 
