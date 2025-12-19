@@ -15,6 +15,10 @@ export class Header {
   constructor(private readonly router: Router) {
   }
 
+  public navigateToDashboard() {
+    return this.router.createUrlTree(['']);
+  }
+
   public navigateToSubstanceOverview() {
     return this.router.createUrlTree(['substance', 'overview']);
   }
