@@ -34,9 +34,7 @@
           </p>
           <div class="substance-button-container">
             <button class="substance-button" (click)="editSubstanceEntry(entry.id)">Edit</button>
-            <button class="substance-button substance-button-delete" (click)="deleteSubstanceEntry(entry.id)">
-              Delete
-            </button>
+            <chem-button [type]="ButtonType.DANGER" (click)="deleteSubstanceEntry(entry.id)">Delete</chem-button>
           </div>
         </div>
       }

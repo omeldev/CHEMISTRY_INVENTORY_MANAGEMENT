@@ -59,7 +59,6 @@ export class InventoryState {
     entries: ChemicalSubstanceEntryBean[],
     substanceMap: Record<number, ChemicalSubstanceBean>
   ): DropdownOption<ChemicalSubstanceEntryBean>[] {
-
     return entries.map(entry => ({
       label: substanceMap[entry.chemicalSubstanceId]
         ? `${substanceMap[entry.chemicalSubstanceId].name} ${entry.quantityBase} ${UnitLabel[entry.unit]}`

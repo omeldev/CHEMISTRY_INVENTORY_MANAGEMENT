@@ -6,8 +6,10 @@ import {QuantityPipe} from '../../../pipe/quantity.pipe';
 import {InventoryService} from '../../../service/rest/inventory/inventory.service';
 import {Store} from '@ngxs/store';
 import {SubstanceState} from '../../../store/substance/substance.state';
-import {SubstanceAction} from '../../../store/substance/substance.actions';
 import {InventoryState} from '../../../store/inventory/inventory.state';
+import {Button} from '../../common/button/button';
+import {ButtonType} from '../../../obj/enum/button-type';
+import {InventoryAction} from '../../../store/inventory/inventory.actions';
 
 
 @Component({
@@ -15,7 +17,8 @@ import {InventoryState} from '../../../store/inventory/inventory.state';
   imports: [
     AsyncPipe,
     RouterLink,
-    QuantityPipe
+    QuantityPipe,
+    Button
   ],
   templateUrl: './inventory-overview.component.html',
   styleUrl: './inventory-overview.component.scss',
@@ -40,7 +43,7 @@ export class InventoryOverview {
 
   async deleteSubstanceEntry(number: number) {
     await firstValueFrom(this.inventoryService.deleteSubstanceEntry$(number))
-      .then(() => this.store.dispatch(new SubstanceAction.Remove(number)));
+      .then(() => this.store.dispatch(new InventoryAction.RemoveSubstance(number)));
   }
 
   navigateToSubstanceCreateEntryPage() {
@@ -53,4 +56,5 @@ export class InventoryOverview {
     )
   }
 
+  protected readonly ButtonType = ButtonType;
 }

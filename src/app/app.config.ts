@@ -7,12 +7,20 @@ import {SubstanceState} from './store/substance/substance.state';
 import {InventoryState} from './store/inventory/inventory.state';
 import {ExperimentState} from './store/experiment/experiment.state';
 import {ToastState} from './store/toast/toast.state';
+import {UserState} from './store/user/user.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideStore(),
-    provideStates([SubstanceState, InventoryState, ExperimentState, ToastState])
+    provideStates(
+      [
+        SubstanceState,
+        InventoryState,
+        ExperimentState,
+        ToastState,
+        UserState,
+      ])
   ]
 };

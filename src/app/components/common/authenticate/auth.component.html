@@ -1,0 +1,31 @@
+@let isRegistering = isRegistering$ | async;
+
+<div class="wrapper">
+  @if (isRegistering) {
+    <div class="register-header">
+      <h1>It seems you are using the Application for the first time..!</h1>
+      <h2>Please register an admin account to continue.</h2>
+    </div>
+  }
+  <div class="auth-container">
+    <div class="form-field">
+      <label>Username:</label>
+      <input class="form-field-input" [field]="authForm.username" type="text">
+    </div>
+
+    <div class="form-field">
+      <label>Password:</label>
+      <input class="form-field-input" [field]="authForm.password" type="password">
+    </div>
+    <div class="submit-container">
+      <chem-button (click)="authenticate()" [type]=ButtonType.SUCCESS>
+        @if (isRegistering) {
+          Register
+        } @else {
+          Login
+        }
+      </chem-button>
+    </div>
+  </div>
+</div>
+

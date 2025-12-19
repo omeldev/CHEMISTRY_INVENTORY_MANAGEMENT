@@ -8,65 +8,100 @@ import {InventoryOverview} from './components/inventory/inventory-overview/inven
 import {ExperimentForm} from './components/experiment/experiment-form/experiment-form';
 import {substanceResolver} from './resolver/substance/substance-resolver';
 import {substanceEntryResolver} from './resolver/inventory/substance/substance-entry-resolver';
+import {AuthComponent} from './components/common/authenticate/auth.component';
+import {checkUserExistingGuard} from './guard/check-user-existing-guard';
+import {DashboardComponent} from './components/common/dashboard/dashboard.component';
+import {dashboardGuard} from './guard/dashboard-guard';
 
 export const routes: Routes = [
 
   {
-    path: 'inventory',
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [
+      checkUserExistingGuard,
+      dashboardGuard
+    ],
     children: [
+
       {
-        path: 'overview',
-        component: InventoryOverview
+        path: 'dashboard',
+        component: DashboardComponent
+      },
+
+      {
+        path: 'auth',
+        children: [
+          {
+            path: 'login',
+            component: AuthComponent
+          },
+          {
+            path: 'register',
+            component: AuthComponent
+          }
+        ]
+      },
+
+      {
+        path: 'inventory',
+        children: [
+          {
+            path: 'overview',
+            component: InventoryOverview
+          },
+          {
+            path: 'create',
+            component: SubstanceEntryForm
+          },
+          {
+            path: 'edit',
+            component: SubstanceEntryForm,
+            resolve: {
+              substanceEntry: substanceEntryResolver
+            }
+          }
+        ]
+      },
+
+      {
+        path: 'substance',
+        children: [
+          {
+            path: "edit",
+            component: SubstanceForm,
+            resolve: {
+              substance: substanceResolver
+            }
+          },
+          {
+            path: 'create',
+            component: SubstanceForm
+          },
+          {
+            path: 'overview',
+            component: SubstanceOverview
+          },
+        ]
+      },
+
+      {
+        path: 'experiment',
+        children: [
+          {
+            path: 'create',
+            component: ExperimentForm
+          },
+          {
+            path: 'overview',
+            component: ExperimentOverview
+          }
+        ]
       },
       {
-        path: 'create',
-        component: SubstanceEntryForm
+        path: '**', component: ErrorComponent
       },
-      {
-        path: 'edit',
-        component: SubstanceEntryForm,
-        resolve: {
-          substanceEntry: substanceEntryResolver
-        }
-      }
     ]
   },
 
-  {
-    path: 'substance',
-    children: [
-      {
-        path: "edit",
-        component: SubstanceForm,
-        resolve: {
-          substance: substanceResolver
-        }
-      },
-      {
-        path: 'create',
-        component: SubstanceForm
-      },
-      {
-        path: 'overview',
-        component: SubstanceOverview
-      },
-    ]
-  },
-
-  {
-    path: 'experiment',
-    children: [
-      {
-        path: 'create',
-        component: ExperimentForm
-      },
-      {
-        path: 'overview',
-        component: ExperimentOverview
-      }
-    ]
-  },
-  {
-    path: '**', component: ErrorComponent
-  },
 ];

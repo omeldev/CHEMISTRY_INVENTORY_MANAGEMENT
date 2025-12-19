@@ -1,0 +1,59 @@
+import {inject, Injectable} from '@angular/core';
+import {Store} from '@ngxs/store';
+import {SubstanceService} from '../rest/substance/substance.service';
+import {InventoryService} from '../rest/inventory/inventory.service';
+import {ExperimentService} from '../rest/experiment/experiment.service';
+import {firstValueFrom} from 'rxjs';
+import {SubstanceAction} from '../../store/substance/substance.actions';
+import {InventoryAction} from '../../store/inventory/inventory.actions';
+import {ExperimentAction} from '../../store/experiment/experiment.actions';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DataService {
+
+  private readonly store = inject(Store);
+
+  constructor(
+    private readonly substanceService: SubstanceService,
+    private readonly inventoryService: InventoryService,
+    private readonly experimentService: ExperimentService) {
+
+
+  }
+
+  public async populateApplication() {
+    await firstValueFrom(this.substanceService.getAll$()).then(
+      substances => {
+        if (substances && substances.length > 0) {
+          this.store.dispatch(new SubstanceAction.Init(substances));
+        }
+      }
+    ).then(() => {
+      console.log('Substances loaded into store');
+    })
+
+    await firstValueFrom(this.inventoryService.getAllSubstanceEntries$()).then(
+      substances => {
+        if (substances && substances.length > 0) {
+          this.store.dispatch(new InventoryAction.InitSubstances(substances));
+        }
+      }
+    ).then(() => {
+      console.log('Inventory substances loaded into store');
+    })
+
+    await firstValueFrom(this.experimentService.getAllExperiments$()).then(
+      experiments => {
+        if (experiments && experiments.length > 0) {
+          this.store.dispatch(new ExperimentAction.Init(experiments));
+        }
+      }
+    ).then(() => {
+      console.log('Experiments loaded into store');
+    })
+
+  }
+
+}
