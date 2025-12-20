@@ -1,12 +1,12 @@
 :host {
 
-  .supplier-overview-header {
+  .location-overview-header {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     padding: 1rem;
 
-    .supplier-overview-create {
+    .location-overview-create {
       background-color: #28a745;
       border: none;
       border-radius: 4px;
@@ -25,7 +25,7 @@
   }
 
 
-  .supplier-overview-container {
+  .location-overview-container {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
@@ -34,7 +34,7 @@
     justify-content: center;
 
 
-    .supplier-card {
+    .location-card {
       background-color: #ffffff;
       border: 1px solid #ddd;
       border-radius: 8px;
