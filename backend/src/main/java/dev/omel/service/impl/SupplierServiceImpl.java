@@ -37,4 +37,10 @@ public class SupplierServiceImpl implements SupplierService {
   public SupplierBean updateSupplier(Long id, SupplierBean supplierBean) {
     return supplierWorker.updateSupplier(id, supplierBean);
   }
+
+  @Override
+  @Transactional
+  public Boolean deleteSupplier(Long id) {
+    return supplierWorker.deleteSupplier(id);
+  }
 }

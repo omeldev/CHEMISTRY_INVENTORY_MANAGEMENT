@@ -2,6 +2,7 @@ package dev.omel.worker;
 
 import dev.omel.bean.SupplierBean;
 import dev.omel.entity.SupplierEntity;
+import dev.omel.repository.SubstanceRepository;
 import dev.omel.repository.SupplierRepository;
 import org.springframework.stereotype.Component;
 
@@ -11,9 +12,11 @@ import java.util.List;
 public class SupplierWorker {
 
   private final SupplierRepository supplierRepository;
+  private final SubstanceRepository substanceRepository;
 
-  public SupplierWorker(SupplierRepository supplierRepository) {
+  public SupplierWorker(SupplierRepository supplierRepository, SubstanceRepository substanceRepository) {
     this.supplierRepository = supplierRepository;
+    this.substanceRepository = substanceRepository;
   }
 
   public SupplierBean getSupplierById(Long id) {
@@ -47,5 +50,20 @@ public class SupplierWorker {
     entity.setUrl(supplierBean.url());
     supplierRepository.save(entity);
     return SupplierBean.from(entity);
+  }
+
+  public Boolean deleteSupplier(Long id) {
+
+    substanceRepository.findAll().forEach(substance -> {
+      if (substance.getSupplier() != null && substance.getSupplier().getId().equals(id)) {
+        substance.setSupplier(null);
+        substanceRepository.save(substance);
+      }
+    });
+
+    SupplierEntity entity = supplierRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Supplier with id " + id + " does not exist"));
+    supplierRepository.delete(entity);
+    return true;
+
   }
 }

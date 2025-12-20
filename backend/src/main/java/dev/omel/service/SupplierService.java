@@ -12,4 +12,6 @@ public interface SupplierService {
   SupplierBean createSupplier(SupplierBean supplierBean);
 
   SupplierBean updateSupplier(Long id, SupplierBean supplierBean);
+
+  Boolean deleteSupplier(Long id);
 }

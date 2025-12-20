@@ -48,4 +48,14 @@ public class SupplierController {
       return ResponseEntity.notFound().build();
     }
   }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Boolean> deleteSupplier(@PathVariable Long id) {
+    Boolean deleted = supplierService.deleteSupplier(id);
+    if (deleted) {
+      return ResponseEntity.ok(true);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
 }

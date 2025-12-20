@@ -1,0 +1,14 @@
+<div class="form-container">
+  <h1>Location Management</h1>
+  <div class="form-field">
+    <label>Name:</label>
+    <input [field]="supplierForm.name" type="text"/>
+  </div>
+
+  <div class="form-field">
+    <label>Url:</label>
+    <input [field]="supplierForm.url" type="text"/>
+    <chem-button (click)="saveSupplier()" [type]=ButtonType.SUCCESS>Save</chem-button>
+
+  </div>
+</div>
