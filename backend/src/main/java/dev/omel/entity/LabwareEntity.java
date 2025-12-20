@@ -75,7 +75,7 @@ public class LabwareEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "labware_category_id")
   @Setter
-  private LabwareCategory labwareCategory;
+  private LabwareCategoryEntity labwareCategoryEntity;
 
   public LabwareEntity() {
   }

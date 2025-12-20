@@ -4,7 +4,7 @@
     + Add new Supplier
   </a>
 </div>
-<div class="management-container">
+<div class="management-overview-container">
   @for (supplier of suppliers; track supplier.id) {
     <div class="management-card">
       <a [href]="supplier.url">{{ supplier.name }}</a>

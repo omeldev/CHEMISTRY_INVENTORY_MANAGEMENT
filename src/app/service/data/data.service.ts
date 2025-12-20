@@ -13,6 +13,8 @@ import {LocationService} from '../rest/location/location.service';
 import {LocationAction} from '../../store/location/location.actions';
 import {SupplierService} from '../rest/supplier/supplier.service';
 import {SupplierAction} from '../../store/supplier/supplier.actions';
+import {LabwareCategoryService} from '../rest/labware/category/labware-category.service';
+import {LabwareCategoryAction} from '../../store/labware-category/labware-category.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +29,8 @@ export class DataService {
     private readonly experimentService: ExperimentService,
     private readonly materialService: MaterialService,
     private readonly locationService: LocationService,
-    private readonly supplierService: SupplierService) {
+    private readonly supplierService: SupplierService,
+    private readonly labwareCategoryService: LabwareCategoryService) {
 
 
   }
@@ -92,7 +95,17 @@ export class DataService {
     ).then(() => {
         console.log('Suppliers loaded into store');
       }
-    )
+    );
+
+    await firstValueFrom(this.labwareCategoryService.getLabwareCategories$()).then(
+      categories => {
+        if (categories && categories.length > 0) {
+          this.store.dispatch(new LabwareCategoryAction.Initialize(categories));
+        }
+      }
+    ).then(() => {
+      console.log('Labware categories loaded into store');
+    })
 
   }
 

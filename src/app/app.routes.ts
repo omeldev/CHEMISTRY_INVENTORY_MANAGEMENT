@@ -22,6 +22,13 @@ import {locationFormResolver} from './resolver/management/location/location-form
 import {SupplierOverview} from './components/management/supplier/supplier-overview/supplier-overview.component';
 import {SupplierForm} from './components/management/supplier/supplier-form/supplier-form.component';
 import {supplierFormResolver} from './resolver/management/supplier/supplier-form.resolver';
+import {
+  LabwareCategoryOverview
+} from './components/management/labware-category/location-overview/labware-category-overview.component';
+import {labwareCategoryFormResolver} from './resolver/management/labware-category/labware-category-form.resolver';
+import {
+  LabwareCategoryForm
+} from './components/management/labware-category/location-form/labware-category-form.component';
 
 export const routes: Routes = [
 
@@ -64,6 +71,26 @@ export const routes: Routes = [
             component: SupplierForm,
             resolve: {
               supplier: supplierFormResolver
+            }
+          }
+        ]
+      },
+      {
+        path: 'labware-category',
+        children: [
+          {
+            path: 'overview',
+            component: LabwareCategoryOverview
+          },
+          {
+            path: 'create',
+            component: LabwareCategoryForm
+          },
+          {
+            path: 'edit',
+            component: LabwareCategoryForm,
+            resolve: {
+              labwareCategory: labwareCategoryFormResolver
             }
           }
         ]

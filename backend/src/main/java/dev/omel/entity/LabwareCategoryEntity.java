@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Entity(name = "labware_categories")
 @Getter
-public class LabwareCategory {
+public class LabwareCategoryEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +16,6 @@ public class LabwareCategory {
   @Setter
   private String name;
 
-  public LabwareCategory() {
+  public LabwareCategoryEntity() {
   }
 }

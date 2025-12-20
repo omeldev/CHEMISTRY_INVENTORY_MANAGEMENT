@@ -41,7 +41,7 @@ public record LabwareBean(
       entity.getLocation() != null ? entity.getLocation().getId() : null,
       entity.getVolume(),
       entity.getVolumeUnit(),
-      entity.getLabwareCategory() != null ? entity.getLabwareCategory().getId() : null
+      entity.getLabwareCategoryEntity() != null ? entity.getLabwareCategoryEntity().getId() : null
     );
   }
 }

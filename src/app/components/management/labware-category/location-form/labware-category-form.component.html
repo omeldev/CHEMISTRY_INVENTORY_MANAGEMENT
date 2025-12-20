@@ -1,0 +1,8 @@
+<div class="form">
+  <h1>Labware Category Management</h1>
+  <div class="form-field">
+    <label>Name:</label>
+    <input [field]="labwareCategoryForm.name" type="text"/>
+    <chem-button (click)="saveLabwareCategory()" [type]=ButtonType.SUCCESS>Save</chem-button>
+  </div>
+</div>

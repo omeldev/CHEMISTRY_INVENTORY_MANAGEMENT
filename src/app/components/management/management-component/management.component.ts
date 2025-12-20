@@ -24,4 +24,8 @@ export class ManagementComponent {
   navigateToSupplierOverview() {
     return this.router.createUrlTree(['supplier', 'overview']);
   }
+
+  protected navigateToLabwareCategoryOverview() {
+    return this.router.createUrlTree(['labware-category', 'overview']);
+  }
 }

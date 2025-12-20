@@ -1,0 +1,17 @@
+@let labwareCategories = labwareCategories$ | async;
+<div class="management-header">
+  <a class="create" [routerLink]="navigateToLabwareCategoryCreatePage()">
+    + Add new Labware Category
+  </a>
+</div>
+<div class="management-overview-container">
+  @for (labwareCategory of labwareCategories; track labwareCategory.id) {
+    <div class="management-card">
+      <h3>{{ labwareCategory.name }}</h3>
+      <div class="management-button-container">
+        <chem-button (click)="editLabwareCategory(labwareCategory.id)" [type]=ButtonType.PRIMARY>Edit</chem-button>
+        <chem-button (click)="deleteLabwareCategory(labwareCategory)" [type]=ButtonType.DANGER>Delete</chem-button>
+      </div>
+    </div>
+  }
+</div>

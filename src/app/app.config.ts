@@ -11,6 +11,7 @@ import {UserState} from './store/user/user.state';
 import {MaterialState} from './store/material/material.state';
 import {LocationState} from './store/location/location.state';
 import {SupplierState} from './store/supplier/supplier.state';
+import {LabwareCategoryState} from './store/labware-category/labware-category.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,7 +27,8 @@ export const appConfig: ApplicationConfig = {
         UserState,
         MaterialState,
         LocationState,
-        SupplierState
+        SupplierState,
+        LabwareCategoryState
       ])
   ]
 };

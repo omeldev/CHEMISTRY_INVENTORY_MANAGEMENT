@@ -1,33 +1,5 @@
+@use "form";
+
 :host {
-
-  .wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 32px;
-    gap: 32px;
-
-    .auth-container {
-      background-color: #f8f9fa;
-      border: 1px solid #333333;
-      margin: 2rem;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      padding: 16px;
-      width: 250px;
-
-      .form-field {
-        display: flex;
-        justify-content: space-between;
-        margin: 6px 0;
-      }
-
-      .submit-container {
-        margin-top: 12px;
-      }
-    }
-  }
 
 }
