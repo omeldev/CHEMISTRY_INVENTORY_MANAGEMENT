@@ -1,5 +1,9 @@
-:host {
+@use "palette" as palette;
 
+:host {
+  /* -----------------------------
+     Header (Create Button)
+     ----------------------------- */
   .substance-overview-header {
     display: flex;
     flex-direction: row;
@@ -7,40 +11,61 @@
     padding: 1rem;
 
     .substance-overview-create {
-      background-color: #28a745;
+      background-color: palette.$status-success; /* green accent for create */
       border: none;
       border-radius: 4px;
-      color: #ffffff;
+      color: palette.$text-inverted;
       cursor: pointer;
       font-size: 14px;
       padding: 8px 12px;
       transition: background-color 0.2s;
-
       text-decoration: none;
 
       &:hover {
-        background-color: #1e7e34;
+        background-color: darken(palette.$status-success, 15%);
+      }
+
+      &:active {
+        background-color: darken(palette.$status-success, 25%);
+      }
+
+      &:disabled {
+        background-color: palette.$surface-default;
+        color: palette.$text-disabled;
+        cursor: not-allowed;
       }
     }
   }
 
+  /* -----------------------------
+     Substance Cards Container
+     ----------------------------- */
   .substance-container {
     display: flex;
     flex-direction: row;
-    min-height: 100%;
     flex-wrap: wrap;
     justify-content: center;
+    min-height: 100%;
+    gap: 2rem;
 
     .substance-card {
-      background-color: #f8f9fa;
-      border: 1px solid #333333;
-      margin: 2rem;
+      background-color: palette.$surface-elevated;
+      border: 1px solid palette.$border-default;
       border-radius: 8px;
       display: flex;
       flex-direction: column;
       padding: 16px;
       width: 250px;
+      box-shadow: palette.$shadow-sm;
+      transition: transform 0.2s, box-shadow 0.2s;
 
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: palette.$shadow-md;
+        border-color: palette.$brand-primary-hover;
+      }
+
+      /* NFPA Section */
       .nfpa-container {
         display: flex;
         justify-content: center;
@@ -51,8 +76,8 @@
         }
       }
 
+      /* Substance Properties */
       .substance-property {
-
         display: grid;
         grid-template-columns: 1fr 2fr;
         gap: 8px;
@@ -60,36 +85,45 @@
 
         &-label {
           font-weight: bold;
+          color: palette.$text-secondary;
         }
 
         &-value {
+          color: palette.$text-primary;
         }
-
       }
 
+      /* Buttons inside card */
       .substance-button-container {
         display: flex;
         justify-content: space-between;
-        flex-direction: row;
+        margin-top: 1rem;
 
         .substance-button {
-          background-color: #007bff;
+          background-color: palette.$brand-primary;
           border: none;
           border-radius: 4px;
-          color: #ffffff;
+          color: palette.$text-inverted;
           cursor: pointer;
           font-size: 14px;
           padding: 8px 12px;
           transition: background-color 0.2s;
 
           &:hover {
-            background-color: #0056b3;
+            background-color: palette.$brand-primary-hover;
+          }
+
+          &:active {
+            background-color: palette.$brand-primary-active;
+          }
+
+          &:disabled {
+            background-color: palette.$surface-default;
+            color: palette.$text-disabled;
+            cursor: not-allowed;
           }
         }
       }
-
     }
-
   }
-
 }

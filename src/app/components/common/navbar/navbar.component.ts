@@ -4,7 +4,7 @@ import {Router, RouterLink} from '@angular/router';
 @Component({
   selector: 'chem-header',
   imports: [
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',

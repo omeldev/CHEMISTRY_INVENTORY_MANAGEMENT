@@ -1,17 +1,18 @@
 @let suppliers = suppliers$ | async;
-<div class="supplier-overview-header">
-  <a class="supplier-overview-create" [routerLink]="navigateToLocationCreatePage()">
+<div class="management-header">
+  <a class="create" [routerLink]="navigateToLocationCreatePage()">
     + Add new Supplier
   </a>
 </div>
-<div class="supplier-overview-container">
+<div class="management-container">
   @for (supplier of suppliers; track supplier.id) {
-    <div class="supplier-card">
+    <div class="management-card">
       <a [href]="supplier.url">{{ supplier.name }}</a>
-      <div class="button-container">
+      <div class="management-button-container">
         <chem-button (click)="editSupplier(supplier.id)" [type]=ButtonType.PRIMARY>Edit</chem-button>
         <chem-button (click)="deleteSupplier(supplier)" [type]=ButtonType.DANGER>Delete</chem-button>
       </div>
     </div>
+
   }
 </div>

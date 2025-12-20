@@ -1,14 +1,14 @@
 @let locations = locations$ | async;
-<div class="location-overview-header">
-  <a class="location-overview-create" [routerLink]="navigateToLocationCreatePage()">
+<div class="management-header">
+  <a class="create" [routerLink]="navigateToLocationCreatePage()">
     + Add new Location
   </a>
 </div>
-<div class="location-overview-container">
+<div class="management-overview-container">
   @for (location of locations; track location.id) {
-    <div class="location-card">
+    <div class="management-card">
       <h3>{{ location.name }}</h3>
-      <div class="button-container">
+      <div class="management-button-container">
         <chem-button (click)="editLocation(location.id)" [type]=ButtonType.PRIMARY>Edit</chem-button>
         <chem-button (click)="deleteLocation(location)" [type]=ButtonType.DANGER>Delete</chem-button>
       </div>

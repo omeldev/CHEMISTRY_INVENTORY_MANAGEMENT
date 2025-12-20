@@ -14,6 +14,8 @@ import {ExperimentAction} from '../../../store/experiment/experiment.actions';
 import {Router} from '@angular/router';
 import {ToastAction} from '../../../store/toast/toast.action';
 import {ToastType} from '../../../obj/bean/toast.bean';
+import {Button} from '../../common/button/button';
+import {ButtonType} from '../../../obj/enum/button.enum';
 
 interface ExperimentFormData {
   title: string;
@@ -26,7 +28,8 @@ interface ExperimentFormData {
   imports: [
     Field,
     Dropdown,
-    AsyncPipe
+    AsyncPipe,
+    Button
   ],
   templateUrl: './experiment-form.html',
   styleUrl: './experiment-form.scss',
@@ -130,4 +133,6 @@ export class ExperimentForm {
     const updatedReactants = currentReactants.filter(r => r !== reactant);
     this.experimentReactantsSubject.next(updatedReactants);
   }
+
+  protected readonly ButtonType = ButtonType;
 }

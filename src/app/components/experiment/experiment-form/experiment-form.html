@@ -1,39 +1,35 @@
 @let reactants = experimentReactants$ | async;
 @let substanceOptions = substanceOptions$ | async;
 
-
-<div class="form-container" xmlns="http://www.w3.org/1999/html">
-  <label class="form-field-label">Title: </label>
-  <div class="form-field-container">
+<div class="form">
+  <h1>Create an Experiment</h1>
+  <div class="form-field">
+    <label>Title: </label>
     <input class="form-field-input" [field]="experimentForm.title" type="text"/>
   </div>
-</div>
 
-<div class="form-container">
-  <label class="form-field-label">Notes: </label>
-  <div class="form-field-container">
+  <div class="form-field">
+    <label>Notes: </label>
     <textarea class="form-field-input" [field]="experimentForm.note" type="text"></textarea>
   </div>
-</div>
 
-<div class="form-container">
-  <label class="form-field-label">Substance: </label>
-  <div class="form-field-container">
+  <div class="form-field">
+    <label>Substance: </label>
     @if (substanceOptions) {
       <chem-dropdown
         (onSelect)="onSelectSubstanceEntry($event)"
         [options]="substanceOptions"
       />
     }
-    <input class="form-field-input" [field]="experimentForm.quantity" type="number"/>
+    <input class="form-field" [field]="experimentForm.quantity" type="number"/>
     <chem-dropdown
       (onSelect)="onSelectUnit($event)"
       [options]="unitOptions"
     />
-    <button class="add-button" (click)="addSubstanceToExperiment()">+</button>
+    <chem-button [type]=ButtonType.SUCCESS (click)="addSubstanceToExperiment()">+</chem-button>
+
 
   </div>
-
 </div>
 
 @if (reactants && reactants.length > 0) {
@@ -50,4 +46,4 @@
     }
   </div>
 }
-<button class="submit-button" (click)="submitExperiment()">submit</button>
+<chem-button [type]=ButtonType.PRIMARY (click)="submitExperiment()">submit</chem-button>

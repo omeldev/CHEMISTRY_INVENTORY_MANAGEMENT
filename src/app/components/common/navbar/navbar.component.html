@@ -1,7 +1,12 @@
-<div>
-  <a [routerLink]="navigateToDashboard()">Dashboard</a>
-  <a [routerLink]="navigateToSubstanceOverview()">Substances</a>
-  <a [routerLink]="navigateToInventory()">Inventory</a>
-  <a [routerLink]="navigateToExperiments()">Experiments</a>
-  <a [routerLink]="navigateToManagement()">Management</a>
+<div class="navbar">
+  <div class="logo-container">
+    <img [routerLink]="navigateToDashboard()" src="logo.png" alt="App Logo"/>
+  </div>
+  <div class="nav-links">
+    <a [routerLink]="navigateToDashboard()">Dashboard</a>
+    <a [routerLink]="navigateToSubstanceOverview()">Substances</a>
+    <a [routerLink]="navigateToInventory()">Inventory</a>
+    <a [routerLink]="navigateToExperiments()">Experiments</a>
+    <a [routerLink]="navigateToManagement()">Management</a>
+  </div>
 </div>

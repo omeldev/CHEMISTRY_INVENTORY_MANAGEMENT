@@ -1,8 +1,10 @@
+@use "palette" as palette;
 /* Remove all default margins */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
 }
 
 /* Use smooth font rendering */
@@ -11,14 +13,15 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  background: palette.$app-background; /* or your preferred background */
+  color: palette.$text-primary;
 }
 
 /* Remove default body styles */
 body {
   width: 100%;
   height: 100%;
-  background: #000; /* or your preferred background */
-  color: #fff;
+
   overflow: hidden; /* optional: avoids scrollbars for fullscreen apps */
 }
 

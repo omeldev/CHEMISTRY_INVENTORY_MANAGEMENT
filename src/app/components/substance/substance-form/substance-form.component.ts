@@ -13,6 +13,8 @@ import {ToastAction} from '../../../store/toast/toast.action';
 import {ToastType} from '../../../obj/bean/toast.bean';
 import {SupplierBean} from '../../../obj/bean/supplier.bean';
 import {SupplierState} from '../../../store/supplier/supplier.state';
+import {Button} from '../../common/button/button';
+import {ButtonType} from '../../../obj/enum/button.enum';
 
 interface ChemicalSubstanceFormData {
   name: string;
@@ -40,7 +42,8 @@ const DEFAULT_CHEMICAL_SUBSTANCE_FORM_MODEL_DATA: ChemicalSubstanceFormData = {
   selector: 'chem-chemical-substance-form',
   imports: [
     Field,
-    Dropdown
+    Dropdown,
+    Button
   ],
   templateUrl: './substance-form.component.html',
   styleUrl: './substance-form.component.scss',
@@ -144,4 +147,5 @@ export class SubstanceForm {
     return this.router.navigateByUrl(this.router.createUrlTree(['substance', 'overview']))
   }
 
+  protected readonly ButtonType = ButtonType;
 }

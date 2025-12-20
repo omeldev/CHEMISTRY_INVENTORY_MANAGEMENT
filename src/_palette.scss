@@ -1,0 +1,72 @@
+/* ============================================================
+   ChIM – Dark Theme
+   Chemistry Inventory Management
+   ============================================================ */
+
+/* -----------------------------
+   Brand Colors
+   ----------------------------- */
+
+$brand-primary: #7c3aed; // main purple (buttons, highlights)
+$brand-primary-hover: #9f67ff; // hover / focus
+$brand-primary-active: #6a2bb3; // pressed / active
+$brand-primary-muted: #4d1c72; // subtle accents
+$brand-primary-deep: #2a0f3d; // overlays / gradients
+
+
+/* -----------------------------
+   Application Backgrounds
+   ----------------------------- */
+
+$app-background: #0e0f14; // main app background
+$app-background-secondary: #141521;
+$surface-default: #1a1c2b; // cards, panels
+$surface-elevated: #23253a; // modals, dropdowns
+$surface-interactive: #2f314d; // hoverable rows, list items
+
+
+/* -----------------------------
+   Text Colors
+   ----------------------------- */
+
+$text-primary: #f5f6fa; // primary text
+$text-secondary: #c7c9d9; // labels, descriptions
+$text-muted: #8b8fa8; // helper text
+$text-disabled: #5e617a; // disabled states
+$text-inverted: #0e0f14; // text on light/purple backgrounds
+
+
+/* -----------------------------
+   Borders & Dividers
+   ----------------------------- */
+
+$border-default: rgba(159, 103, 255, 0.25);
+$border-strong: rgba(159, 103, 255, 0.45);
+$divider-subtle: rgba(255, 255, 255, 0.06);
+
+
+/* -----------------------------
+   Status / Semantic Colors
+   ----------------------------- */
+
+$status-success: #3ddc97; // success / valid
+$status-warning: #facc15; // caution
+$status-error: #ef4444; // error / danger
+$status-info: #9f67ff; // informational (purple-aligned)
+
+
+/* -----------------------------
+   Focus & Accessibility
+   ----------------------------- */
+
+$focus-ring-color: rgba(159, 103, 255, 0.4);
+$focus-ring: 0 0 0 3px $focus-ring-color;
+
+
+/* -----------------------------
+   Shadows (Soft, Dark UI)
+   ----------------------------- */
+
+$shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.35);
+$shadow-md: 0 6px 16px rgba(0, 0, 0, 0.45);
+$shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.55);

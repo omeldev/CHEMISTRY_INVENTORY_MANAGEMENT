@@ -1,46 +1,63 @@
-@let substanceEntries = substanceEntries$ | async;
-@if (substanceEntries) {
+<section class="substance-overview">
+
   <div class="substance-overview-header">
-    <a class="substance-overview-create" [routerLink]="navigateToSubstanceCreateEntryPage()">
+    <a
+      class="substance-overview-create"
+      [routerLink]="navigateToSubstanceCreateEntryPage()"
+    >
       + Create New Substance Entry
     </a>
   </div>
+
   <div class="substance-container">
-    @for (entry of substanceEntries; track entry.id) {
+    @for (entry of substanceEntries$ | async; track entry.id) {
       @if (entry) {
-        <div class="substance-card">
-          <div class="substance-header">
+        <article class="substance-card">
+
+          <header class="substance-header">
             @let substance = getSubstanceById$(entry.chemicalSubstanceId) | async;
             @if (substance) {
               <h3>{{ substance.name }}</h3>
             }
-          </div>
-          <p class="substance-property">
-            <span class="substance-property-label">Location:</span>
-            @let location = getLocationById$(entry.locationId) | async;
-            @if (location) {
-              <span class="substance-property-value">{{ location.name }}</span>
-            }
-          </p>
-          <p class="substance-property">
-            <span class="substance-property-label">Quantity:</span>
-            <span
-              class="substance-property-value"> {{ (entry.quantityBase | formatQuantity:entry.unit) || "-" }}</span>
-          </p>
-          <p class="substance-property">
-            <span class="substance-property-label">Purity:</span>
-            <span class="substance-property-value">{{ entry.purity || "-" }}</span>
-          </p>
-          <p class="substance-property">
-            <span class="substance-property-label">Notes:</span>
-            <span class="substance-property-value substance-note">{{ entry.note || "-" }}</span>
-          </p>
-          <div class="substance-button-container">
-            <button class="substance-button" (click)="editSubstanceEntry(entry.id)">Edit</button>
-            <chem-button [type]="ButtonType.DANGER" (click)="deleteSubstanceEntry(entry.id)">Delete</chem-button>
-          </div>
-        </div>
+          </header>
+
+          <dl class="substance-properties">
+            <div class="substance-property">
+              <dt>Location:</dt>
+              @let location = getLocationById$(entry.locationId) | async;
+              @if (location) {
+                <dd>{{ location.name }}</dd>
+              }
+            </div>
+
+            <div class="substance-property">
+              <dt>Quantity:</dt>
+              <dd>{{ (entry.quantityBase | formatQuantity:entry.unit) || "-" }}</dd>
+            </div>
+
+            <div class="substance-property">
+              <dt>Purity:</dt>
+              <dd>{{ entry.purity || "-" }}</dd>
+            </div>
+
+            <div class="substance-property">
+              <dt>Notes:</dt>
+              <dd class="substance-note">{{ entry.note || "-" }}</dd>
+            </div>
+          </dl>
+
+          <footer class="substance-button-container">
+            <chem-button [type]=ButtonType.PRIMARY class="substance-button" (click)="editSubstanceEntry(entry.id)">
+              Edit
+            </chem-button>
+            <chem-button [type]="ButtonType.DANGER" (click)="deleteSubstanceEntry(entry.id)">
+              Delete
+            </chem-button>
+          </footer>
+
+        </article>
       }
     }
   </div>
-}
+
+</section>

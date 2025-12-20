@@ -15,6 +15,8 @@ import {LocationState} from '../../../../store/location/location.state';
 import {ToastAction} from '../../../../store/toast/toast.action';
 import {ToastType} from '../../../../obj/bean/toast.bean';
 import {InventoryService} from '../../../../service/rest/inventory/inventory.service';
+import {Button} from '../../../common/button/button';
+import {ButtonType} from '../../../../obj/enum/button.enum';
 
 interface ChemicalSubstanceEntryFormData {
   quantityBase: number;
@@ -36,7 +38,8 @@ const DEFAULT_CHEMICAL_SUBSTANCE_ENTRY_FORM_DATA = {
   selector: 'chem-chemical-substance-entry-form',
   imports: [
     Field,
-    Dropdown
+    Dropdown,
+    Button
   ],
   templateUrl: './substance-entry-form.component.html',
   styleUrl: './substance-entry-form.component.scss',
@@ -146,4 +149,5 @@ export class SubstanceEntryForm {
     return this.router.navigateByUrl(this.router.createUrlTree(['inventory', 'overview']))
   }
 
+  protected readonly ButtonType = ButtonType;
 }

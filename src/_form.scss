@@ -1,0 +1,95 @@
+@use "palette" as palette;
+
+/* ================================
+   Global Form Styles – Dark Mode
+   ================================ */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+/* -----------------------------
+   Form Field – Horizontal Layout
+   ----------------------------- */
+.form-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+
+  label {
+    width: 120px; /* fixed width for alignment */
+    font-weight: 600;
+    color: palette.$text-primary;
+    text-align: right;
+  }
+
+  input,
+  select,
+  textarea {
+    flex: 1; /* fill remaining space */
+    background-color: palette.$surface-elevated;
+    color: palette.$text-primary;
+    border: 1px solid palette.$border-default;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+
+    &:hover {
+      border-color: palette.$brand-primary-hover;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: palette.$brand-primary;
+      box-shadow: palette.$focus-ring;
+    }
+
+    &:disabled {
+      background-color: palette.$surface-default;
+      color: palette.$text-disabled;
+      cursor: not-allowed;
+    }
+  }
+
+  /* -----------------------------
+     Number Input Fixes
+     ----------------------------- */
+  input[type="number"] {
+    background-color: palette.$surface-elevated;
+    color: palette.$text-primary;
+    -moz-appearance: textfield; /* Firefox: remove spin buttons */
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* remove default Chrome/Edge buttons */
+  }
+
+  /* -----------------------------
+     Optional: Custom Scrollbars for selects/textareas
+     ----------------------------- */
+  select,
+  textarea {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: palette.$surface-elevated;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: palette.$brand-primary;
+      border-radius: 3px;
+    }
+  }
+}

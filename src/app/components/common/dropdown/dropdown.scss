@@ -1,34 +1,74 @@
+@use "palette" as palette;
+
 :host {
   .dropdown-label {
     font-weight: bold;
     margin-bottom: 8px;
     display: block;
+    color: palette.$text-primary;
   }
 
   .dropdown-select {
-    background-color: #f8f9fa;
-    border: 1px solid #333333;
+    background-color: palette.$surface-elevated;
+    border: 1px solid palette.$border-default;
     border-radius: 4px;
-    color: #333333;
+    color: palette.$text-primary;
     font-size: 14px;
     padding: 8px 12px;
-    transition: background-color 0.2s, border-color 0.2s;
     width: 100%;
     cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 
     &:hover {
-      background-color: #e9ecef;
-      border-color: #0056b3;
+      background-color: palette.$surface-default;
+      border-color: palette.$brand-primary-hover;
     }
 
     &:focus {
       outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+      border-color: palette.$brand-primary;
+      box-shadow: palette.$focus-ring;
+    }
+
+    &:disabled {
+      background-color: palette.$surface-elevated;
+      color: palette.$text-disabled;
+      cursor: not-allowed;
     }
 
     .dropdown-option {
       padding: 8px;
+      color: palette.$text-primary;
+
+      &:hover {
+        background-color: palette.$brand-primary-hover;
+        color: palette.$text-inverted;
+      }
+
+      &.selected {
+        background-color: palette.$brand-primary-active;
+        color: palette.$text-inverted;
+      }
+
+      &.disabled {
+        color: palette.$text-disabled;
+        cursor: not-allowed;
+        background: none;
+      }
     }
+  }
+
+  /* Optional scrollbar styling for dark dropdowns */
+  .dropdown-select::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .dropdown-select::-webkit-scrollbar-track {
+    background: palette.$surface-elevated;
+  }
+
+  .dropdown-select::-webkit-scrollbar-thumb {
+    background-color: palette.$brand-primary;
+    border-radius: 3px;
   }
 }

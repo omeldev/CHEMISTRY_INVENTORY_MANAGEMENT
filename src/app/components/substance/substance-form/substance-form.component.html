@@ -1,56 +1,54 @@
-<div class="substance-entry-form-container">
-  <h1 class="substance-entry-form-title">Create a substance</h1>
-  <div class="substance-entry-form">
-
-    <div class="form-field">
-      <label class="form-field-label">Name: </label>
-      <input class="form-field-input" [field]="chemicalSubstanceForm.name" type="text"/>
-    </div>
-
-    <div class="form-field">
-      <label class="form-field-label">CAS Number: </label>
-      <input class="form-field-input" [field]="chemicalSubstanceForm.casNumber" type="text"/>
-    </div>
-
-    <div class="form-field">
-      <label class="form-field-label">Molecular Formula: </label>
-      <input class="form-field-input" [field]="chemicalSubstanceForm.molecularFormula" type="text"/>
-    </div>
-
-    <div class="form-field">
-      <label class="form-field-label">Supplier: </label>
-      <chem-dropdown (onSelect)="onSelectSupplier($event)"
-                     [options]="supplierOptions()"
-                     [selectedOption]="selectedSupplier()"></chem-dropdown>
-    </div>
-
-    <div class="form-field">
-      <label class="form-field-label">NFPA Health: </label>
-      <input class="form-field-input" [field]="chemicalSubstanceForm.nfpaHealth" type="number"/>
-    </div>
-
-    <div class="form-field">
-      <label class="form-field-label">NFPA Flammability: </label>
-      <input class="form-field-input" [field]="chemicalSubstanceForm.nfpaFlammability" type="number"/>
-    </div>
-
-    <div class="form-field">
-      <label class="form-field-label">NFPA Reactivity: </label>
-      <input class="form-field-input" [field]="chemicalSubstanceForm.nfpaReactivity" type="number"/>
-    </div>
-
-    @if (specifiedHazardOptions) {
-      <div class="form-field">
-        <label class="form-field-label">Specific Hazard: </label>
-        <chem-dropdown (onSelect)="onSelectSpecifiedHazard($event)"
-                       [options]="specifiedHazardOptions"
-                       [selectedOption]="selectedSpecifiedHazard()"></chem-dropdown>
-      </div>
-    }
-
+<h1 class="substance-entry-form-title">Create a substance</h1>
+<div class="form">
+  <div class="form-field">
+    <label>Name: </label>
+    <input [field]="chemicalSubstanceForm.name" type="text"/>
   </div>
 
-  <div class="button-container">
-    <button (click)="submitForm()">Submit</button>
+  <div class="form-field">
+    <label>CAS Number: </label>
+    <input [field]="chemicalSubstanceForm.casNumber" type="text"/>
   </div>
+
+  <div class="form-field">
+    <label>Molecular Formula: </label>
+    <input [field]="chemicalSubstanceForm.molecularFormula" type="text"/>
+  </div>
+
+  <div class="form-field">
+    <label>Supplier: </label>
+    <chem-dropdown (onSelect)="onSelectSupplier($event)"
+                   [options]="supplierOptions()"
+                   [selectedOption]="selectedSupplier()"></chem-dropdown>
+  </div>
+
+  <div class="form-field">
+    <label>NFPA Health: </label>
+    <input [field]="chemicalSubstanceForm.nfpaHealth" type="number"/>
+  </div>
+
+  <div class="form-field">
+    <label>NFPA Flammability: </label>
+    <input [field]="chemicalSubstanceForm.nfpaFlammability" type="number"/>
+  </div>
+
+  <div class="form-field">
+    <label>NFPA Reactivity: </label>
+    <input [field]="chemicalSubstanceForm.nfpaReactivity" type="number"/>
+  </div>
+
+  @if (specifiedHazardOptions) {
+    <div class="form-field">
+      <label>Specific Hazard: </label>
+      <chem-dropdown (onSelect)="onSelectSpecifiedHazard($event)"
+                     [options]="specifiedHazardOptions"
+                     [selectedOption]="selectedSpecifiedHazard()"></chem-dropdown>
+    </div>
+  }
+
 </div>
+
+<div class="button-container">
+  <chem-button [type]=ButtonType.PRIMARY (click)="submitForm()">Submit</chem-button>
+</div>
+

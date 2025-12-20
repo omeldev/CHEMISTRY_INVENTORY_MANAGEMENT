@@ -1,49 +1,48 @@
-<div class="substance-entry-form-container">
-  <h1 class="substance-entry-form-title">Create a substance entry</h1>
-  <div class="substance-entry-form">
+<h1 class="substance-entry-form-title">Create a substance entry</h1>
+<div class="form">
 
-    <div class="form-field">
-      <label class="form-field-label">Location: </label>
-      <chem-dropdown
-        (onSelect)="onSelectLocation($event)"
-        [options]="locationOptions()"
-        [selectedOption]="selectedLocation()"
-      ></chem-dropdown>
-    </div>
-
-    <div class="form-field">
-      <label class="form-field-label">Quantity: </label>
-      <input class="form-field-input" [field]="substanceEntryForm.quantityBase" type="number"/>
-      <chem-dropdown
-        (onSelect)="onSelectQuantityUnit($event)"
-        [options]="quantityUnitOptions"
-        [selectedOption]="selectedUnit()"
-      ></chem-dropdown>
-    </div>
-
-    <div class="form-field">
-      <label class="form-field-label">Purity: </label>
-      <input class="form-field-input" [field]="substanceEntryForm.purity" type="text"/>
-    </div>
-
-    <div class="form-field">
-      <label class="form-field-label">Notes: </label>
-      <textarea class="form-field-textarea" [field]="substanceEntryForm.note" type="text"></textarea>
-    </div>
-
-    @if (substanceOptions()) {
-      <div class="form-field">
-        <label class="form-field-label">Select Substance: </label>
-        <chem-dropdown (onSelect)="onSelectSubstance($event)"
-                       [options]="substanceOptions()"
-                       [selectedOption]="selectedSubstance()"
-        ></chem-dropdown>
-      </div>
-    }
-
+  <div class="form-field">
+    <label>Location: </label>
+    <chem-dropdown
+      (onSelect)="onSelectLocation($event)"
+      [options]="locationOptions()"
+      [selectedOption]="selectedLocation()"
+    ></chem-dropdown>
   </div>
 
-  <div class="button-container">
-    <button (click)="submitForm()">Submit</button>
+  <div class="form-field">
+    <label>Quantity: </label>
+    <input [field]="substanceEntryForm.quantityBase" type="number"/>
+    <chem-dropdown
+      (onSelect)="onSelectQuantityUnit($event)"
+      [options]="quantityUnitOptions"
+      [selectedOption]="selectedUnit()"
+    ></chem-dropdown>
   </div>
+
+  <div class="form-field">
+    <label>Purity: </label>
+    <input [field]="substanceEntryForm.purity" type="text"/>
+  </div>
+
+  <div class="form-field">
+    <label>Notes: </label>
+    <textarea [field]="substanceEntryForm.note" type="text"></textarea>
+  </div>
+
+  @if (substanceOptions()) {
+    <div class="form-field">
+      <label>Select Substance: </label>
+      <chem-dropdown (onSelect)="onSelectSubstance($event)"
+                     [options]="substanceOptions()"
+                     [selectedOption]="selectedSubstance()"
+      ></chem-dropdown>
+    </div>
+  }
+
 </div>
+ 
+<div class="button-container">
+  <chem-button [type]=ButtonType.PRIMARY (click)="submitForm()">Submit</chem-button>
+</div>
+
