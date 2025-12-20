@@ -2,15 +2,10 @@ import {Component, effect, inject, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
 import {SubstanceBean} from '../../../obj/bean/substance.bean';
 import {SubstanceService} from '../../../service/rest/substance/substance.service';
-import {BehaviorSubject, firstValueFrom, map} from 'rxjs';
+import {firstValueFrom, map} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {
-  defaultSpecifiedHazardOptionsKeyIndex,
-  SpecifiedHazard,
-  specifiedHazardOptionsKeys
-} from '../../../obj/enum/specific-hazard.enum';
+import {SpecifiedHazard, specifiedHazardOptions} from '../../../obj/enum/specific-hazard.enum';
 import {Dropdown, DropdownOption} from '../../common/dropdown/dropdown';
-import {AsyncPipe} from '@angular/common';
 import {Store} from '@ngxs/store';
 import {SubstanceAction} from '../../../store/substance/substance.actions';
 import {toSignal} from '@angular/core/rxjs-interop';
@@ -25,7 +20,7 @@ interface ChemicalSubstanceFormData {
   nfpaHealth: number;
   nfpaFlammability: number
   nfpaReactivity: number;
-  nfpaSpecifiedHazard: keyof typeof SpecifiedHazard;
+  nfpaSpecifiedHazard: SpecifiedHazard;
 }
 
 const DEFAULT_CHEMICAL_SUBSTANCE_FORM_MODEL_DATA: ChemicalSubstanceFormData = {
@@ -36,15 +31,14 @@ const DEFAULT_CHEMICAL_SUBSTANCE_FORM_MODEL_DATA: ChemicalSubstanceFormData = {
   nfpaHealth: 0,
   nfpaFlammability: 0,
   nfpaReactivity: 0,
-  nfpaSpecifiedHazard: 'NONE'
+  nfpaSpecifiedHazard: SpecifiedHazard.NONE
 };
 
 @Component({
   selector: 'chem-chemical-substance-form',
   imports: [
     Field,
-    Dropdown,
-    AsyncPipe
+    Dropdown
   ],
   templateUrl: './substance-form.component.html',
   styleUrl: './substance-form.component.scss',
@@ -52,20 +46,14 @@ const DEFAULT_CHEMICAL_SUBSTANCE_FORM_MODEL_DATA: ChemicalSubstanceFormData = {
 
 export class SubstanceForm {
 
-  public specifiedHazardOptions: DropdownOption<keyof SpecifiedHazard>[] = specifiedHazardOptionsKeys;
+  public specifiedHazardOptions: DropdownOption<SpecifiedHazard>[] = specifiedHazardOptions;
 
   public chemicalSubstanceAnswerModel = signal<ChemicalSubstanceFormData>(DEFAULT_CHEMICAL_SUBSTANCE_FORM_MODEL_DATA);
-
   public chemicalSubstanceForm = form(this.chemicalSubstanceAnswerModel);
 
-  public defaultSpecifiedHazardOption: number = defaultSpecifiedHazardOptionsKeyIndex;
-
-  private selectedSpecifiedHazardIndexSubject = new BehaviorSubject(this.defaultSpecifiedHazardOption);
-  public selectedSpecifiedHazardIndex$ = this.selectedSpecifiedHazardIndexSubject.asObservable();
-
+  public selectedSpecifiedHazard = signal<SpecifiedHazard>(SpecifiedHazard.NONE);
   private route = inject(ActivatedRoute);
 
-  // Reactive approach: resolved data as observable converted to signal
   public chemicalSubstance = toSignal(
     this.route.data.pipe(map(data => data['substance'] as SubstanceBean | null)),
     {initialValue: null}
@@ -84,9 +72,9 @@ export class SubstanceForm {
           nfpaHealth: this.chemicalSubstance()?.nfpaHealth ?? 0,
           nfpaFlammability: this.chemicalSubstance()?.nfpaFlammability ?? 0,
           nfpaReactivity: this.chemicalSubstance()?.nfpaReactivity ?? 0,
-          nfpaSpecifiedHazard: this.chemicalSubstance()?.nfpaSpecifiedHazard ?? 'NONE'
+          nfpaSpecifiedHazard: this.chemicalSubstance()?.nfpaSpecifiedHazard ?? SpecifiedHazard.NONE
         });
-        this.selectedSpecifiedHazardIndexSubject.next(this.specifiedHazardOptions.findIndex(option => option.value === this.chemicalSubstance()?.nfpaSpecifiedHazard as keyof SpecifiedHazard));
+        this.selectedSpecifiedHazard.set(this.chemicalSubstance()?.nfpaSpecifiedHazard ?? SpecifiedHazard.NONE);
       }
     });
   }
@@ -94,7 +82,7 @@ export class SubstanceForm {
   public onSelectSpecifiedHazard = (value: any) => {
     this.chemicalSubstanceAnswerModel.update(current => ({
       ...current,
-      nfpaSpecifiedHazard: value as keyof typeof SpecifiedHazard
+      nfpaSpecifiedHazard: value as SpecifiedHazard
     }))
   }
 

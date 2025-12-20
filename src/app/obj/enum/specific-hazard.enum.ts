@@ -5,19 +5,24 @@ export enum SpecifiedHazard {
   ACID = "ACID",
   ALKALI = "ALK",
   CORROSIVE = "CORR",
-  USE_NO_WATER = "₩",
-  RADIOACTIVE = "☢",
+  USE_NO_WATER = "USE_NO_WATER",
+  RADIOACTIVE = "RADIOACTIVE",
   NONE = "",
 }
 
-export const specifiedHazardOptions: DropdownOption<SpecifiedHazard>[] = Object.keys(SpecifiedHazard).map(key => ({
-  label: key,
-  value: SpecifiedHazard[key as keyof typeof SpecifiedHazard]
-}));
+export const SpecifiedHazardLabel: Record<SpecifiedHazard, string> = {
+  [SpecifiedHazard.OXIDIZER]: 'OXY',
+  [SpecifiedHazard.ACID]: 'ACID',
+  [SpecifiedHazard.ALKALI]: 'ALK',
+  [SpecifiedHazard.CORROSIVE]: 'CORR',
+  [SpecifiedHazard.USE_NO_WATER]: '₩',
+  [SpecifiedHazard.RADIOACTIVE]: '☢',
+  [SpecifiedHazard.NONE]: 'NONE',
+}
 
-export const specifiedHazardOptionsKeys: DropdownOption<keyof SpecifiedHazard>[] = Object.keys(SpecifiedHazard).map(key => ({
-  label: key,
-  value: key as keyof SpecifiedHazard
-}));
-
-export const defaultSpecifiedHazardOptionsKeyIndex = specifiedHazardOptionsKeys.findIndex(option => option.value === 'NONE' as keyof SpecifiedHazard);
+export const specifiedHazardOptions: DropdownOption<SpecifiedHazard>[] = Object.keys(SpecifiedHazard).map(
+  key => ({
+      label: SpecifiedHazardLabel[SpecifiedHazard[key as keyof typeof SpecifiedHazard]],
+      value: SpecifiedHazard[key as keyof typeof SpecifiedHazard]
+    }
+  ));

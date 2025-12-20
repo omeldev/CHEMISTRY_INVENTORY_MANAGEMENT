@@ -1,5 +1,3 @@
-@let substanceChoices = substanceChoices$ | async;
-@let locationOptions = locationOptions$ | async;
 <div class="substance-entry-form-container">
   <h1 class="substance-entry-form-title">Create a substance entry</h1>
   <div class="substance-entry-form">
@@ -8,8 +6,8 @@
       <label class="form-field-label">Location: </label>
       <chem-dropdown
         (onSelect)="onSelectLocation($event)"
-        [options]="locationOptions || []"
-        [selectedIndex]="(selectedLocationIndex$ | async) ?? 0"
+        [options]="locationOptions()"
+        [selectedOption]="selectedLocation()"
       ></chem-dropdown>
     </div>
 
@@ -19,7 +17,7 @@
       <chem-dropdown
         (onSelect)="onSelectQuantityUnit($event)"
         [options]="quantityUnitOptions"
-        [selectedIndex]="(selectedQuantityUnitIndex$ | async) ?? 0"
+        [selectedOption]="selectedUnit()"
       ></chem-dropdown>
     </div>
 
@@ -33,11 +31,13 @@
       <textarea class="form-field-textarea" [field]="substanceEntryForm.note" type="text"></textarea>
     </div>
 
-    @if (substanceChoices) {
+    @if (substanceOptions()) {
       <div class="form-field">
         <label class="form-field-label">Select Substance: </label>
         <chem-dropdown (onSelect)="onSelectSubstance($event)"
-                       [options]="substanceChoices"></chem-dropdown>
+                       [options]="substanceOptions()"
+                       [selectedOption]="selectedSubstance()"
+        ></chem-dropdown>
       </div>
     }
 

@@ -35,7 +35,11 @@
 
   <!-- Special (unten/weiß) -->
   <text x="0" y="20" font-size="14" text-anchor="middle" dominant-baseline="middle" font-family="Arial">
-    {{ SpecifiedHazard[specificHazard()] }}
+    @if (specificHazard() == SpecifiedHazard.NONE) {
+      -
+    } @else {
+      {{ (SpecifiedHazardLabel[specificHazard()]) }}
+    }
   </text>
 
 </svg>

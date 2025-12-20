@@ -1,5 +1,4 @@
-import {Component, effect, input, output} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import {Component, computed, effect, input, output} from '@angular/core';
 
 export interface DropdownOption<T> {
   label: string;
@@ -8,42 +7,44 @@ export interface DropdownOption<T> {
 
 @Component({
   selector: 'chem-dropdown',
-  imports: [
-    ReactiveFormsModule
-  ],
   templateUrl: './dropdown.html',
   styleUrl: './dropdown.scss',
 })
 export class Dropdown<T> {
 
-  public onSelect = output<T>();
   public options = input.required<DropdownOption<T>[]>();
-
-  public selectedIndex = input<number>(0);
-
+  public selectedOption = input<T | null>(null);
   public label = input<string>();
 
+  public onSelect = output<T>();
+
+  // Derived index (internal only)
+  public readonly selectedIndex = computed(() => {
+    const opts = this.options();
+    const selected = this.selectedOption();
+
+    if (!selected || !opts.length) return 0;
+
+    const index = opts.findIndex(o => o.value === selected);
+    return index >= 0 ? index : 0;
+  });
+
   constructor() {
-    // effect will trigger whenever options or selectedIndex changes
+    // Emit selected value when options arrive or selected changes
     effect(() => {
       const opts = this.options();
-      const index = this.selectedIndex() ?? 0;
+      if (!opts.length) return;
 
-      if (opts.length === 0) return;
-
-      const validIndex = index >= 0 && index < opts.length ? index : 0;
-      this.emitSelect(opts[validIndex]);
+      const index = this.selectedIndex();
+      this.onSelect.emit(opts[index].value);
     });
   }
 
-  public emitSelect(option: DropdownOption<T>) {
-    console.log(option);
-    this.onSelect.emit(option.value);
-  }
-
-  public onSelectFunc(event: Event) {
+  public onSelectChange(event: Event) {
     const index = Number((event.target as HTMLSelectElement).value);
-    const selectedOption = this.options()[index];
-    this.emitSelect(selectedOption);
+    const option = this.options()[index];
+    if (!option) return;
+
+    this.onSelect.emit(option.value);
   }
 }

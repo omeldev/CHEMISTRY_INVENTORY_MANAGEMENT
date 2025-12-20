@@ -10,5 +10,5 @@ export interface SubstanceBean {
   nfpaHealth: number;
   nfpaFlammability: number
   nfpaReactivity: number;
-  nfpaSpecifiedHazard: keyof typeof SpecifiedHazard;
+  nfpaSpecifiedHazard: SpecifiedHazard;
 }

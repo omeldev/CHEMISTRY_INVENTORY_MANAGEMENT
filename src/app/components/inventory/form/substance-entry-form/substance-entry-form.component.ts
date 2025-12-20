@@ -1,11 +1,9 @@
-import {AfterViewInit, Component, inject, signal} from '@angular/core';
+import {Component, computed, effect, inject, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
 import {SubstanceEntryBean} from '../../../../obj/bean/substance-entry.bean';
-import {BehaviorSubject, firstValueFrom, map} from 'rxjs';
+import {firstValueFrom, map} from 'rxjs';
 import {Dropdown} from '../../../common/dropdown/dropdown';
 import {SubstanceBean} from '../../../../obj/bean/substance.bean';
-import {AsyncPipe} from '@angular/common';
-import {InventoryService} from '../../../../service/rest/inventory/inventory.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Unit, UnitUtil} from '../../../../obj/enum/unit.enum';
 import {Store} from '@ngxs/store';
@@ -16,6 +14,7 @@ import {LocationBean} from '../../../../obj/bean/location.bean';
 import {LocationState} from '../../../../store/location/location.state';
 import {ToastAction} from '../../../../store/toast/toast.action';
 import {ToastType} from '../../../../obj/bean/toast.bean';
+import {InventoryService} from '../../../../service/rest/inventory/inventory.service';
 
 interface ChemicalSubstanceEntryFormData {
   quantityBase: number;
@@ -37,58 +36,87 @@ const DEFAULT_CHEMICAL_SUBSTANCE_ENTRY_FORM_DATA = {
   selector: 'chem-chemical-substance-entry-form',
   imports: [
     Field,
-    Dropdown,
-    AsyncPipe
+    Dropdown
   ],
   templateUrl: './substance-entry-form.component.html',
   styleUrl: './substance-entry-form.component.scss',
 })
 
-export class SubstanceEntryForm implements AfterViewInit {
+export class SubstanceEntryForm {
 
   public chemicalSubstanceEntryAnswerModel = signal<ChemicalSubstanceEntryFormData>(DEFAULT_CHEMICAL_SUBSTANCE_ENTRY_FORM_DATA)
   public substanceEntryForm = form(this.chemicalSubstanceEntryAnswerModel);
 
-  private selectedSubstance = signal<SubstanceBean | null>(null);
-  private selectedUnit = signal<Unit>(Unit.G);
-
-  private selectedLocation = signal<LocationBean | null>(null);
-
+  protected selectedSubstance = signal<SubstanceBean | null>(null);
+  protected selectedUnit = signal<Unit>(Unit.G);
+  protected selectedLocation = signal<LocationBean | null>(null);
 
   private route = inject(ActivatedRoute);
+  private store = inject(Store);
+  private router = inject(Router);
+  private inventoryService = inject(InventoryService);
 
-  // Reactive approach: resolved data as observable converted to signal
   public substanceEntry = toSignal(
     this.route.data.pipe(map(data => data['substanceEntry'] as SubstanceEntryBean | null)),
     {initialValue: null}
   );
 
   public quantityUnitOptions = UnitUtil.quantityUnitOptions;
-  public locationOptions$ = inject(Store).select(LocationState.getLocationDropdownOptions);
 
-  private selectedQuantityUnitIndexSubject = new BehaviorSubject(0);
-  public selectedQuantityUnitIndex$ = this.selectedQuantityUnitIndexSubject.asObservable();
+  public substanceOptions = toSignal(this.store.select(SubstanceState.getSubstancesAsDropdownOptions), {initialValue: []});
+  public locationOptions = toSignal(this.store.select(LocationState.getLocationDropdownOptions), {initialValue: []});
 
-  private selectedLocationIndexSubject = new BehaviorSubject(0);
-  public selectedLocationIndex$ = this.selectedLocationIndexSubject.asObservable();
+  constructor() {
 
-  public substanceChoices$ = inject(Store).select(SubstanceState.getSubstancesAsDropdownOptions);
-  public store = inject(Store);
-  public locationSignal = toSignal(this.locationOptions$);
-
-  constructor(private readonly inventoryService: InventoryService,
-              private readonly router: Router) {
+    effect(() => {
+      if (this.substanceEntry()) {
+        this.chemicalSubstanceEntryAnswerModel.set({
+          quantityBase: this.substanceEntry()?.quantityBase ?? 0,
+          unit: this.substanceEntry()?.unit ?? Unit.G,
+          purity: this.substanceEntry()?.purity ?? '',
+          locationId: this.substanceEntry()?.locationId ?? 0,
+          note: this.substanceEntry()?.note ?? ''
+        });
+        this.selectedUnit.set(this.substanceEntry()?.unit ?? Unit.G);
+        this.selectedLocation.set(this.locationOptions().find(option => option.value.id === this.substanceEntry()?.locationId)?.value ?? null);
+        this.selectedSubstance.set(this.substanceOptions().find(option => option.value.id === this.substanceEntry()?.chemicalSubstanceId)?.value ?? null);
+      }
+    });
 
   }
 
-  public onSelectSubstance = (value: SubstanceBean) => {
+  public selectedLocationIndex = computed(() => {
+    const location = this.selectedLocation();
+    if (!location) {
+      return 0;
+    }
+    return this.locationOptions().findIndex(option => option.value.id === location.id);
+  });
+
+  public selectedQuantityUnitIndex = computed(() => {
+    const unit = this.selectedUnit();
+    return this.quantityUnitOptions.findIndex(option => option.value === unit);
+  });
+
+  public selectedSubstanceIndex = computed(() => {
+    const substance = this.selectedSubstance();
+    if (!substance) {
+      return 0;
+    }
+    return this.substanceOptions().findIndex(option => option.value.id === substance.id);
+  });
+
+  public onSelectSubstance(value: SubstanceBean) {
     this.selectedSubstance.set(value);
   }
 
-  public onSelectQuantityUnit = (value: Unit) => {
+  public onSelectQuantityUnit(value: Unit) {
     this.selectedUnit.set(value);
   }
 
+  public onSelectLocation(value: LocationBean) {
+    this.selectedLocation.set(value);
+  }
 
   public async submitForm() {
     if (!this.selectedSubstance()) {
@@ -135,28 +163,8 @@ export class SubstanceEntryForm implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
-    if (this.substanceEntry()) {
-      this.chemicalSubstanceEntryAnswerModel.set({
-        quantityBase: this.substanceEntry()?.quantityBase ?? 0,
-        unit: this.substanceEntry()?.unit ?? Unit.G,
-        purity: this.substanceEntry()?.purity ?? '',
-        locationId: this.substanceEntry()?.locationId ?? 0,
-        note: this.substanceEntry()?.note ?? ''
-      });
-
-      this.selectedUnit.set(this.substanceEntry()?.unit ?? Unit.G);
-      this.selectedQuantityUnitIndexSubject.next(this.quantityUnitOptions.findIndex(option => option.value === this.substanceEntry()?.unit));
-      this.selectedLocationIndexSubject.next(this.locationSignal()!.findIndex(option => option.value.id === this.substanceEntry()?.locationId));
-    }
-
-  }
-
   public navigateToInventoryOverview() {
     return this.router.navigateByUrl(this.router.createUrlTree(['inventory', 'overview']))
   }
 
-  onSelectLocation(location: LocationBean) {
-    this.selectedLocation.set(location);
-  }
 }

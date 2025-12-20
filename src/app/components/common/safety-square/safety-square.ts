@@ -1,5 +1,5 @@
 import {Component, input} from '@angular/core';
-import {SpecifiedHazard} from '../../../obj/enum/specific-hazard.enum';
+import {SpecifiedHazard, SpecifiedHazardLabel} from '../../../obj/enum/specific-hazard.enum';
 
 @Component({
   selector: 'chem-safety-square',
@@ -12,9 +12,10 @@ export class SafetySquare {
 
   public fireHazard = input.required<number>();
   public reactivity = input.required<number>();
-  public specificHazard = input<keyof typeof SpecifiedHazard>('NONE');
+  public specificHazard = input<SpecifiedHazard>(SpecifiedHazard.NONE);
   public healthHazard = input.required<number>();
 
 
   protected readonly SpecifiedHazard = SpecifiedHazard;
+  protected readonly SpecifiedHazardLabel = SpecifiedHazardLabel;
 }
