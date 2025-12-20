@@ -20,4 +20,8 @@ export class ManagementComponent {
   public navigateToLocationOverview() {
     return this.router.createUrlTree(['location', 'overview']);
   }
+
+  navigateToSupplierOverview() {
+    return this.router.createUrlTree(['supplier', 'overview']);
+  }
 }

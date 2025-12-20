@@ -8,6 +8,7 @@ import dev.omel.repository.SupplierRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class SubstanceWorker {
@@ -47,18 +48,13 @@ public class SubstanceWorker {
       }
     }
 
-    SupplierEntity supplier = supplierRepository.findByName(substanceBean.supplier())
-      .orElse(new SupplierEntity());
-
-    if (supplier.getName() == null) {
-      supplier.setName(substanceBean.supplier());
-      supplierRepository.save(supplier);
-    }
+    Optional<SupplierEntity> supplier = supplierRepository.findById(substanceBean.supplierId());
 
     SubstanceEntity entity = new SubstanceEntity();
 
+    supplier.ifPresent(entity::setSupplier);
+
     entity.setName(substanceBean.name());
-    entity.setSupplier(supplier);
     entity.setMolecularFormula(substanceBean.molecularFormula());
     entity.setCasNumber(substanceBean.casNumber());
     entity.setNfpa704Health(substanceBean.nfpaHealth());
@@ -95,15 +91,9 @@ public class SubstanceWorker {
     if (substanceBean.casNumber() != null) {
       entity.setCasNumber(substanceBean.casNumber());
     }
-    if (substanceBean.supplier() != null) {
-      SupplierEntity supplier = supplierRepository.findByName(substanceBean.supplier())
-        .orElse(new SupplierEntity());
-
-      if (supplier.getName() == null) {
-        supplier.setName(substanceBean.supplier());
-        supplierRepository.save(supplier);
-      }
-      entity.setSupplier(supplier);
+    if (substanceBean.supplierId() != null) {
+      Optional<SupplierEntity> supplier = supplierRepository.findById(substanceBean.supplierId());
+      supplier.ifPresent(entity::setSupplier);
     }
     if (substanceBean.nfpaHealth() != null) {
       if (substanceBean.nfpaHealth() < 0 || substanceBean.nfpaHealth() > 4) {
@@ -132,7 +122,7 @@ public class SubstanceWorker {
   }
 
   public SubstanceBean getChemicalSubstanceById(Long id) {
-    if (!substanceRepository.findById(id).isPresent()) return null;
+    if (substanceRepository.findById(id).isEmpty()) return null;
     SubstanceEntity entity = substanceRepository.findById(id).get();
     return SubstanceBean.from(entity);
   }

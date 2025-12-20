@@ -1,10 +1,10 @@
 import {DropdownOption} from '../../components/common/dropdown/dropdown';
 
 export enum SpecifiedHazard {
-  OXIDIZER = "OXY",
+  OXIDIZER = "OXIDIZER",
   ACID = "ACID",
-  ALKALI = "ALK",
-  CORROSIVE = "CORR",
+  ALKALI = "ALKALI",
+  CORROSIVE = "CORROSIVE",
   USE_NO_WATER = "USE_NO_WATER",
   RADIOACTIVE = "RADIOACTIVE",
   NONE = "",

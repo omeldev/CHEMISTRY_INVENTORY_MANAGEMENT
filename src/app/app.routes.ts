@@ -19,6 +19,9 @@ import {MaterialOverview} from './components/management/material/material-overvi
 import {LocationOverview} from './components/management/location/location-overview/location-overview';
 import {LocationForm} from './components/management/location/location-form/location-form';
 import {locationFormResolver} from './resolver/management/location/location-form.resolver';
+import {SupplierOverview} from './components/management/supplier/location-overview/supplier-overview.component';
+import {SupplierForm} from './components/management/supplier/location-form/supplier-form.component';
+import {supplierFormResolver} from './resolver/management/supplier/supplier-form.resolver';
 
 export const routes: Routes = [
 
@@ -42,6 +45,26 @@ export const routes: Routes = [
           {
             path: 'overview',
             component: ManagementComponent
+          }
+        ]
+      },
+      {
+        path: 'supplier',
+        children: [
+          {
+            path: 'overview',
+            component: SupplierOverview
+          },
+          {
+            path: 'create',
+            component: SupplierForm
+          },
+          {
+            path: 'edit',
+            component: SupplierForm,
+            resolve: {
+              supplier: supplierFormResolver
+            }
           }
         ]
       },

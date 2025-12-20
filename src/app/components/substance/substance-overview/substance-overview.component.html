@@ -20,7 +20,13 @@
         </p>
         <p class="substance-property">
           <span class="substance-property-label">Supplier:</span>
-          <span class="substance-property-value">{{ substance.supplier || "-" }}</span>
+          @let supplier = getSupplierById(substance.supplierId) | async;
+
+          @if (supplier) {
+            <a [href]="supplier.url" class="substance-property-value">{{ supplier.name }}</a>
+          } @else {
+            <span class="substance-property-value">-</span>
+          }
         </p>
         <div class="nfpa-container">
           <ul>

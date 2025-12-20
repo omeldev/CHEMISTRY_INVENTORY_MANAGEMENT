@@ -6,7 +6,7 @@ export interface SubstanceBean {
   formula: string;
   casNumber: string;
   molecularFormula: string;
-  supplier: string;
+  supplierId: number;
   nfpaHealth: number;
   nfpaFlammability: number
   nfpaReactivity: number;

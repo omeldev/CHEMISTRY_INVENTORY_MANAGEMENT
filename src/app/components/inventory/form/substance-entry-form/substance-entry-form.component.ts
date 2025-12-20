@@ -1,4 +1,4 @@
-import {Component, computed, effect, inject, signal} from '@angular/core';
+import {Component, effect, inject, signal} from '@angular/core';
 import {Field, form} from '@angular/forms/signals';
 import {SubstanceEntryBean} from '../../../../obj/bean/substance-entry.bean';
 import {firstValueFrom, map} from 'rxjs';
@@ -84,27 +84,6 @@ export class SubstanceEntryForm {
     });
 
   }
-
-  public selectedLocationIndex = computed(() => {
-    const location = this.selectedLocation();
-    if (!location) {
-      return 0;
-    }
-    return this.locationOptions().findIndex(option => option.value.id === location.id);
-  });
-
-  public selectedQuantityUnitIndex = computed(() => {
-    const unit = this.selectedUnit();
-    return this.quantityUnitOptions.findIndex(option => option.value === unit);
-  });
-
-  public selectedSubstanceIndex = computed(() => {
-    const substance = this.selectedSubstance();
-    if (!substance) {
-      return 0;
-    }
-    return this.substanceOptions().findIndex(option => option.value.id === substance.id);
-  });
 
   public onSelectSubstance(value: SubstanceBean) {
     this.selectedSubstance.set(value);

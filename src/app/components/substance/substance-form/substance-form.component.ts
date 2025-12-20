@@ -11,12 +11,14 @@ import {SubstanceAction} from '../../../store/substance/substance.actions';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ToastAction} from '../../../store/toast/toast.action';
 import {ToastType} from '../../../obj/bean/toast.bean';
+import {SupplierBean} from '../../../obj/bean/supplier.bean';
+import {SupplierState} from '../../../store/supplier/supplier.state';
 
 interface ChemicalSubstanceFormData {
   name: string;
   casNumber: string;
   molecularFormula: string;
-  supplier: string;
+  supplierId: number;
   nfpaHealth: number;
   nfpaFlammability: number
   nfpaReactivity: number;
@@ -27,7 +29,7 @@ const DEFAULT_CHEMICAL_SUBSTANCE_FORM_MODEL_DATA: ChemicalSubstanceFormData = {
   name: '',
   casNumber: '',
   molecularFormula: '',
-  supplier: '',
+  supplierId: 0,
   nfpaHealth: 0,
   nfpaFlammability: 0,
   nfpaReactivity: 0,
@@ -46,13 +48,17 @@ const DEFAULT_CHEMICAL_SUBSTANCE_FORM_MODEL_DATA: ChemicalSubstanceFormData = {
 
 export class SubstanceForm {
 
-  public specifiedHazardOptions: DropdownOption<SpecifiedHazard>[] = specifiedHazardOptions;
-
   public chemicalSubstanceAnswerModel = signal<ChemicalSubstanceFormData>(DEFAULT_CHEMICAL_SUBSTANCE_FORM_MODEL_DATA);
   public chemicalSubstanceForm = form(this.chemicalSubstanceAnswerModel);
 
   public selectedSpecifiedHazard = signal<SpecifiedHazard>(SpecifiedHazard.NONE);
-  private route = inject(ActivatedRoute);
+  private readonly route = inject(ActivatedRoute);
+  private readonly store = inject(Store);
+
+  public specifiedHazardOptions: DropdownOption<SpecifiedHazard>[] = specifiedHazardOptions;
+  public supplierOptions = toSignal(this.store.select(SupplierState.getSupplierDropdownOptions), {initialValue: []});
+
+  public selectedSupplier = signal<SupplierBean | null>(null);
 
   public chemicalSubstance = toSignal(
     this.route.data.pipe(map(data => data['substance'] as SubstanceBean | null)),
@@ -60,21 +66,21 @@ export class SubstanceForm {
   );
 
   constructor(private readonly substanceService: SubstanceService,
-              private readonly router: Router,
-              private readonly store: Store) {
+              private readonly router: Router) {
     effect(() => {
       if (this.chemicalSubstance() !== null) {
         this.chemicalSubstanceAnswerModel.set({
           name: this.chemicalSubstance()?.name ?? '',
           casNumber: this.chemicalSubstance()?.casNumber ?? '',
           molecularFormula: this.chemicalSubstance()?.molecularFormula ?? '',
-          supplier: this.chemicalSubstance()?.supplier ?? '',
+          supplierId: this.chemicalSubstance()?.supplierId ?? 0,
           nfpaHealth: this.chemicalSubstance()?.nfpaHealth ?? 0,
           nfpaFlammability: this.chemicalSubstance()?.nfpaFlammability ?? 0,
           nfpaReactivity: this.chemicalSubstance()?.nfpaReactivity ?? 0,
           nfpaSpecifiedHazard: this.chemicalSubstance()?.nfpaSpecifiedHazard ?? SpecifiedHazard.NONE
         });
         this.selectedSpecifiedHazard.set(this.chemicalSubstance()?.nfpaSpecifiedHazard ?? SpecifiedHazard.NONE);
+        this.selectedSupplier.set(this.supplierOptions().find(supplier => supplier.value.id === this.chemicalSubstance()?.supplierId)?.value || null);
       }
     });
   }
@@ -86,12 +92,19 @@ export class SubstanceForm {
     }))
   }
 
+  public onSelectSupplier = (value: SupplierBean) => {
+    this.chemicalSubstanceAnswerModel.update(current => ({
+      ...current,
+      supplierId: value.id
+    }))
+  }
+
   public async submitForm() {
     const chemicalSubstanceBean: Partial<SubstanceBean> = {
       name: this.chemicalSubstanceForm().value().name,
       casNumber: this.chemicalSubstanceForm().value().casNumber,
       molecularFormula: this.chemicalSubstanceForm().value().molecularFormula,
-      supplier: this.chemicalSubstanceForm().value().supplier,
+      supplierId: this.chemicalSubstanceForm().value().supplierId,
       nfpaHealth: this.chemicalSubstanceForm().value().nfpaHealth,
       nfpaFlammability: this.chemicalSubstanceForm().value().nfpaFlammability,
       nfpaReactivity: this.chemicalSubstanceForm().value().nfpaReactivity,

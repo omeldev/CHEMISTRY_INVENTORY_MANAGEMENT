@@ -10,4 +10,5 @@ export interface SubstanceEntryBean {
   purity: string;
   locationId: number;
   note: string;
+  supplierId: number;
 }

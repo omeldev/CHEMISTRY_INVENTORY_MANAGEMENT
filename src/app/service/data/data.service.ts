@@ -11,6 +11,8 @@ import {MaterialService} from '../rest/material/material.service';
 import {MaterialAction} from '../../store/material/material.actions';
 import {LocationService} from '../rest/location/location.service';
 import {LocationAction} from '../../store/location/location.actions';
+import {SupplierService} from '../rest/supplier/supplier.service';
+import {SupplierAction} from '../../store/supplier/supplier.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +26,8 @@ export class DataService {
     private readonly inventoryService: InventoryService,
     private readonly experimentService: ExperimentService,
     private readonly materialService: MaterialService,
-    private readonly locationService: LocationService) {
+    private readonly locationService: LocationService,
+    private readonly supplierService: SupplierService) {
 
 
   }
@@ -79,6 +82,17 @@ export class DataService {
     ).then(() => {
       console.log('Locations loaded into store');
     })
+
+    await firstValueFrom(this.supplierService.getSuppliers$()).then(
+      suppliers => {
+        if (suppliers && suppliers.length > 0) {
+          this.store.dispatch(new SupplierAction.Initialize(suppliers));
+        }
+      }
+    ).then(() => {
+        console.log('Suppliers loaded into store');
+      }
+    )
 
   }
 

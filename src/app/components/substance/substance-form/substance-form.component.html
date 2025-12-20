@@ -19,7 +19,9 @@
 
     <div class="form-field">
       <label class="form-field-label">Supplier: </label>
-      <input class="form-field-input" [field]="chemicalSubstanceForm.supplier" type="text"/>
+      <chem-dropdown (onSelect)="onSelectSupplier($event)"
+                     [options]="supplierOptions()"
+                     [selectedOption]="selectedSupplier()"></chem-dropdown>
     </div>
 
     <div class="form-field">
