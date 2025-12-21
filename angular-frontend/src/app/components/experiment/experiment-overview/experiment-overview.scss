@@ -1,4 +1,5 @@
 @use "palette" as palette;
+@use "sass:color";
 
 :host {
   /* -----------------------------
@@ -23,11 +24,11 @@
     transition: background-color 0.2s;
 
     &:hover {
-      background-color: darken(palette.$brand-primary, 15%);
+      background-color: color.adjust(palette.$brand-primary, $lightness: -15%);
     }
 
     &:active {
-      background-color: darken(palette.$brand-primary, 25%);
+      background-color: color.adjust(palette.$brand-primary, $lightness: -25%);
     }
   }
 

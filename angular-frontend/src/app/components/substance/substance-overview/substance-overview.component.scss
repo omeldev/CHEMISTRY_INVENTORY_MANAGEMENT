@@ -1,4 +1,5 @@
 @use "palette" as palette;
+@use "sass:color";
 
 :host {
   /* -----------------------------
@@ -22,11 +23,11 @@
       text-decoration: none;
 
       &:hover {
-        background-color: darken(palette.$status-success, 15%);
+        background-color: color.adjust(palette.$status-success, $lightness: -15%);
       }
 
       &:active {
-        background-color: darken(palette.$status-success, 25%);
+        background-color: color.adjust(palette.$status-success, $lightness: -25%);
       }
 
       &:disabled {
