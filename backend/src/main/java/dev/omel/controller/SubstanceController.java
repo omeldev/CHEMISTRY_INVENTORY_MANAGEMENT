@@ -1,5 +1,6 @@
 package dev.omel.controller;
 
+import dev.omel.authentication.filter.annotation.RequiresNoAuthentication;
 import dev.omel.bean.SubstanceBean;
 import dev.omel.service.SubstanceService;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class SubstanceController {
   }
 
   @GetMapping()
+  @RequiresNoAuthentication
   public ResponseEntity<List<SubstanceBean>> getAllChemicalSubstances() {
     return ResponseEntity.ok(substanceService.getAllChemicalSubstances());
   }

@@ -1,0 +1,14 @@
+import {Unit} from '../enum/unit.enum';
+
+export interface SubstanceEntryBean {
+  id: number;
+  chemicalSubstanceId: number;
+  addedAt: string;
+  updatedAt: string;
+  quantityBase: number;
+  unit: Unit;
+  purity: string;
+  locationId: number;
+  note: string;
+  supplierId: number;
+}
