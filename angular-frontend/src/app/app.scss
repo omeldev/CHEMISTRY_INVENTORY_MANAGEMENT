@@ -1,4 +1,4 @@
-@use "./styles/_index" as styles;
+@use "palette" as palette;
 /* Remove all default margins */
 * {
   margin: 0;
@@ -13,8 +13,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background: styles.$app-background; /* or your preferred background */
-  color: styles.$text-primary;
+  background: palette.$app-background; /* or your preferred background */
+  color: palette.$text-primary;
 }
 
 /* Remove default body styles */
