@@ -25,7 +25,7 @@ services:
       ingress:
 
   frontend:
-    build: .
+    build: ./angular-frontend
     restart: always
     networks:
       ingress:
