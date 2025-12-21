@@ -1,4 +1,4 @@
-@use "palette" as palette;
+@use "./styles/_index" as styles;
 
 /* ================================
    Global Form Styles – Dark Mode
@@ -26,7 +26,7 @@
   label {
     width: 120px; /* fixed width for alignment */
     font-weight: 600;
-    color: palette.$text-primary;
+    color: styles.$text-primary;
     text-align: right;
   }
 
@@ -34,27 +34,27 @@
   select,
   textarea {
     flex: 1; /* fill remaining space */
-    background-color: palette.$surface-elevated;
-    color: palette.$text-primary;
-    border: 1px solid palette.$border-default;
+    background-color: styles.$surface-elevated;
+    color: styles.$text-primary;
+    border: 1px solid styles.$border-default;
     border-radius: 6px;
     padding: 8px 12px;
     font-size: 14px;
     transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
 
     &:hover {
-      border-color: palette.$brand-primary-hover;
+      border-color: styles.$brand-primary-hover;
     }
 
     &:focus {
       outline: none;
-      border-color: palette.$brand-primary;
-      box-shadow: palette.$focus-ring;
+      border-color: styles.$brand-primary;
+      box-shadow: styles.$focus-ring;
     }
 
     &:disabled {
-      background-color: palette.$surface-default;
-      color: palette.$text-disabled;
+      background-color: styles.$surface-default;
+      color: styles.$text-disabled;
       cursor: not-allowed;
     }
   }
@@ -63,8 +63,8 @@
      Number Input Fixes
      ----------------------------- */
   input[type="number"] {
-    background-color: palette.$surface-elevated;
-    color: palette.$text-primary;
+    background-color: styles.$surface-elevated;
+    color: styles.$text-primary;
     -moz-appearance: textfield; /* Firefox: remove spin buttons */
   }
 
@@ -84,11 +84,11 @@
     }
 
     &::-webkit-scrollbar-track {
-      background: palette.$surface-elevated;
+      background: styles.$surface-elevated;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: palette.$brand-primary;
+      background-color: styles.$brand-primary;
       border-radius: 3px;
     }
   }

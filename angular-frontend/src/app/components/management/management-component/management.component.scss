@@ -1,4 +1,4 @@
-@use "palette" as palette;
+@use "../../../../app/styles/index" as styles;
 
 :host {
   .management-container {
@@ -9,10 +9,7 @@
     justify-content: center;
 
     .management-tile {
-      background-color: palette.$surface-elevated;
-      border: 1px solid palette.$border-default;
-      border-radius: 8px;
-      box-shadow: palette.$shadow-sm;
+      @include styles.card-base();
       width: 200px;
       height: 150px;
       display: flex;
@@ -23,32 +20,32 @@
       font-size: 1.2rem;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background-color 0.2s;
-      color: palette.$text-primary;
+      color: styles.$text-primary;
       text-decoration: none;
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: palette.$shadow-md;
-        border-color: palette.$brand-primary-hover;
-        background-color: palette.$surface-default;
+        @include styles.shadow(md);
+        border-color: styles.$brand-primary-hover;
+        background-color: styles.$surface-default;
       }
 
       &:active {
         transform: translateY(-2px);
-        box-shadow: palette.$shadow-sm;
-        border-color: palette.$brand-primary;
-        background-color: palette.$surface-elevated;
+        @include styles.shadow(sm);
+        border-color: styles.$brand-primary;
+        background-color: styles.$surface-elevated;
       }
 
       &.selected {
-        border-color: palette.$brand-primary;
-        background-color: palette.$brand-primary-active;
-        color: palette.$text-inverted;
+        border-color: styles.$brand-primary;
+        background-color: styles.$brand-primary-active;
+        color: styles.$text-inverted;
       }
 
       &.disabled {
-        background-color: palette.$surface-default;
-        color: palette.$text-disabled;
+        background-color: styles.$surface-default;
+        color: styles.$text-disabled;
         cursor: not-allowed;
         pointer-events: none;
       }
@@ -57,12 +54,12 @@
       .tile-icon {
         font-size: 2rem;
         margin-bottom: 8px;
-        color: palette.$brand-primary;
+        color: styles.$brand-primary;
       }
 
       .tile-label {
         font-weight: 600;
-        color: palette.$text-primary;
+        color: styles.$text-primary;
       }
     }
   }

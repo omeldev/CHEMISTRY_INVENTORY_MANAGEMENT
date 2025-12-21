@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 // CSS RESET
 
-@use "palette" as palette;
+@use "./app/styles/_index" as styles;
 
 * {
   margin: 0;
@@ -10,7 +10,7 @@
 
 html, body {
 
-  background-color: palette.$app-background;
-  color: palette.$text-primary;
+  background-color: styles.$app-background;
+  color: styles.$text-primary;
 
 }
