@@ -1,18 +1,18 @@
-@use "styles" as styles;
+@use "palette" as palette;
 
 :host {
   .dropdown-label {
     font-weight: bold;
     margin-bottom: 8px;
     display: block;
-    color: styles.$text-primary;
+    color: palette.$text-primary;
   }
 
   .dropdown-select {
-    background-color: styles.$surface-elevated;
-    border: 1px solid styles.$border-default;
+    background-color: palette.$surface-elevated;
+    border: 1px solid palette.$border-default;
     border-radius: 4px;
-    color: styles.$text-primary;
+    color: palette.$text-primary;
     font-size: 14px;
     padding: 8px 12px;
     width: 100%;
@@ -20,38 +20,38 @@
     transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 
     &:hover {
-      background-color: styles.$surface-default;
-      border-color: styles.$brand-primary-hover;
+      background-color: palette.$surface-default;
+      border-color: palette.$brand-primary-hover;
     }
 
     &:focus {
       outline: none;
-      border-color: styles.$brand-primary;
-      box-shadow: styles.$focus-ring;
+      border-color: palette.$brand-primary;
+      box-shadow: palette.$focus-ring;
     }
 
     &:disabled {
-      background-color: styles.$surface-elevated;
-      color: styles.$text-disabled;
+      background-color: palette.$surface-elevated;
+      color: palette.$text-disabled;
       cursor: not-allowed;
     }
 
     .dropdown-option {
       padding: 8px;
-      color: styles.$text-primary;
+      color: palette.$text-primary;
 
       &:hover {
-        background-color: styles.$brand-primary-hover;
-        color: styles.$text-inverted;
+        background-color: palette.$brand-primary-hover;
+        color: palette.$text-inverted;
       }
 
       &.selected {
-        background-color: styles.$brand-primary-active;
-        color: styles.$text-inverted;
+        background-color: palette.$brand-primary-active;
+        color: palette.$text-inverted;
       }
 
       &.disabled {
-        color: styles.$text-disabled;
+        color: palette.$text-disabled;
         cursor: not-allowed;
         background: none;
       }
@@ -64,11 +64,11 @@
   }
 
   .dropdown-select::-webkit-scrollbar-track {
-    background: styles.$surface-elevated;
+    background: palette.$surface-elevated;
   }
 
   .dropdown-select::-webkit-scrollbar-thumb {
-    background-color: styles.$brand-primary;
+    background-color: palette.$brand-primary;
     border-radius: 3px;
   }
 }
