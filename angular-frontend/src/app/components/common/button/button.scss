@@ -1,3 +1,6 @@
+@use "palette" as palette;
+@use "sass:color" as color;
+
 :host {
   display: flex;
   justify-content: center;
@@ -8,6 +11,13 @@
     border: none;
     border-radius: 4px;
     font-size: 1rem;
+    color: palette.$text-primary;
+    transition: background-color 150ms ease, box-shadow 150ms ease, transform 80ms ease;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: palette.$focus-ring;
+    }
   }
 
   &:hover {
@@ -15,35 +25,44 @@
   }
 
   .primary {
-    background-color: #007bff;
+    background-color: palette.$brand-primary;
+    color: palette.$text-primary;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: palette.$brand-primary-hover;
     }
 
+    &:active {
+      background-color: palette.$brand-primary-active;
+      transform: translateY(1px);
+    }
   }
 
   .secondary {
-    background-color: #6c757d;
+    background-color: palette.$surface-elevated;
+    color: palette.$text-primary;
+    border: 1px solid palette.$border-default;
 
     &:hover {
-      background-color: #5a6268;
+      background-color: palette.$surface-interactive;
     }
   }
 
   .danger {
-    background-color: #dc3545;
+    background-color: palette.$status-error;
+    color: palette.$text-primary;
 
     &:hover {
-      background-color: #c82333;
+      background-color: color.adjust(palette.$status-error, $lightness: -6%);
     }
   }
 
   .success {
-    background-color: #28a745;
+    background-color: palette.$status-success;
+    color: palette.$text-primary;
 
     &:hover {
-      background-color: #218838;
+      background-color: color.adjust(palette.$status-success, $lightness: -6%);
     }
   }
 }
