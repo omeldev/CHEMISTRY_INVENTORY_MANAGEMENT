@@ -1,4 +1,4 @@
-@use "palette" as palette;
+@use "../../../../app/styles/_index" as styles;
 
 :host {
   .dashboard-container {
@@ -10,7 +10,7 @@
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 16px;
-      color: palette.$text-primary;
+      color: styles.$text-primary;
     }
 
     .dashboard-content {
@@ -20,7 +20,7 @@
 
       .stats-card {
         border-radius: 8px;
-        box-shadow: 0 1px 3px palette.$shadow-sm;
+        @include styles.shadow(sm);
         padding: 16px;
         flex: 1 1 calc(33.333% - 32px);
         min-width: 200px;
@@ -29,13 +29,13 @@
           font-size: 18px;
           font-weight: 600;
           margin-bottom: 8px;
-          color: palette.$text-secondary;
+          color: styles.$text-secondary;
         }
 
         .card-value {
           font-size: 32px;
           font-weight: bold;
-          color: palette.$text-primary;
+          color: styles.$text-primary;
         }
       }
     }

@@ -1,0 +1,94 @@
+@use "../_palette" as palette;
+@use "sass:color";
+
+// Button base mixin
+@mixin btn-base() {
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: palette.$text-inverted;
+  background-color: palette.$brand-primary;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: color.adjust(palette.$brand-primary, $lightness: -15%);
+  }
+
+  &:active {
+    background-color: color.adjust(palette.$brand-primary, $lightness: -25%);
+  }
+}
+
+// Card base mixin
+@mixin card-base() {
+  background-color: palette.$surface-elevated;
+  border: 1px solid palette.$border-default;
+  border-radius: 8px;
+  padding: 16px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: palette.$shadow-sm;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  color: palette.$text-primary;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: palette.$shadow-md;
+    border-color: palette.$brand-primary-hover;
+  }
+}
+
+// Standard shadow mixin
+@mixin shadow($level: sm) {
+  @if $level == sm {
+    box-shadow: palette.$shadow-sm;
+  } @else if $level == md {
+    box-shadow: palette.$shadow-md;
+  } @else if $level == lg {
+    box-shadow: palette.$shadow-lg;
+  }
+}
+
+// Toast animation mixin
+@mixin toast-animations() {
+  @keyframes toastFadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes toastFadeOut {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+  }
+}
+
+// Utility mixins examples
+@mixin visually-hidden() {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

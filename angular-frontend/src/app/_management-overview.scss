@@ -1,4 +1,4 @@
-@use "palette" as palette;
+@use "./styles/_index" as styles;
 @use "sass:color";
 
 :host {
@@ -12,25 +12,16 @@
 
 
     .create {
-      display: inline-block;
-      padding: 8px 12px;
-      font-size: 14px;
-      font-weight: 600;
-      color: palette.$text-inverted;
-      background-color: palette.$status-success;
-      border: none;
-      border-radius: 4px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background-color 0.2s;
+      @include styles.btn-base();
+      background-color: styles.$status-success;
       margin: 1rem;
 
       &:hover {
-        background-color: color.adjust(palette.$status-success, $lightness: -15%);
+        background-color: color.adjust(styles.$status-success, $lightness: -15%);
       }
 
       &:active {
-        background-color: color.adjust(palette.$brand-primary, $lightness: -25%);
+        background-color: color.adjust(styles.$brand-primary, $lightness: -25%);
       }
     }
 
@@ -50,22 +41,18 @@
      Individual Card
      ----------------------------- */
   .management-card {
-    background-color: palette.$surface-elevated;
-    border: 1px solid palette.$border-default;
-    border-radius: 8px;
-    padding: 16px;
+    @include styles.card-base();
     width: 220px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    box-shadow: palette.$shadow-sm;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    /* transition and hover already in card-base; override if needed */
 
     &:hover {
       transform: translateY(-3px);
-      box-shadow: palette.$shadow-md;
-      border-color: palette.$brand-primary-hover;
+      @include styles.shadow(md);
+      border-color: styles.$brand-primary-hover;
     }
 
     a {
@@ -77,7 +64,7 @@
 
     h3, a {
       font-size: 1.2rem;
-      color: palette.$text-primary;
+      color: styles.$text-primary;
       margin-bottom: 1rem;
       text-decoration: none;
     }
